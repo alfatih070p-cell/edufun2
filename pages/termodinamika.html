@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Termodinamika · Fisika Kelas 11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ac: #3b82f6;
+    --ac-rgb: 59,130,246;
+    --ac-l: rgba(59,130,246,.10);
+    --ac-m: rgba(59,130,246,.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid #e2e8f0;
+    padding: .7rem 1.25rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: .35rem;
+    background: #f1f5f9; border: none; border-radius: 10px;
+    padding: .45rem .8rem; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: .78rem; color: #64748b;
+    transition: all .15s;
+  }
+  .back-btn:hover { background: var(--ac-l); color: var(--ac); }
+  .topbar-title { font-weight: 800; font-size: .95rem; flex: 1; }
+  .topbar-badge {
+    background: var(--ac-l); color: var(--ac);
+    border: 1.5px solid var(--ac-m);
+    font-size: .62rem; font-weight: 800;
+    padding: .15rem .5rem; border-radius: 99px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--ac) 0%, color-mix(in srgb, var(--ac) 70%, #1e293b) 100%);
+    padding: 2.5rem 1.5rem 3.5rem;
+    position: relative; overflow: hidden;
+    color: #fff;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: .35rem;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 99px; padding: .25rem .7rem;
+    font-size: .7rem; font-weight: 700; margin-bottom: .9rem;
+  }
+  .hero h1 {
+    font-size: 2rem; font-weight: 900; line-height: 1.15;
+    margin-bottom: .5rem;
+  }
+  .hero p {
+    font-size: .85rem; opacity: .85; max-width: 480px; line-height: 1.6;
+  }
+  .hero-stats {
+    display: flex; gap: 1rem; margin-top: 1.5rem;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px; padding: .5rem .85rem; text-align: center;
+  }
+  .hero-stat-num { font-size: 1.2rem; font-weight: 900; }
+  .hero-stat-lbl { font-size: .62rem; opacity: .8; font-weight: 600; }
+
+  /* ── NAV TABS ── */
+  .nav-wrap {
+    background: #fff; border-bottom: 1.5px solid #e2e8f0;
+    position: sticky; top: 57px; z-index: 90;
+  }
+  .nav-tabs {
+    display: flex; gap: 0; overflow-x: auto; padding: 0 1rem;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0; padding: .75rem 1rem;
+    background: none; border: none; border-bottom: 2.5px solid transparent;
+    font-family: inherit; font-weight: 700; font-size: .8rem;
+    color: #94a3b8; cursor: pointer; transition: all .15s;
+    white-space: nowrap;
+  }
+  .tab-btn.act { border-bottom-color: var(--ac); color: var(--ac); }
+
+  /* ── CONTENT WRAPPER ── */
+  .content { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+
+  /* ── SECTION ── */
+  .section { display: none; }
+  .section.show { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff; border: 1.5px solid #e2e8f0;
+    border-radius: 18px; padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .card:hover { border-color: var(--ac-m); box-shadow: 0 4px 20px rgba(var(--ac-rgb),.08); }
+
+  .card-header {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1rem;
+  }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--ac-l); border: 1.5px solid var(--ac-m);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .card-title { font-size: 1rem; font-weight: 800; }
+  .card-sub { font-size: .74rem; color: #94a3b8; font-weight: 600; margin-top: .1rem; }
+
+  .prose {
+    font-size: .855rem; color: #334155; line-height: 1.75;
+  }
+  .prose p { margin-bottom: .75rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: #0f172a; border-radius: 14px;
+    padding: 1.1rem 1.3rem; margin: 1rem 0;
+    border: 1.5px solid rgba(255,255,255,.08);
+    position: relative; overflow: hidden;
+  }
+  .formula-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--ac);
+  }
+  .formula-label {
+    font-size: .65rem; font-weight: 800; color: var(--ac);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: .5rem;
+  }
+  .formula-main {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem; font-weight: 600; color: #f8fafc;
+    letter-spacing: .02em;
+  }
+  .formula-desc {
+    margin-top: .65rem; font-size: .75rem; color: #94a3b8;
+    line-height: 1.6;
+  }
+  .formula-desc span { color: #e2e8f0; font-weight: 600; }
+
+  /* ── PROCESS GRID ── */
+  .process-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: .75rem; margin-top: .5rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .process-grid { grid-template-columns: 1fr; }
+
+    .hero { padding: 1.5rem 1rem 2.5rem; }
+    .hero h1 { font-size: 1.45rem; }
+    .hero p { font-size: .8rem; }
+    .hero-stats { gap: .5rem; flex-wrap: wrap; }
+    .hero-stat { padding: .4rem .65rem; }
+    .hero-stat-num { font-size: 1rem; }
+
+    .topbar { padding: .55rem .85rem; gap: .5rem; }
+    .topbar-title { font-size: .82rem; }
+    .topbar-badge { display: none; }
+    .back-btn { padding: .4rem .65rem; font-size: .75rem; }
+
+    .nav-wrap { top: 48px; }
+    .tab-btn { padding: .6rem .75rem; font-size: .74rem; }
+
+    .content { padding: 1rem .75rem 4rem; }
+
+    .card { padding: 1.1rem 1rem; border-radius: 14px; }
+    .card-title { font-size: .9rem; }
+    .card-icon { width: 34px; height: 34px; font-size: 1rem; border-radius: 10px; }
+
+    .formula-main { font-size: 1rem; word-break: break-all; }
+    .big-formula .eq { font-size: 1.25rem; }
+    .big-formula { padding: 1.1rem; }
+
+    .entropy-visual { flex-direction: column; gap: .3rem; padding: .9rem; }
+    .entropy-arr { transform: rotate(90deg); font-size: 1rem; }
+
+    .hukum-card { border-radius: 0 12px 12px 0; padding: .85rem .9rem; }
+    .hukum-desc { font-size: .79rem; }
+
+    .concept-list li { font-size: .79rem; }
+    .prose { font-size: .8rem; }
+
+    .step-desc { font-size: .76rem; }
+    .step-tag { font-size: .68rem; word-break: break-all; }
+  }
+
+  @media (max-width: 360px) {
+    .hero h1 { font-size: 1.25rem; }
+    .formula-main { font-size: .88rem; }
+    .big-formula .eq { font-size: 1.1rem; }
+    .tab-btn { padding: .55rem .6rem; font-size: .7rem; }
+  }
+  .process-card {
+    border: 1.5px solid #e2e8f0; border-radius: 13px;
+    padding: 1rem; background: #f8fafc;
+    transition: all .15s;
+  }
+  .process-card:hover {
+    border-color: var(--ac); background: var(--ac-l);
+  }
+  .process-name { font-weight: 800; font-size: .84rem; margin-bottom: .25rem; }
+  .process-cond {
+    font-size: .7rem; color: #64748b; font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  .process-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem; font-weight: 600; color: var(--ac);
+    background: var(--ac-l); border: 1px solid var(--ac-m);
+    border-radius: 7px; padding: .3rem .5rem; display: inline-block;
+    margin-bottom: .4rem;
+  }
+  .process-note { font-size: .72rem; color: #475569; line-height: 1.5; }
+
+  /* ── KEY CONCEPTS LIST ── */
+  .concept-list { list-style: none; margin-top: .5rem; }
+  .concept-list li {
+    display: flex; gap: .65rem;
+    padding: .65rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: .845rem; color: #334155; line-height: 1.55;
+  }
+  .concept-list li:last-child { border-bottom: none; }
+  .concept-icon {
+    width: 24px; height: 24px; border-radius: 7px;
+    background: var(--ac-l); color: var(--ac);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 800; flex-shrink: 0; margin-top: .1rem;
+  }
+
+  /* ── HUKUM CARDS ── */
+  .hukum-card {
+    border-left: 4px solid var(--ac);
+    background: var(--ac-l); border-radius: 0 14px 14px 0;
+    padding: 1rem 1.1rem; margin-bottom: .75rem;
+  }
+  .hukum-num {
+    font-size: .68rem; font-weight: 800; color: var(--ac);
+    text-transform: uppercase; letter-spacing: .07em; margin-bottom: .3rem;
+  }
+  .hukum-title { font-weight: 800; font-size: .9rem; margin-bottom: .4rem; }
+  .hukum-desc { font-size: .82rem; color: #334155; line-height: 1.65; }
+
+  /* ── EFFICIENCY CARD ── */
+  .big-formula {
+    text-align: center; padding: 1.5rem;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-radius: 16px; margin: 1rem 0;
+    border: 1.5px solid #334155;
+    position: relative; overflow: hidden;
+  }
+  .big-formula::after {
+    content: 'η';
+    position: absolute; right: -10px; bottom: -20px;
+    font-size: 8rem; font-weight: 900; color: rgba(255,255,255,.03);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .big-formula .lbl { font-size: .7rem; color: #64748b; font-weight: 700; margin-bottom: .5rem; }
+  .big-formula .eq {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem; font-weight: 700; color: #f8fafc;
+  }
+  .big-formula .eq span { color: var(--ac); }
+  .big-formula .note { font-size: .75rem; color: #64748b; margin-top: .6rem; }
+
+  /* ── CARNOT ── */
+  .carnot-steps {
+    counter-reset: step; margin-top: .75rem;
+  }
+  .carnot-step {
+    display: flex; gap: .75rem; margin-bottom: .85rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--ac); color: #fff;
+    font-size: .75rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-weight: 800; font-size: .85rem; margin-bottom: .2rem; }
+  .step-desc { font-size: .79rem; color: #475569; line-height: 1.55; }
+  .step-tag {
+    display: inline-block; margin-top: .3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem; font-weight: 600; color: var(--ac);
+    background: var(--ac-l); border: 1px solid var(--ac-m);
+    border-radius: 6px; padding: .15rem .45rem;
+  }
+
+  /* ── ENTROPY ── */
+  .entropy-visual {
+    display: flex; align-items: center; gap: .5rem;
+    background: #0f172a; border-radius: 14px;
+    padding: 1.1rem 1.3rem; margin: 1rem 0;
+    overflow: hidden;
+  }
+  .entropy-box {
+    flex: 1; text-align: center;
+    border-radius: 10px; padding: .6rem .4rem;
+  }
+  .entropy-box .e-lbl { font-size: .65rem; color: #64748b; font-weight: 700; }
+  .entropy-box .e-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem; font-weight: 700; color: #f8fafc;
+    margin-top: .2rem;
+  }
+  .entropy-arr { color: var(--ac); font-size: 1.2rem; font-weight: 900; }
+
+  /* ── SCROLL PROGRESS ── */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: var(--ac); width: 0%;
+    transition: width .1s; z-index: 999;
+  }
+
+  /* ── ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card { animation: fadeUp .35s ease both; }
+  .card:nth-child(1) { animation-delay: .05s; }
+  .card:nth-child(2) { animation-delay: .1s; }
+  .card:nth-child(3) { animation-delay: .15s; }
+  .card:nth-child(4) { animation-delay: .2s; }
+  .card:nth-child(5) { animation-delay: .25s; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </button>
+  <div class="topbar-title">Termodinamika</div>
+  <span class="topbar-badge">Fisika · Kelas 11</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">⚡ Fisika · Kelas 11</div>
+  <h1>Termodinamika</h1>
+  <p>Pelajari hubungan antara panas, kerja, dan energi — dari hukum dasar hingga mesin Carnot dan konsep entropi.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">2</div>
+      <div class="hero-stat-lbl">Hukum Utama</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-lbl">Jenis Proses</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">1</div>
+      <div class="hero-stat-lbl">Mesin Ideal</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="tab-btn act" onclick="showTab('pengantar',this)">📖 Pengantar</button>
+    <button class="tab-btn" onclick="showTab('hukum',this)">⚖️ Hukum Termodinamika</button>
+    <button class="tab-btn" onclick="showTab('proses',this)">🔄 Proses Termodinamika</button>
+    <button class="tab-btn" onclick="showTab('carnot',this)">⚙️ Mesin Carnot</button>
+    <button class="tab-btn" onclick="showTab('entropi',this)">🌀 Entropi</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- PENGANTAR -->
+  <div class="section show" id="sec-pengantar">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🌡️</div>
+        <div>
+          <div class="card-title">Apa itu Termodinamika?</div>
+          <div class="card-sub">Definisi & Ruang Lingkup</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Termodinamika adalah cabang fisika yang mempelajari hubungan antara <strong>panas (kalor)</strong>, <strong>kerja</strong>, dan <strong>energi dalam</strong> suatu sistem. Kata "termodinamika" berasal dari bahasa Yunani: <em>therme</em> (panas) dan <em>dynamis</em> (kekuatan).</p>
+        <p>Ilmu ini sangat penting dalam kehidupan sehari-hari, mulai dari cara kerja mesin mobil, kulkas, hingga pembangkit listrik tenaga uap.</p>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">Q</div>
+          <div><strong>Kalor (Q)</strong> — Energi yang berpindah akibat perbedaan suhu. Positif jika sistem menerima kalor, negatif jika melepas.</div>
+        </li>
+        <li>
+          <div class="concept-icon">W</div>
+          <div><strong>Usaha (W)</strong> — Kerja yang dilakukan oleh atau pada sistem. Positif jika sistem melakukan usaha, negatif jika usaha dilakukan pada sistem.</div>
+        </li>
+        <li>
+          <div class="concept-icon">U</div>
+          <div><strong>Energi Dalam (U)</strong> — Total energi kinetik dan potensial partikel-partikel di dalam sistem. Bergantung pada suhu.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📐</div>
+        <div>
+          <div class="card-title">Konsep Sistem & Lingkungan</div>
+          <div class="card-sub">Dasar analisis termodinamika</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><strong>Sistem</strong> adalah bagian alam semesta yang sedang diamati (misalnya: gas dalam silinder). <strong>Lingkungan</strong> adalah semua yang ada di luar sistem.</p>
+        <p>Berdasarkan interaksinya, sistem dibedakan menjadi:</p>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">🔒</div>
+          <div><strong>Sistem Tertutup</strong> — Dapat bertukar energi dengan lingkungan, tetapi tidak bertukar materi. Contoh: gas dalam piston.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🔓</div>
+          <div><strong>Sistem Terbuka</strong> — Dapat bertukar energi maupun materi dengan lingkungan. Contoh: mesin uap terbuka.</div>
+        </li>
+        <li>
+          <div class="concept-icon">⬛</div>
+          <div><strong>Sistem Terisolasi</strong> — Tidak bertukar energi maupun materi dengan lingkungan. Contoh: termos vakum ideal.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- HUKUM -->
+  <div class="section" id="sec-hukum">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚖️</div>
+        <div>
+          <div class="card-title">Hukum-Hukum Termodinamika</div>
+          <div class="card-sub">Prinsip dasar yang mengatur energi dan panas</div>
+        </div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">Hukum ke-0 (Zeroth Law)</div>
+        <div class="hukum-title">Kesetimbangan Termal</div>
+        <div class="hukum-desc">Jika benda A berada dalam kesetimbangan termal dengan benda B, dan benda B juga berada dalam kesetimbangan termal dengan benda C, maka A dan C pasti berada dalam kesetimbangan termal. Inilah dasar pengukuran suhu (termometer).</div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">Hukum ke-1 (First Law)</div>
+        <div class="hukum-title">Kekekalan Energi</div>
+        <div class="hukum-desc">Energi tidak dapat diciptakan maupun dimusnahkan. Kalor yang diterima sistem digunakan untuk menambah energi dalam dan melakukan usaha.</div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Hukum I Termodinamika</div>
+        <div class="formula-main">Q = ΔU + W</div>
+        <div class="formula-desc">
+          <span>Q</span> = Kalor yang diterima sistem (J)<br>
+          <span>ΔU</span> = Perubahan energi dalam (J)<br>
+          <span>W</span> = Usaha yang dilakukan sistem (J)
+        </div>
+      </div>
+
+      <div class="hukum-card" style="margin-top:.75rem">
+        <div class="hukum-num">Hukum ke-2 (Second Law)</div>
+        <div class="hukum-title">Arah Aliran Panas & Entropi</div>
+        <div class="hukum-desc">Kalor secara spontan mengalir dari benda panas ke benda dingin, tidak sebaliknya. Tidak ada mesin yang dapat mengubah kalor menjadi kerja secara sempurna (100%). Entropi sistem terisolasi selalu bertambah atau tetap.</div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">Hukum ke-3 (Third Law)</div>
+        <div class="hukum-title">Nol Mutlak</div>
+        <div class="hukum-desc">Pada suhu nol mutlak (0 Kelvin = −273,15°C), entropi sistem kristal sempurna bernilai nol. Suhu nol mutlak tidak dapat dicapai secara nyata.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <div>
+          <div class="card-title">Hubungan Energi Dalam dengan Suhu</div>
+          <div class="card-sub">Untuk gas ideal monoatomik</div>
+        </div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Energi Dalam Gas Ideal</div>
+        <div class="formula-main">U = (3/2) · n · R · T</div>
+        <div class="formula-desc">
+          <span>n</span> = jumlah mol gas<br>
+          <span>R</span> = tetapan gas ideal = 8,314 J/(mol·K)<br>
+          <span>T</span> = suhu mutlak (Kelvin)
+        </div>
+      </div>
+      <div class="prose">
+        <p>Untuk gas diatomik (seperti O₂, N₂), gunakan: <strong>U = (5/2)·n·R·T</strong></p>
+        <p>Perubahan energi dalam: <strong>ΔU = n·Cv·ΔT</strong>, di mana Cv adalah kapasitas kalor molar pada volume tetap.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PROSES -->
+  <div class="section" id="sec-proses">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔄</div>
+        <div>
+          <div class="card-title">4 Jenis Proses Termodinamika</div>
+          <div class="card-sub">Kondisi khusus yang menyederhanakan analisis</div>
+        </div>
+      </div>
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-name">🌡️ Isotermal</div>
+          <div class="process-cond">Suhu tetap (T = konstan)</div>
+          <div class="process-formula">ΔU = 0</div>
+          <div class="process-note">Semua kalor yang diserap langsung diubah menjadi usaha: Q = W. Berlaku hukum Boyle: P₁V₁ = P₂V₂</div>
+        </div>
+        <div class="process-card">
+          <div class="process-name">📦 Isokhorik</div>
+          <div class="process-cond">Volume tetap (V = konstan)</div>
+          <div class="process-formula">W = 0</div>
+          <div class="process-note">Tidak ada usaha yang dilakukan. Semua kalor menjadi perubahan energi dalam: Q = ΔU</div>
+        </div>
+        <div class="process-card">
+          <div class="process-name">⚖️ Isobarik</div>
+          <div class="process-cond">Tekanan tetap (P = konstan)</div>
+          <div class="process-formula">W = PΔV</div>
+          <div class="process-note">Usaha dihitung dengan W = PΔV. Berlaku Q = ΔU + PΔV. Berlaku hukum Charles: V₁/T₁ = V₂/T₂</div>
+        </div>
+        <div class="process-card">
+          <div class="process-name">🔇 Adiabatik</div>
+          <div class="process-cond">Tanpa pertukaran kalor (Q = 0)</div>
+          <div class="process-formula">ΔU = −W</div>
+          <div class="process-note">Tidak ada kalor yang masuk/keluar sistem. Semua perubahan energi dalam berasal dari kerja: ΔU = −W</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <div>
+          <div class="card-title">Diagram P-V (Pressure-Volume)</div>
+          <div class="card-sub">Cara membaca grafik termodinamika</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Diagram P-V adalah grafik tekanan (sumbu-y) terhadap volume (sumbu-x). <strong>Luas area di bawah kurva</strong> mewakili usaha yang dilakukan oleh sistem.</p>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">→</div>
+          <div><strong>Ekspansi</strong> — Volume bertambah (V₂ > V₁), kurva bergerak ke kanan. Sistem <em>melakukan</em> usaha pada lingkungan (W > 0).</div>
+        </li>
+        <li>
+          <div class="concept-icon">←</div>
+          <div><strong>Kompresi</strong> — Volume berkurang (V₂ < V₁), kurva bergerak ke kiri. Lingkungan <em>melakukan</em> usaha pada sistem (W < 0).</div>
+        </li>
+        <li>
+          <div class="concept-icon">↺</div>
+          <div><strong>Siklus tertutup</strong> — Kurva membentuk loop tertutup. Luas loop = usaha neto per siklus. Searah jarum jam = usaha neto positif.</div>
+        </li>
+      </ul>
+      <div class="formula-box">
+        <div class="formula-label">Usaha pada Proses Isobarik</div>
+        <div class="formula-main">W = P · ΔV = P · (V₂ − V₁)</div>
+        <div class="formula-desc">
+          <span>P</span> = tekanan konstan (Pa atau N/m²)<br>
+          <span>V₁</span> = volume awal (m³) · <span>V₂</span> = volume akhir (m³)
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CARNOT -->
+  <div class="section" id="sec-carnot">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚙️</div>
+        <div>
+          <div class="card-title">Mesin Carnot</div>
+          <div class="card-sub">Mesin panas ideal dengan efisiensi tertinggi teoritis</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Mesin Carnot adalah mesin termodinamika hipotetis yang bekerja dalam siklus reversibel (dapat dibalik). Dicetuskan oleh <strong>Sadi Carnot</strong> (1824), mesin ini adalah mesin paling efisien yang mungkin ada antara dua reservoir suhu.</p>
+        <p>Mesin Carnot bekerja antara dua reservoir: reservoir panas (T₁) dan reservoir dingin (T₂).</p>
+      </div>
+
+      <div class="carnot-steps">
+        <div class="carnot-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Ekspansi Isotermal</div>
+            <div class="step-desc">Gas menyerap kalor Q₁ dari reservoir panas (suhu T₁) dan mengembang pada suhu konstan. Energi dalam tidak berubah.</div>
+            <span class="step-tag">T = T₁, ΔU = 0, Q = W</span>
+          </div>
+        </div>
+        <div class="carnot-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Ekspansi Adiabatik</div>
+            <div class="step-desc">Gas terus mengembang tanpa pertukaran kalor. Suhu gas turun dari T₁ ke T₂ sambil melakukan kerja.</div>
+            <span class="step-tag">Q = 0, W = −ΔU</span>
+          </div>
+        </div>
+        <div class="carnot-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Kompresi Isotermal</div>
+            <div class="step-desc">Gas dimampatkan pada suhu konstan T₂. Gas melepas kalor Q₂ ke reservoir dingin.</div>
+            <span class="step-tag">T = T₂, ΔU = 0</span>
+          </div>
+        </div>
+        <div class="carnot-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Kompresi Adiabatik</div>
+            <div class="step-desc">Gas terus dimampatkan tanpa pertukaran kalor. Suhu naik kembali ke T₁, sistem kembali ke keadaan awal.</div>
+            <span class="step-tag">Q = 0, T: T₂ → T₁</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📐</div>
+        <div>
+          <div class="card-title">Efisiensi Mesin Carnot</div>
+          <div class="card-sub">Rumus utama yang wajib dikuasai</div>
+        </div>
+      </div>
+
+      <div class="big-formula">
+        <div class="lbl">EFISIENSI MESIN CARNOT</div>
+        <div class="eq">η = 1 − <span>T₂</span> / <span>T₁</span></div>
+        <div class="note">T₁ = suhu reservoir panas (Kelvin) · T₂ = suhu reservoir dingin (Kelvin)</div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Bentuk Alternatif</div>
+        <div class="formula-main">η = (T₁ − T₂) / T₁ × 100%</div>
+        <div class="formula-desc">
+          <span>η</span> = efisiensi (0 hingga 1, atau 0% hingga 100%)<br>
+          Suhu <strong>harus</strong> dalam satuan Kelvin (K = °C + 273)
+        </div>
+      </div>
+
+      <div class="formula-box" style="margin-top:.75rem">
+        <div class="formula-label">Hubungan Kalor & Usaha</div>
+        <div class="formula-main">W = Q₁ − Q₂</div>
+        <div class="formula-desc">
+          <span>Q₁</span> = kalor yang diserap dari sumber panas<br>
+          <span>Q₂</span> = kalor yang dibuang ke reservoir dingin<br>
+          <span>W</span> = usaha neto yang dihasilkan mesin
+        </div>
+      </div>
+
+      <ul class="concept-list" style="margin-top:.5rem">
+        <li>
+          <div class="concept-icon">⚠️</div>
+          <div>Efisiensi Carnot <strong>selalu &lt; 100%</strong> selama T₂ > 0 Kelvin. Mesin 100% efisien hanya mungkin jika T₂ = 0 K (nol mutlak).</div>
+        </li>
+        <li>
+          <div class="concept-icon">🏆</div>
+          <div>Tidak ada mesin nyata yang efisiensinya melebihi mesin Carnot yang beroperasi antara dua suhu reservoir yang sama.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ENTROPI -->
+  <div class="section" id="sec-entropi">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🌀</div>
+        <div>
+          <div class="card-title">Entropi (S)</div>
+          <div class="card-sub">Ukuran ketidakberaturan sistem</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Entropi adalah besaran termodinamika yang mengukur tingkat <strong>ketidakberaturan (disorder)</strong> atau <strong>ketidakpastian</strong> suatu sistem. Semakin kacau/acak susunan partikel, semakin besar entropi.</p>
+        <p>Entropi adalah besaran keadaan — nilainya hanya bergantung pada keadaan sistem, bukan pada jalannya proses.</p>
+      </div>
+
+      <div class="entropy-visual">
+        <div class="entropy-box">
+          <div class="e-lbl">KRISTAL SEMPURNA</div>
+          <div class="e-val">S = 0</div>
+          <div style="font-size:.65rem;color:#475569;margin-top:.2rem">0 Kelvin</div>
+        </div>
+        <div class="entropy-arr">→</div>
+        <div class="entropy-box">
+          <div class="e-lbl">GAS IDEAL</div>
+          <div class="e-val">S > 0</div>
+          <div style="font-size:.65rem;color:#475569;margin-top:.2rem">suhu tinggi</div>
+        </div>
+        <div class="entropy-arr">→</div>
+        <div class="entropy-box">
+          <div class="e-lbl">LEDAKAN</div>
+          <div class="e-val">S ≫ 0</div>
+          <div style="font-size:.65rem;color:#475569;margin-top:.2rem">maksimum disorder</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Perubahan Entropi</div>
+        <div class="formula-main">ΔS = Q / T</div>
+        <div class="formula-desc">
+          <span>ΔS</span> = perubahan entropi (J/K)<br>
+          <span>Q</span> = kalor yang diterima sistem secara reversibel (J)<br>
+          <span>T</span> = suhu mutlak konstan (Kelvin)
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📈</div>
+        <div>
+          <div class="card-title">Hukum II & Entropi</div>
+          <div class="card-sub">Arah alamiah proses alam semesta</div>
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">↑</div>
+          <div><strong>Proses irreversibel (tidak bisa dibalik)</strong> — Entropi alam semesta selalu bertambah (ΔS_universe > 0). Contoh: es mencair di ruangan hangat.</div>
+        </li>
+        <li>
+          <div class="concept-icon">↔</div>
+          <div><strong>Proses reversibel (ideal)</strong> — Entropi alam semesta tetap (ΔS_universe = 0). Ini hanya teori, tidak ada di alam nyata.</div>
+        </li>
+        <li>
+          <div class="concept-icon">✦</div>
+          <div><strong>Prinsip peningkatan entropi</strong> — Total entropi alam semesta tidak pernah berkurang. ΔS_universe ≥ 0 selalu.</div>
+        </li>
+      </ul>
+
+      <div class="formula-box" style="margin-top:1rem">
+        <div class="formula-label">Pernyataan Matematis Hukum II</div>
+        <div class="formula-main">ΔS_universe ≥ 0</div>
+        <div class="formula-desc">
+          Tanda = berlaku untuk proses reversibel (ideal)<br>
+          Tanda > berlaku untuk proses irreversibel (nyata)
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top:1rem">
+        <p><strong>Mengapa ini penting?</strong> Entropi menjelaskan mengapa waktu hanya berjalan maju (panah waktu), mengapa mesin tidak bisa 100% efisien, dan mengapa alam semesta cenderung menuju keadaan yang lebih kacau.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🧊</div>
+        <div>
+          <div class="card-title">Contoh Perubahan Entropi</div>
+          <div class="card-sub">Aplikasi konsep dalam kehidupan nyata</div>
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">+</div>
+          <div><strong>Es mencair</strong> — Entropi bertambah karena molekul air lebih bebas bergerak dari pada kristal es. ΔS > 0.</div>
+        </li>
+        <li>
+          <div class="concept-icon">+</div>
+          <div><strong>Ekspansi gas bebas</strong> — Gas mengisi ruang yang lebih besar secara spontan. Entropi bertambah. ΔS > 0.</div>
+        </li>
+        <li>
+          <div class="concept-icon">−</div>
+          <div><strong>Pembekuan air</strong> — Entropi sistem (air) berkurang, tapi entropi lingkungan bertambah lebih besar. ΔS_universe > 0.</div>
+        </li>
+        <li>
+          <div class="concept-icon">⚙️</div>
+          <div><strong>Kulkas/AC</strong> — Memindahkan kalor dari dingin ke panas dengan bantuan kerja luar. Bukan pelanggaran Hukum II karena ada input kerja.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div><!-- /content -->
+
+<script>
+// ── Back navigation → app.html panel materi ──
+function goBack() {
+  // Pass intent via sessionStorage so app.html opens materi panel
+  try { sessionStorage.setItem('ef_goto', 'materi'); } catch(e) {}
+  window.location.href = '../pages/app.html';
+}
+
+// ── Apply saved accent color ──
+(function() {
+  const saved = localStorage.getItem('ef_ac');
+  if (!saved) return;
+  const r = saved.match(/\w\w/g);
+  if (!r) return;
+  const rgb = r.map(x => parseInt(x, 16)).join(',');
+  const d = document.documentElement;
+  d.style.setProperty('--ac', saved);
+  d.style.setProperty('--ac-rgb', rgb);
+  d.style.setProperty('--ac-l', `rgba(${rgb},.10)`);
+  d.style.setProperty('--ac-m', `rgba(${rgb},.25)`);
+})();
+
+// ── Tab switching ──
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('act'));
+  document.getElementById('sec-' + id).classList.add('show');
+  el.classList.add('act');
+  // Re-trigger card animations
+  document.querySelectorAll('#sec-' + id + ' .card').forEach((c, i) => {
+    c.style.animation = 'none';
+    c.offsetHeight; // reflow
+    c.style.animation = '';
+    c.style.animationDelay = (i * 0.07) + 's';
+  });
+  window.scrollTo({ top: document.querySelector('.nav-wrap').offsetTop - 10, behavior: 'smooth' });
+}
+
+// ── Scroll progress bar ──
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+</script>
+</body>
+</html>
