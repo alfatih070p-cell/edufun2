@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EduFun — Platform Belajar Interaktif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="../assets/css/app.css"/>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- BATTLE MUSIC INDICATOR -->
+<div id="battle-music-indicator">
+  <div id="music-wave">
+    <span style="height:6px"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <span>Battle Music</span>
+</div>
+
+<!-- MASCOT -->
+<div id="mascot-wrap">
+  <div id="mascot-bubble">💪 Ayo semangat!</div>
+  <svg id="mascot-char" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" onclick="mascotTalk()">
+    <!-- Body -->
+    <ellipse cx="40" cy="52" rx="18" ry="22" fill="#3b82f6"/>
+    <!-- Head -->
+    <circle cx="40" cy="28" r="18" fill="#FDDBB4"/>
+    <!-- Eyes -->
+    <circle cx="34" cy="26" r="3.5" fill="#fff"/>
+    <circle cx="46" cy="26" r="3.5" fill="#fff"/>
+    <circle cx="35" cy="27" r="2" fill="#1e293b" id="m-eye-l"/>
+    <circle cx="47" cy="27" r="2" fill="#1e293b" id="m-eye-r"/>
+    <!-- Pupils shine -->
+    <circle cx="35.8" cy="26.2" r=".7" fill="#fff"/>
+    <circle cx="47.8" cy="26.2" r=".7" fill="#fff"/>
+    <!-- Smile -->
+    <path id="m-mouth" d="M34,34 Q40,39 46,34" stroke="#b45309" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Blush -->
+    <ellipse cx="28" cy="31" rx="5" ry="3" fill="#fca5a5" opacity=".5"/>
+    <ellipse cx="52" cy="31" rx="5" ry="3" fill="#fca5a5" opacity=".5"/>
+    <!-- Arms -->
+    <ellipse cx="22" cy="53" rx="5" ry="11" fill="#FDDBB4" transform="rotate(-15 22 53)"/>
+    <ellipse cx="58" cy="53" rx="5" ry="11" fill="#FDDBB4" transform="rotate(15 58 53)"/>
+    <!-- Hands holding book -->
+    <rect x="26" y="62" width="28" height="18" rx="4" fill="#fff" stroke="#3b82f6" stroke-width="1.5"/>
+    <line x1="40" y1="63" x2="40" y2="79" stroke="#3b82f6" stroke-width="1.5"/>
+    <line x1="30" y1="68" x2="39" y2="68" stroke="#94a3b8" stroke-width="1"/>
+    <line x1="30" y1="72" x2="39" y2="72" stroke="#94a3b8" stroke-width="1"/>
+    <line x1="41" y1="68" x2="50" y2="68" stroke="#94a3b8" stroke-width="1"/>
+    <!-- Hat -->
+    <rect x="24" y="12" width="32" height="5" rx="2.5" fill="#1e40af"/>
+    <rect x="30" y="6" width="20" height="10" rx="3" fill="#1e40af"/>
+    <rect x="36" y="5" width="8" height="3" rx="1.5" fill="#fbbf24"/>
+    <!-- Stars decoration -->
+    <text x="14" y="20" font-size="7" fill="#fbbf24">★</text>
+    <text x="57" y="18" font-size="6" fill="#fbbf24">★</text>
+  </svg>
+</div>
+
+<!-- MOBILE BOTTOM NAV (same icons as sidebar) -->
+<nav id="mobile-bottom-nav">
+  <button class="mbn-btn act" id="mbn-home" onclick="goPanel('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+  <button class="mbn-btn" id="mbn-belajar" onclick="goPanel('belajar')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+  <button class="mbn-btn" id="mbn-pomo" onclick="goPanel('pomo')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+  <button class="mbn-btn" id="mbn-flash" onclick="goPanel('flash')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+  <button class="mbn-btn" id="mbn-arena" onclick="goPanel('arena')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+  <button class="mbn-btn" id="mbn-materi" onclick="goPanel('materi')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+  <button class="mbn-btn" id="mbn-agenda" onclick="goPanel('agenda')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="mbn-dot"></div>
+  </button>
+</nav>
+
+
+<!-- ============================================================== -->
+<!-- SCREEN: CHARACTER CREATOR -->
+<!-- ============================================================ -->
+<div class="screen" id="sc-char">
+  <div style="background:#fff;border-bottom:1.5px solid #e2e8f0;padding:.75rem 1.5rem;display:flex;align-items:center;gap:.75rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ac);font-size:1rem">EduFun</div>
+    <div style="flex:1;text-align:center;font-weight:800">✨ Buat Karaktermu</div>
+    <div style="width:60px"></div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:1.5rem;background:linear-gradient(135deg,#f8fafc,#e0f2fe)">
+    <div style="max-width:660px;margin:0 auto;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center">
+      <!-- Avatar Preview -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.75rem">
+        <div class="av-frame glowing" id="char-preview-wrap">
+          <svg id="char-svg" width="120" height="170" viewBox="0 0 120 170"></svg>
+        </div>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ac)" id="char-preview-name">Raka</div>
+        <div class="badge ba" id="char-preview-role">🎒 Siswa</div>
+      </div>
+      <!-- Options -->
+      <div style="flex:1;min-width:250px;display:flex;flex-direction:column;gap:1rem">
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+          <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem">Gender</div>
+          <div class="oc">
+            <button class="ob sel" onclick="setCh('gender','male',this)">♂ Laki-laki</button>
+            <button class="ob" onclick="setCh('gender','female',this)">♀ Perempuan</button>
+          </div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+          <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem">Warna Kulit</div>
+          <div class="oc" style="gap:.5rem">
+            <div class="sk sel" style="background:#FDDBB4" onclick="setCh('skin','#FDDBB4',this)"></div>
+            <div class="sk" style="background:#F5B895" onclick="setCh('skin','#F5B895',this)"></div>
+            <div class="sk" style="background:#C68642" onclick="setCh('skin','#C68642',this)"></div>
+            <div class="sk" style="background:#8D5524" onclick="setCh('skin','#8D5524',this)"></div>
+            <div class="sk" style="background:#4A2912" onclick="setCh('skin','#4A2912',this)"></div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+          <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem">Gaya Rambut</div>
+          <div class="oc">
+            <button class="ob sel" onclick="setCh('hair','short',this)">💇 Pendek</button>
+            <button class="ob" onclick="setCh('hair','long',this)">👱 Panjang</button>
+            <button class="ob" onclick="setCh('hair','curly',this)">🌀 Keriting</button>
+          </div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+          <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem">Outfit</div>
+          <div class="oc">
+            <button class="ob sel" onclick="setCh('outfit','school',this)">🏫 Seragam</button>
+            <button class="ob" onclick="setCh('outfit','casual',this)">👕 Kasual</button>
+            <button class="ob" onclick="setCh('outfit','hoodie',this)">🧥 Hoodie</button>
+          </div>
+        </div>
+        <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+          <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem">Aksesori</div>
+          <div class="oc">
+            <button class="ob sel" onclick="setCh('acc','none',this)">— Tidak Ada</button>
+            <button class="ob" onclick="setCh('acc','glasses',this)">👓 Kacamata</button>
+            <button class="ob" onclick="setCh('acc','cap',this)">🧢 Topi</button>
+          </div>
+        </div>
+        <button class="bp" style="width:100%;padding:.65rem;font-size:.95rem" onclick="goDash()">Mulai Belajar! 🚀</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: MAIN APP (Sidebar + Panels) -->
+<!-- ============================================================ -->
+<div class="screen on" id="sc-main">
+  <div style="display:flex;height:100vh;overflow:hidden" class="sc-main-layout">
+    <!-- SIDEBAR OVERLAY for mobile -->
+    <div id="sb-overlay" onclick="closeSBMobile()"></div>
+
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+      <div style="display:flex;align-items:center;gap:.7rem;padding:.4rem .3rem;margin-bottom:.5rem">
+        <div style="width:34px;height:34px;border-radius:10px;background:var(--ac);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <span class="nl" style="font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700;color:#0f172a">EduFun</span>
+      </div>
+      <div class="ni act" id="ni-home" onclick="goPanel('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="nl">Beranda</span></div>
+      <div class="ni" id="ni-belajar" onclick="goPanel('belajar')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span class="nl">Metode Belajar</span></div>
+      <div class="ni" id="ni-pomo" onclick="goPanel('pomo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="nl">Pomodoro</span></div>
+      <div class="ni" id="ni-flash" onclick="goPanel('flash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="nl">Flashcards</span></div>
+      <div class="ni" id="ni-arena" onclick="goPanel('arena')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span class="nl">Battle Arena</span></div>
+      <div class="ni" id="ni-materi" onclick="goPanel('materi')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="nl">Materi</span></div>
+      <div class="ni" id="ni-agenda" onclick="goPanel('agenda')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="nl">Agenda</span></div>
+      <div style="flex:1"></div>
+      <div class="ni" onclick="openModal('settings-modal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><span class="nl">Pengaturan</span></div>
+      <button onclick="toggleSB()" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.45rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;transition:all .15s;margin-top:.3rem;width:100%">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- MAIN -->
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0" id="main-content-wrap">
+      <!-- TOPBAR -->
+      <div id="main-topbar" style="background:#fff;border-bottom:1.5px solid #e2e8f0;padding:.65rem 1.25rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <!-- Desktop: title -->
+        <div class="topbar-desktop" style="display:flex;align-items:center;gap:.6rem">
+          <button id="hamburger-btn" onclick="toggleSB()" style="display:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;cursor:pointer;flex-shrink:0;color:#475569">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div>
+            <div style="font-weight:800;font-size:.97rem" id="tb-title">Beranda</div>
+            <div style="font-size:.76rem;color:#94a3b8" id="tb-sub">Selamat datang!</div>
+          </div>
+        </div>
+        <!-- Mobile: logo + stats -->
+        <div class="topbar-mobile" style="display:none;align-items:center;gap:.6rem;width:100%">
+          <!-- Logo -->
+          <div style="width:32px;height:32px;border-radius:10px;background:var(--ac);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <!-- Level + XP bar -->
+          <div style="display:flex;align-items:center;gap:.35rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.28rem .6rem;flex:1;min-width:0">
+            <div style="width:26px;height:26px;border-radius:50%;border:2px solid var(--ac);background:var(--ac-l);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:var(--ac);flex-shrink:0" id="mob-lvl-badge">4</div>
+            <div style="flex:1;height:5px;border-radius:99px;background:#e2e8f0;overflow:hidden">
+              <div class="pf" id="mob-xp-bar" style="height:100%;width:75%"></div>
+            </div>
+            <div style="font-size:.72rem;font-weight:700;color:var(--ac);white-space:nowrap" id="mob-xp-lbl">750</div>
+          </div>
+          <!-- Streak -->
+          <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:.28rem .55rem;font-size:.8rem;font-weight:700;color:#ea580c;white-space:nowrap;flex-shrink:0">🔥<span id="mob-streak-lbl">0</span></div>
+          <!-- Avatar -->
+          <div style="position:relative;flex-shrink:0">
+            <div onclick="toggleDD('profile-dd-mob')" style="width:34px;height:34px;border-radius:50%;background:var(--ac-l);border:2px solid var(--ac-m);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden">
+              <svg id="profile-av-svg-mob" viewBox="0 0 120 170" style="width:34px;height:48px;margin-top:10px"></svg>
+            </div>
+            <div class="dd" id="profile-dd-mob" style="right:0;min-width:160px">
+              <div style="padding:.6rem .9rem;border-bottom:1px solid #f1f5f9">
+                <div style="font-weight:700;font-size:.85rem" id="pd-name-mob">User</div>
+                <div style="font-size:.72rem;color:#94a3b8" id="pd-role-mob">Siswa</div>
+              </div>
+              <div class="di" onclick="openModal('char-edit-modal')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Edit Karakter</div>
+              <div class="di" onclick="openModal('settings-modal');closeDD('profile-dd-mob')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>Pengaturan</div>
+              <div class="di" style="color:#ef4444" onclick="Auth.logout()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</div>
+            </div>
+          </div>
+        </div>
+        <!-- Desktop right side -->
+        <div class="topbar-desktop" style="display:flex;align-items:center;gap:.65rem">
+          <div style="display:flex;align-items:center;gap:.5rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.35rem .75rem">
+            <div style="width:32px;height:32px;border-radius:50%;border:2px solid var(--ac);background:var(--ac-l);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:var(--ac)" id="lvl-badge">4</div>
+            <div style="width:70px;height:5px;border-radius:99px;background:#e2e8f0;overflow:hidden"><div class="pf" id="xp-bar-top" style="height:100%;width:75%"></div></div>
+            <div style="font-size:.76rem;font-weight:700;color:var(--ac)" id="xp-top-lbl">750</div>
+          </div>
+          <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:.35rem .7rem;font-size:.83rem;font-weight:700;color:#ea580c">🔥<span id="streak-lbl">0</span></div>
+          <!-- Profile -->
+          <div style="position:relative">
+            <div onclick="toggleDD('profile-dd')" id="profile-btn" style="width:38px;height:38px;border-radius:50%;background:var(--ac-l);border:2px solid var(--ac-m);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0">
+              <svg id="profile-av-svg" viewBox="0 0 120 170" style="width:38px;height:54px;margin-top:10px"></svg>
+            </div>
+            <div class="dd" id="profile-dd">
+              <div style="padding:.7rem 1rem;border-bottom:1px solid #f1f5f9">
+                <div style="font-weight:700;font-size:.88rem" id="pd-name">Raka Pratama</div>
+                <div style="font-size:.74rem;color:#94a3b8" id="pd-role">Siswa · Level 4</div>
+              </div>
+              <div class="di" onclick="openModal('char-edit-modal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Edit Karakter</div>
+              <div class="di" onclick="openModal('settings-modal');closeDD('profile-dd')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Pengaturan</div>
+              <div class="di" style="color:#ef4444" onclick="Auth.logout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANELS CONTAINER -->
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative">
+
+        <!-- === HOME === -->
+        <div class="panel on" id="panel-home" style="padding:0">
+
+          <!-- Greeting bar -->
+          <div style="padding:1rem 1.25rem .75rem">
+            <div style="font-size:1.2rem;font-weight:800;margin-bottom:.15rem" id="home-greeting">👋 Halo, Raka!</div>
+            <div style="font-size:.82rem;color:#64748b"><span id="home-streak-text">Kamu sudah 🔥<span id="home-streak-num">0</span> hari berturut-turut!</span></div>
+          </div>
+
+          <!-- TWO-COLUMN LAYOUT (desktop) / stacked (mobile) -->
+          <div class="home-grid">
+
+            <!-- ── LEFT COLUMN ── -->
+            <div class="home-col-left">
+
+              <!-- Quick Menu 2x2 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.75rem">
+                <div class="card" style="padding:.9rem;cursor:pointer" onclick="goPanel('belajar')"><div style="font-size:1.4rem;margin-bottom:.3rem">🧠</div><div style="font-weight:800;font-size:.85rem">Metode Belajar</div><div style="font-size:.72rem;color:#64748b;margin-top:.15rem">Visual · Musik · Praktek</div><div class="badge ba" style="margin-top:.5rem;font-size:.68rem">3 metode aktif</div></div>
+                <div class="card" style="padding:.9rem;cursor:pointer" onclick="goPanel('pomo')"><div style="font-size:1.4rem;margin-bottom:.3rem">⏱️</div><div style="font-weight:800;font-size:.85rem">Pomodoro</div><div style="font-size:.72rem;color:#64748b;margin-top:.15rem">25 menit fokus</div><div class="badge ba" style="margin-top:.5rem;font-size:.68rem" id="h-pomo-stat">0 sesi hari ini</div></div>
+                <div class="card" style="padding:.9rem;cursor:pointer" onclick="goPanel('flash')"><div style="font-size:1.4rem;margin-bottom:.3rem">🃏</div><div style="font-weight:800;font-size:.85rem">Flashcards</div><div style="font-size:.72rem;color:#64748b;margin-top:.15rem">Buat & latih kartu</div><div class="badge ba" style="margin-top:.5rem;font-size:.68rem" id="h-flash-stat">0 kartu</div></div>
+                <div class="card" style="padding:.9rem;cursor:pointer" onclick="goPanel('arena')"><div style="font-size:1.4rem;margin-bottom:.3rem">⚔️</div><div style="font-weight:800;font-size:.85rem">Battle Arena</div><div style="font-size:.72rem;color:#64748b;margin-top:.15rem">1vs1 · Bot · Room</div><div class="badge" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d;margin-top:.5rem;font-size:.68rem">Silver II</div></div>
+              </div>
+
+              <!-- Progress Multi-Scale -->
+              <div style="background:var(--card,#fff);border:1.5px solid var(--border,#e2e8f0);border-radius:14px;padding:.9rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem">
+                  <div style="font-weight:800;font-size:.85rem;color:var(--text)">📊 Progress Belajar</div>
+                  <div style="display:flex;gap:.3rem">
+                    <button class="stat-scale-btn sel" onclick="setStatScale(1,this)" style="font-size:.65rem;padding:.18rem .48rem;border-radius:6px;border:1.5px solid var(--ac);background:var(--ac);color:#fff;cursor:pointer;font-weight:700">1H</button>
+                    <button class="stat-scale-btn" onclick="setStatScale(7,this)" style="font-size:.65rem;padding:.18rem .48rem;border-radius:6px;border:1.5px solid var(--border,#e2e8f0);background:var(--bg,#f8fafc);color:var(--muted,#64748b);cursor:pointer;font-weight:700">7H</button>
+                  </div>
+                </div>
+
+                <!-- XP History Chart -->
+                <div style="position:relative;margin-bottom:.75rem;border-radius:10px;overflow:hidden;border:1.5px solid var(--border,#e2e8f0)">
+                  <canvas id="xp-history-canvas" style="width:100%;height:110px;display:block;border-radius:10px"></canvas>
+                  <div style="position:absolute;top:6px;left:8px;font-size:.68rem;font-weight:800;color:rgba(186,230,253,0.9);letter-spacing:.04em;text-shadow:0 1px 4px #0009" id="xp-chart-label">⚡ XP Hari Ini</div>
+                  <div style="position:absolute;top:6px;right:8px;font-size:.72rem;font-weight:800;color:#38bdf8;text-shadow:0 1px 6px #0009" id="xp-chart-current"></div>
+                </div>
+
+                <!-- Scale label -->
+                <div style="font-size:.72rem;color:var(--muted,#94a3b8);margin-bottom:.6rem" id="stat-scale-label">📅 Hari ini</div>
+                <!-- Progress bars per mapel -->
+                <!-- Empty state hint for 7H when no data -->
+                <div id="stat-empty-hint" style="display:none;text-align:center;padding:.6rem;background:#fffbeb;border:1.5px dashed #fcd34d;border-radius:10px;font-size:.75rem;color:#92400e;font-weight:600;margin-bottom:.5rem">
+                  📊 Belum ada aktivitas 7 hari ini.<br>
+                  <span style="font-weight:400;color:#b45309">Selesaikan sesi belajar untuk melihat statistik!</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:.55rem" id="stat-bars">
+                  <div data-prog="matematika"><div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:var(--muted,#64748b);margin-bottom:.25rem"><span>Matematika</span><span style="color:var(--ac)" class="prog-lbl">—</span></div><div class="pt" style="height:6px"><div class="pf" style="width:0%"></div></div></div>
+                  <div data-prog="fisika"><div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:var(--muted,#64748b);margin-bottom:.25rem"><span>Fisika</span><span style="color:var(--ac)" class="prog-lbl">—</span></div><div class="pt" style="height:6px"><div class="pf" style="width:0%"></div></div></div>
+                  <div data-prog="bahasa_inggris"><div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:var(--muted,#64748b);margin-bottom:.25rem"><span>B. Inggris</span><span style="color:var(--ac)" class="prog-lbl">—</span></div><div class="pt" style="height:6px"><div class="pf" style="width:0%"></div></div></div>
+                  <div data-prog="kimia"><div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:var(--muted,#64748b);margin-bottom:.25rem"><span>Kimia</span><span style="color:var(--ac)" class="prog-lbl">—</span></div><div class="pt" style="height:6px"><div class="pf" style="width:0%"></div></div></div>
+                  <div data-prog="biologi"><div style="display:flex;justify-content:space-between;font-size:.76rem;font-weight:600;color:var(--muted,#64748b);margin-bottom:.25rem"><span>Biologi</span><span style="color:var(--ac)" class="prog-lbl">—</span></div><div class="pt" style="height:6px"><div class="pf" style="width:0%"></div></div></div>
+                </div>
+                <!-- Dynamic bars for other subjects (Sejarah, B. Indonesia, dll) -->
+                <div id="stat-bars-dynamic" style="display:flex;flex-direction:column;gap:.55rem;margin-top:.4rem"></div>
+              </div>
+            </div>
+
+            <!-- ── RIGHT COLUMN ── -->
+            <div class="home-col-right">
+
+              <!-- Mini Calendar + Agenda -->
+              <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:.6rem;margin-bottom:.6rem">
+                <!-- Mini calendar header -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
+                  <button onclick="agCal(-1);agHomeCalRender()" style="background:#f1f5f9;border:none;border-radius:5px;width:20px;height:20px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;padding:0">‹</button>
+                  <div style="font-weight:800;font-size:.72rem" id="home-cal-month">Mei 2026</div>
+                  <button onclick="agCal(1);agHomeCalRender()" style="background:#f1f5f9;border:none;border-radius:5px;width:20px;height:20px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;padding:0">›</button>
+                </div>
+                <!-- Day headers mini -->
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:.15rem">
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Mi</div>
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Se</div>
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Sl</div>
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Ra</div>
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Ka</div>
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Ju</div>
+                  <div style="font-size:.55rem;font-weight:700;color:#94a3b8">Sa</div>
+                </div>
+                <!-- Mini calendar grid -->
+                <div id="home-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px"></div>
+              </div>
+
+              <!-- Agenda Today -->
+              <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:.85rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+                  <div style="font-weight:800;font-size:.85rem">📅 Agenda Hari Ini</div>
+                  <button onclick="goPanel('agenda')" style="font-size:.72rem;color:var(--ac);font-weight:700;background:none;border:none;cursor:pointer;padding:0">Lihat Semua →</button>
+                </div>
+                <div id="home-agenda-list">
+                  <div style="text-align:center;padding:.5rem;color:#94a3b8;font-size:.78rem">Belum ada agenda hari ini</div>
+                </div>
+              </div>
+
+            </div><!-- /right col -->
+          </div><!-- /home-grid -->
+        </div>
+
+        <!-- === METODE BELAJAR === -->
+        <div class="panel" id="panel-belajar">
+          <div style="font-size:1.2rem;font-weight:800;margin-bottom:.25rem">🧠 Metode Belajar</div>
+          <div style="font-size:.84rem;color:#64748b;margin-bottom:1.1rem">Pilih cara belajar yang paling cocok untukmu</div>
+          <!-- Method Tabs -->
+          <div style="display:flex;gap:.65rem;margin-bottom:1.25rem;flex-wrap:wrap">
+            <button class="mt sel" id="mt-visual" onclick="setMethod('visual')">👁️ Visual</button>
+            <button class="mt" id="mt-audio" onclick="setMethod('audio')">🎵 Audio</button>
+            <button class="mt" id="mt-praktek" onclick="setMethod('praktek')">🔬 Praktek (PhET)</button>
+          </div>
+          <!-- VISUAL METHOD -->
+          <div id="m-visual">
+            <!-- VIDEO MATERI PER SUBJEK -->
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+              <div style="font-weight:800;margin-bottom:.5rem;font-size:.92rem">📺 Video Materi</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.9rem">Pilih mata pelajaran, lalu tonton playlist di YouTube</div>
+              <!-- Subject tabs for video -->
+              <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.9rem" id="vid-tabs">
+                <button class="mt sel" style="font-size:.76rem;padding:.35rem .75rem" onclick="switchVidTab('fisika',this)">⚡ Fisika</button>
+                <button class="mt" style="font-size:.76rem;padding:.35rem .75rem" onclick="switchVidTab('kimia',this)">⚗️ Kimia</button>
+                <button class="mt" style="font-size:.76rem;padding:.35rem .75rem" onclick="switchVidTab('matematika',this)">📐 Matematika</button>
+              </div>
+              <!-- Fisika -->
+              <div id="vid-fisika" class="vid-panel">
+                <div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.65rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.5rem .75rem">
+                  <div style="font-size:1.1rem">▶️</div>
+                  <div>
+                    <div style="font-size:.82rem;font-weight:700;color:#1e40af">⚡ Fisika — Jendela Sains</div>
+                    <div style="font-size:.68rem;color:#3b82f6">youtube.com/@JendelaSains</div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.65rem">
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('fisika-newton')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Hukum Newton</div><div style="font-size:.72rem;color:#64748b">Mekanika · Kelas 10</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('fisika-gelombang')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Gelombang & Bunyi</div><div style="font-size:.72rem;color:#64748b">Gelombang · Kelas 11</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('fisika-listrik')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Listrik Statis</div><div style="font-size:.72rem;color:#64748b">Elektromagnetik · Kelas 12</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('fisika-termo')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Termodinamika</div><div style="font-size:.72rem;color:#64748b">Termodinamika · Kelas 11</div></div>
+                </div>
+              </div>
+              <!-- Kimia -->
+              <div id="vid-kimia" class="vid-panel" style="display:none">
+                <div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.65rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:.5rem .75rem">
+                  <div style="font-size:1.1rem">▶️</div>
+                  <div>
+                    <div style="font-size:.82rem;font-weight:700;color:#166534">⚗️ Kimia — Jendela Sains</div>
+                    <div style="font-size:.68rem;color:#16a34a">youtube.com/@JendelaSains</div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.65rem">
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('kimia-ikatan')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#14532d,#166534);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Ikatan Kimia</div><div style="font-size:.72rem;color:#64748b">Struktur Atom · Kelas 10</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('kimia-mol')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#14532d,#166534);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Konsep Mol</div><div style="font-size:.72rem;color:#64748b">Stoikiometri · Kelas 10</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('kimia-redoks')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#14532d,#166534);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Reaksi Redoks</div><div style="font-size:.72rem;color:#64748b">Elektrokimia · Kelas 12</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('kimia-laju')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#14532d,#166534);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Laju Reaksi</div><div style="font-size:.72rem;color:#64748b">Kinetika · Kelas 11</div></div>
+                </div>
+              </div>
+              <!-- Matematika -->
+              <div id="vid-matematika" class="vid-panel" style="display:none">
+                <div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.65rem;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:.5rem .75rem">
+                  <div style="font-size:1.1rem">▶️</div>
+                  <div>
+                    <div style="font-size:.82rem;font-weight:700;color:#7c3aed">📐 Matematika — Jendela Sains</div>
+                    <div style="font-size:.68rem;color:#7c3aed">youtube.com/@JendelaSains</div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.65rem">
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('mat-kuadrat')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Persamaan Kuadrat</div><div style="font-size:.72rem;color:#64748b">Aljabar · Kelas 11</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('mat-trigon')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Trigonometri</div><div style="font-size:.72rem;color:#64748b">Trigonometri · Kelas 10</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('mat-integral')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Integral</div><div style="font-size:.72rem;color:#64748b">Kalkulus · Kelas 12</div></div>
+                  <div class="card" style="padding:.85rem;cursor:pointer" onclick="openVideoModal('mat-statistik')"><div style="aspect-ratio:16/9;background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.55rem;font-size:1.8rem">▶️</div><div style="font-weight:700;font-size:.84rem">Statistika</div><div style="font-size:.72rem;color:#64748b">Statistika · Kelas 12</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MIND MAP BIOLOGI -->
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+                <div style="font-weight:800;font-size:.92rem">🗺️ Mind Map Biologi</div>
+                <button onclick="toggleMindMap()" class="bg" style="font-size:.76rem;padding:.3rem .75rem" id="mm-toggle-btn">Buka Mind Map ▼</button>
+              </div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.75rem">Jelajahi cabang-cabang ilmu biologi secara interaktif</div>
+              <div id="mm-preview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem">
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #22c55e" onclick="openMindMapNode('sel')"><div style="font-size:1.4rem">🌱</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Sel</div><div style="font-size:.68rem;color:#64748b">Biologi Sel</div></div>
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #8b5cf6" onclick="openMindMapNode('genetika')"><div style="font-size:1.4rem">🧬</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Genetika</div><div style="font-size:.68rem;color:#64748b">Pewarisan Sifat</div></div>
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #f59e0b" onclick="openMindMapNode('ekologi')"><div style="font-size:1.4rem">🌍</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Ekologi</div><div style="font-size:.68rem;color:#64748b">Lingkungan Hidup</div></div>
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #ef4444" onclick="openMindMapNode('anatomi')"><div style="font-size:1.4rem">❤️</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Anatomi</div><div style="font-size:.68rem;color:#64748b">Sistem Organ</div></div>
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #14b8a6" onclick="openMindMapNode('evolusi')"><div style="font-size:1.4rem">🦕</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Evolusi</div><div style="font-size:.68rem;color:#64748b">Teori Darwin</div></div>
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #ec4899" onclick="openMindMapNode('biokimia')"><div style="font-size:1.4rem">⚗️</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Biokimia</div><div style="font-size:.68rem;color:#64748b">Reaksi Kimia Hidup</div></div>
+                <div class="card" style="padding:.7rem;text-align:center;border-left:3px solid #f97316" onclick="openMindMapNode('mikrobiologi')"><div style="font-size:1.4rem">🦠</div><div style="font-weight:700;font-size:.76rem;margin-top:.25rem">Mikrobiologi</div><div style="font-size:.68rem;color:#64748b">Bakteri, Virus, Jamur</div></div>
+              </div>
+              <!-- Node detail popup inline -->
+              <div id="mm-node-detail" style="display:none;margin-top:.75rem;background:#f8fafc;border:1.5px solid var(--ac-m);border-radius:12px;padding:.9rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+                  <div style="font-weight:800;font-size:.9rem" id="mm-node-title">-</div>
+                  <button onclick="document.getElementById('mm-node-detail').style.display='none'" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:#64748b">✕</button>
+                </div>
+                <div style="font-size:.8rem;color:#334155;line-height:1.6;margin-bottom:.5rem" id="mm-node-desc">-</div>
+                <div id="mm-node-facts" style="display:flex;flex-direction:column;gap:.3rem"></div>
+              </div>
+            </div>
+
+            <!-- INFOGRAFIS SEJARAH -->
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+              <div style="font-weight:800;margin-bottom:.5rem;font-size:.92rem">📊 Infografis Sejarah Indonesia</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.85rem">Perjalanan sejarah dari masa prasejarah hingga era modern</div>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem">
+                <button class="chip sel" onclick="filterInfografisEra('semua',this)">🌐 Semua</button>
+                <button class="chip" onclick="filterInfografisEra('prasejarah',this)" style="border-color:#78716c">🦴 Prasejarah</button>
+                <button class="chip" onclick="filterInfografisEra('klasik',this)" style="border-color:#d97706">🏯 Kerajaan</button>
+                <button class="chip" onclick="filterInfografisEra('kolonial',this)" style="border-color:#dc2626">⚓ Kolonial</button>
+                <button class="chip" onclick="filterInfografisEra('modern',this)" style="border-color:#2563eb">🏳️ Modern</button>
+              </div>
+              <div id="infografis-list" style="display:flex;flex-direction:column;gap:.65rem">
+                <!-- Prasejarah -->
+                <div class="infografis-item" data-era="prasejarah" style="border-left:4px solid #78716c;background:#f5f5f4;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#78716c;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🦴 PRASEJARAH</span>
+                    <span style="font-size:.72rem;color:#57534e;font-weight:700">2,5 Juta SM</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Zaman Batu Tua (Paleolitikum)</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Manusia purba menggunakan alat batu kasar. Fosil <em>Pithecanthropus erectus</em> ditemukan di Trinil (1891) oleh Eugene Dubois. Situs Sangiran menjadi warisan UNESCO.</div>
+                </div>
+                <div class="infografis-item" data-era="prasejarah" style="border-left:4px solid #78716c;background:#f5f5f4;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#78716c;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🦴 PRASEJARAH</span>
+                    <span style="font-size:.72rem;color:#57534e;font-weight:700">10.000 SM</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Zaman Batu Muda (Neolitikum)</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Revolusi pertanian: manusia mulai bercocok tanam, membuat tembikar, dan hidup menetap. Alat: kapak persegi dan lonjong.</div>
+                </div>
+                <div class="infografis-item" data-era="prasejarah" style="border-left:4px solid #78716c;background:#f5f5f4;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#78716c;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🦴 PRASEJARAH</span>
+                    <span style="font-size:.72rem;color:#57534e;font-weight:700">3.000 SM</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Zaman Perunggu & Besi</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Budaya Dong Son dari Vietnam berpengaruh besar. Nekara dan moko perunggu tersebar di seluruh Nusantara.</div>
+                </div>
+                <!-- Kerajaan Klasik -->
+                <div class="infografis-item" data-era="klasik" style="border-left:4px solid #d97706;background:#fffbeb;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#d97706;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🏯 KERAJAAN</span>
+                    <span style="font-size:.72rem;color:#92400e;font-weight:700">400 M</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Kerajaan Kutai & Tarumanegara</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Kerajaan Hindu tertua di Indonesia. Prasasti Mulawarman (Kutai) menjadi bukti tulisan tertua di Nusantara. Tarumanegara di Jawa Barat dipimpin Raja Purnawarman.</div>
+                </div>
+                <div class="infografis-item" data-era="klasik" style="border-left:4px solid #d97706;background:#fffbeb;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#d97706;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🏯 KERAJAAN</span>
+                    <span style="font-size:.72rem;color:#92400e;font-weight:700">683–1377 M</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Kerajaan Sriwijaya</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Kerajaan Buddha maritim terbesar di Asia Tenggara. Pusat perdagangan dan penyebaran agama Buddha. Ibukota di Palembang, menguasai Selat Malaka.</div>
+                </div>
+                <div class="infografis-item" data-era="klasik" style="border-left:4px solid #d97706;background:#fffbeb;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#d97706;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🏯 KERAJAAN</span>
+                    <span style="font-size:.72rem;color:#92400e;font-weight:700">1293–1527 M</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Kerajaan Majapahit</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Kerajaan Hindu-Buddha terbesar. Patih Gajah Mada bersumpah Palapa: menyatukan Nusantara. Kitab Negarakertagama karya Mpu Prapanca menggambarkan kejayaan Majapahit.</div>
+                </div>
+                <!-- Kolonial -->
+                <div class="infografis-item" data-era="kolonial" style="border-left:4px solid #dc2626;background:#fef2f2;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#dc2626;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">⚓ KOLONIAL</span>
+                    <span style="font-size:.72rem;color:#991b1b;font-weight:700">1596–1799 M</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Kedatangan Belanda & VOC</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">VOC (Vereenigde Oost-Indische Compagnie) didirikan 1602. Monopoli perdagangan rempah. VOC bangkrut dan dibubarkan 1799, wilayahnya diambil alih pemerintah Belanda.</div>
+                </div>
+                <div class="infografis-item" data-era="kolonial" style="border-left:4px solid #dc2626;background:#fef2f2;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#dc2626;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">⚓ KOLONIAL</span>
+                    <span style="font-size:.72rem;color:#991b1b;font-weight:700">1830–1870 M</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Sistem Tanam Paksa (Cultuurstelsel)</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Dicetuskan Van den Bosch. Petani wajib menanam 1/5 lahan untuk tanaman ekspor (kopi, tebu, nila). Menyengsarakan rakyat. Dikritik Eduard Douwes Dekker dalam <em>Max Havelaar</em>.</div>
+                </div>
+                <!-- Modern -->
+                <div class="infografis-item" data-era="modern" style="border-left:4px solid #2563eb;background:#eff6ff;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#2563eb;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🏳️ MODERN</span>
+                    <span style="font-size:.72rem;color:#1d4ed8;font-weight:700">28 Oktober 1928</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Sumpah Pemuda</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Kongres Pemuda II di Jakarta. Ikrar: satu tanah air, satu bangsa, satu bahasa — Indonesia. Momen kebangkitan nasionalisme yang menyatukan pemuda dari seluruh Nusantara.</div>
+                </div>
+                <div class="infografis-item" data-era="modern" style="border-left:4px solid #2563eb;background:#eff6ff;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#2563eb;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🏳️ MODERN</span>
+                    <span style="font-size:.72rem;color:#1d4ed8;font-weight:700">17 Agustus 1945</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Proklamasi Kemerdekaan Indonesia</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Soekarno–Hatta memproklamasikan kemerdekaan di Jl. Pegangsaan Timur 56, Jakarta. Teks proklamasi diketik Sayuti Melik. Indonesia resmi menjadi negara merdeka.</div>
+                </div>
+                <div class="infografis-item" data-era="modern" style="border-left:4px solid #2563eb;background:#eff6ff;border-radius:0 10px 10px 0;padding:.75rem .9rem">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span style="background:#2563eb;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">🏳️ MODERN</span>
+                    <span style="font-size:.72rem;color:#1d4ed8;font-weight:700">1998</span>
+                  </div>
+                  <div style="font-weight:800;font-size:.86rem;margin-bottom:.25rem">Reformasi 1998</div>
+                  <div style="font-size:.77rem;color:#44403c;line-height:1.55">Gerakan mahasiswa menuntut reformasi. Soeharto mundur 21 Mei 1998 setelah 32 tahun berkuasa. Dimulainya era demokrasi dan kebebasan pers di Indonesia.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RUMUS MATEMATIKA -->
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+              <div style="font-weight:800;margin-bottom:.5rem;font-size:.92rem">📐 Rumus Matematika</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.8rem">Rumus penting yang wajib dikuasai</div>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem">
+                <button class="chip sel" onclick="filterRumus('semua',this)">📚 Semua</button>
+                <button class="chip" onclick="filterRumus('aljabar',this)" style="border-color:#7c3aed">🔡 Aljabar</button>
+                <button class="chip" onclick="filterRumus('geometri',this)" style="border-color:#0369a1">📐 Geometri</button>
+                <button class="chip" onclick="filterRumus('trigon',this)" style="border-color:#0f766e">📊 Trigon</button>
+                <button class="chip" onclick="filterRumus('kalkulus',this)" style="border-color:#b45309">∫ Kalkulus</button>
+                <button class="chip" onclick="filterRumus('statistik',this)" style="border-color:#be185d">📈 Statistik</button>
+              </div>
+              <div id="rumus-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.65rem">
+                <!-- Aljabar -->
+                <div class="rumus-card" data-kat="aljabar" style="background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#7c3aed;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">ALJABAR</span><span style="font-weight:700;font-size:.84rem">Persamaan Kuadrat</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:1rem;font-weight:800;color:#4c1d95;background:#ede9fe;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">x = (−b ± √(b²−4ac)) / 2a</div>
+                  <div style="font-size:.74rem;color:#64748b">Diskriminan: D = b²−4ac. D &gt; 0: 2 akar real. D = 0: 1 akar kembar. D &lt; 0: tidak real.</div>
+                </div>
+                <div class="rumus-card" data-kat="aljabar" style="background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#7c3aed;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">ALJABAR</span><span style="font-weight:700;font-size:.84rem">Eksponen & Logaritma</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.9rem;font-weight:800;color:#4c1d95;background:#ede9fe;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">aᵐ · aⁿ = aᵐ⁺ⁿ &nbsp;|&nbsp; logₐ(xy) = logₐx + logₐy</div>
+                  <div style="font-size:.74rem;color:#64748b">Sifat eksponen dan logaritma digunakan dalam pertumbuhan eksponensial, bunga majemuk, dan pH.</div>
+                </div>
+                <div class="rumus-card" data-kat="aljabar" style="background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#7c3aed;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">ALJABAR</span><span style="font-weight:700;font-size:.84rem">Barisan & Deret</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.88rem;font-weight:800;color:#4c1d95;background:#ede9fe;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">Aritmetika: Sₙ = n/2·(2a+(n−1)b) &nbsp;|&nbsp; Geometri: Sₙ = a(rⁿ−1)/(r−1)</div>
+                  <div style="font-size:.74rem;color:#64748b">a = suku pertama, b = beda, r = rasio, n = banyak suku.</div>
+                </div>
+                <!-- Geometri -->
+                <div class="rumus-card" data-kat="geometri" style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#0369a1;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">GEOMETRI</span><span style="font-weight:700;font-size:.84rem">Lingkaran</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.9rem;font-weight:800;color:#1e40af;background:#dbeafe;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">L = πr² &nbsp;|&nbsp; K = 2πr &nbsp;|&nbsp; π ≈ 3,14159</div>
+                  <div style="font-size:.74rem;color:#64748b">L = luas, K = keliling, r = jari-jari. Luas juring = (θ/360°)·πr²</div>
+                </div>
+                <div class="rumus-card" data-kat="geometri" style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#0369a1;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">GEOMETRI</span><span style="font-weight:700;font-size:.84rem">Pythagoras & Segitiga</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.9rem;font-weight:800;color:#1e40af;background:#dbeafe;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">c² = a² + b² &nbsp;|&nbsp; L△ = ½·a·t</div>
+                  <div style="font-size:.74rem;color:#64748b">c = sisi miring (hipotenusa). Triple Pythagoras: 3-4-5, 5-12-13, 8-15-17.</div>
+                </div>
+                <div class="rumus-card" data-kat="geometri" style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#0369a1;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">GEOMETRI</span><span style="font-weight:700;font-size:.84rem">Volume Bangun Ruang</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.82rem;font-weight:800;color:#1e40af;background:#dbeafe;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">Bola: 4/3πr³ &nbsp;|&nbsp; Tabung: πr²t &nbsp;|&nbsp; Kerucut: 1/3πr²t</div>
+                  <div style="font-size:.74rem;color:#64748b">r = jari-jari, t = tinggi. Balok: p×l×t. Kubus: s³.</div>
+                </div>
+                <!-- Trigonometri -->
+                <div class="rumus-card" data-kat="trigon" style="background:#f0fdfa;border:1.5px solid #99f6e4;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#0f766e;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">TRIGON</span><span style="font-weight:700;font-size:.84rem">Identitas Dasar</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.88rem;font-weight:800;color:#134e4a;background:#ccfbf1;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">sin²θ + cos²θ = 1 &nbsp;|&nbsp; tan θ = sin θ / cos θ</div>
+                  <div style="font-size:.74rem;color:#64748b">Nilai istimewa: sin 30°=½, cos 60°=½, tan 45°=1, sin 90°=1.</div>
+                </div>
+                <div class="rumus-card" data-kat="trigon" style="background:#f0fdfa;border:1.5px solid #99f6e4;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#0f766e;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">TRIGON</span><span style="font-weight:700;font-size:.84rem">Aturan Sinus & Kosinus</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.82rem;font-weight:800;color:#134e4a;background:#ccfbf1;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">a/sin A = b/sin B = c/sin C &nbsp;|&nbsp; a² = b²+c²−2bc·cos A</div>
+                  <div style="font-size:.74rem;color:#64748b">Digunakan untuk menghitung sisi/sudut segitiga sembarang.</div>
+                </div>
+                <!-- Kalkulus -->
+                <div class="rumus-card" data-kat="kalkulus" style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#b45309;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">KALKULUS</span><span style="font-weight:700;font-size:.84rem">Turunan (Diferensial)</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.88rem;font-weight:800;color:#78350f;background:#fef3c7;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">d/dx[xⁿ] = n·xⁿ⁻¹ &nbsp;|&nbsp; d/dx[sin x] = cos x</div>
+                  <div style="font-size:.74rem;color:#64748b">Aturan rantai: d/dx[f(g(x))] = f'(g(x))·g'(x). Turunan = laju perubahan.</div>
+                </div>
+                <div class="rumus-card" data-kat="kalkulus" style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#b45309;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">KALKULUS</span><span style="font-weight:700;font-size:.84rem">Integral</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.88rem;font-weight:800;color:#78350f;background:#fef3c7;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">∫xⁿ dx = xⁿ⁺¹/(n+1) + C &nbsp;|&nbsp; ∫sin x dx = −cos x + C</div>
+                  <div style="font-size:.74rem;color:#64748b">C = konstanta integrasi. Integral tentu: ∫ₐᵇ f(x)dx = F(b) − F(a).</div>
+                </div>
+                <!-- Statistik -->
+                <div class="rumus-card" data-kat="statistik" style="background:#fdf2f8;border:1.5px solid #f9a8d4;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#be185d;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">STATISTIK</span><span style="font-weight:700;font-size:.84rem">Ukuran Pemusatan</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.88rem;font-weight:800;color:#9d174d;background:#fce7f3;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">x̄ = Σxᵢ/n &nbsp;|&nbsp; Me = nilai tengah data</div>
+                  <div style="font-size:.74rem;color:#64748b">Rata-rata (mean), median (Me), modus (Mo). Ukuran pemusatan data.</div>
+                </div>
+                <div class="rumus-card" data-kat="statistik" style="background:#fdf2f8;border:1.5px solid #f9a8d4;border-radius:12px;padding:.85rem">
+                  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem"><span style="background:#be185d;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:6px">STATISTIK</span><span style="font-weight:700;font-size:.84rem">Standar Deviasi & Varians</span></div>
+                  <div style="font-family:'Courier New',monospace;font-size:.85rem;font-weight:800;color:#9d174d;background:#fce7f3;padding:.5rem .75rem;border-radius:8px;text-align:center;margin-bottom:.4rem">σ² = Σ(xᵢ−x̄)²/n &nbsp;|&nbsp; σ = √σ²</div>
+                  <div style="font-size:.74rem;color:#64748b">Varians (σ²) mengukur sebaran data. Standar deviasi (σ) = akar varians.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AUDIO METHOD -->
+          <div id="m-audio" style="display:none">
+            <!-- Quick Nav Audio -->
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.85rem">
+              <button onclick="document.getElementById('audio-sec-musik').scrollIntoView({behavior:'smooth',block:'start'})" style="display:flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border-radius:99px;border:1.5px solid #6366f1;background:#eef2ff;color:#4f46e5;font-size:.76rem;font-weight:700;cursor:pointer">🎵 Musik</button>
+              <button onclick="document.getElementById('audio-sec-vocab').scrollIntoView({behavior:'smooth',block:'start'})" style="display:flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border-radius:99px;border:1.5px solid #3b82f6;background:#eff6ff;color:#1d4ed8;font-size:.76rem;font-weight:700;cursor:pointer">🇬🇧 Vocab</button>
+              <button onclick="document.getElementById('audio-sec-sains').scrollIntoView({behavior:'smooth',block:'start'})" style="display:flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border-radius:99px;border:1.5px solid #22c55e;background:#f0fdf4;color:#15803d;font-size:.76rem;font-weight:700;cursor:pointer">🔬 Istilah Sains</button>
+            </div>
+            <div id="audio-sec-musik" style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+              <div style="font-weight:800;margin-bottom:.25rem;font-size:.92rem">🎵 Belajar Bersama Musik/Instrumen</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.9rem">Belajar lebih mudah dengan iringan musik & instrumen yang menenangkan</div>
+              <!-- Musik List (3 lagu custom synthesized) -->
+              <div style="display:flex;flex-direction:column;gap:.6rem" id="musik-list">
+                <div class="card musik-item" data-track="0" style="padding:.9rem;display:flex;align-items:center;gap:.9rem;cursor:pointer" onclick="playMusik(this,'Focus Zone')">
+                  <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#4f46e5,#818cf8);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🎹</div>
+                  <div style="flex:1">
+                    <div style="font-weight:700;font-size:.88rem">Focus Zone</div>
+                    <div style="font-size:.74rem;color:#64748b">Ambient Chillout · Santai & Fokus</div>
+                  </div>
+                  <button class="bo" style="font-size:.8rem;padding:.3rem .7rem" id="mus-btn-0">▶ Putar</button>
+                </div>
+                <div class="card musik-item" data-track="1" style="padding:.9rem;display:flex;align-items:center;gap:.9rem;cursor:pointer" onclick="playMusik(this,'Battle Ready')">
+                  <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#dc2626,#f97316);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">⚔️</div>
+                  <div style="flex:1">
+                    <div style="font-weight:700;font-size:.88rem">Battle Ready</div>
+                    <div style="font-size:.74rem;color:#64748b">Epic Arena · Semangat Belajar</div>
+                  </div>
+                  <button class="bo" style="font-size:.8rem;padding:.3rem .7rem" id="mus-btn-1">▶ Putar</button>
+                </div>
+                <div class="card musik-item" data-track="2" style="padding:.9rem;display:flex;align-items:center;gap:.9rem;cursor:pointer" onclick="playMusik(this,'Deep Study')">
+                  <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0e7490,#22d3ee);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🌊</div>
+                  <div style="flex:1">
+                    <div style="font-weight:700;font-size:.88rem">Deep Study</div>
+                    <div style="font-size:.74rem;color:#64748b">Lo-Fi Dreamy · Konsentrasi Penuh</div>
+                  </div>
+                  <button class="bo" style="font-size:.8rem;padding:.3rem .7rem" id="mus-btn-2">▶ Putar</button>
+                </div>
+              </div>
+              <!-- Now Playing Bar -->
+              <div id="musik-embed-wrap" style="display:none;margin-top:.85rem;border-radius:14px;overflow:hidden;border:1.5px solid var(--ac-m)">
+                <div style="background:linear-gradient(135deg,var(--ac-l),#ede9fe);padding:.7rem .85rem;display:flex;align-items:center;justify-content:space-between">
+                  <div style="display:flex;align-items:center;gap:.6rem">
+                    <div id="mus-visualizer" style="display:flex;align-items:flex-end;gap:2px;height:22px">
+                      <div class="mus-bar" style="width:4px;background:#6366f1;border-radius:2px;animation:musBar 0.6s ease-in-out infinite alternate;height:8px"></div>
+                      <div class="mus-bar" style="width:4px;background:#6366f1;border-radius:2px;animation:musBar 0.4s ease-in-out infinite alternate;height:14px"></div>
+                      <div class="mus-bar" style="width:4px;background:#6366f1;border-radius:2px;animation:musBar 0.8s ease-in-out infinite alternate;height:6px"></div>
+                      <div class="mus-bar" style="width:4px;background:#6366f1;border-radius:2px;animation:musBar 0.5s ease-in-out infinite alternate;height:18px"></div>
+                      <div class="mus-bar" style="width:4px;background:#6366f1;border-radius:2px;animation:musBar 0.7s ease-in-out infinite alternate;height:10px"></div>
+                    </div>
+                    <div style="font-weight:700;font-size:.84rem" id="mus-now-title">—</div>
+                  </div>
+                  <button class="bg" onclick="stopMusik()" style="font-size:.75rem;padding:.25rem .6rem">⏹ Stop</button>
+                </div>
+                <div style="padding:.5rem .85rem .75rem;background:#f8fafc;font-size:.74rem;color:#64748b;text-align:center">🎵 Musik sedang diputar via Web Audio · Tidak butuh internet</div>
+              </div>
+              <style>
+                @keyframes musBar { from { transform: scaleY(0.3); } to { transform: scaleY(1); } }
+              </style>
+            </div>
+
+            <!-- ENGLISH VOCAB (dipindah ke Audio) -->
+            <div id="audio-sec-vocab" style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+              <div style="font-weight:800;margin-bottom:.4rem;font-size:.92rem">🇬🇧 English Vocabulary</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.75rem">Klik kata untuk mendengar pengucapan · Tap to hear pronunciation</div>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem" id="vocab-cat-btns">
+                <button class="chip sel" onclick="filterAudioVocab('all',this)">📚 Semua</button>
+                <button class="chip" onclick="filterAudioVocab('noun',this)" style="border-color:#3b82f6">🔵 Noun</button>
+                <button class="chip" onclick="filterAudioVocab('verb',this)" style="border-color:#10b981">🟢 Verb</button>
+                <button class="chip" onclick="filterAudioVocab('adjective',this)" style="border-color:#f59e0b">🟡 Adjective</button>
+                <button class="chip" onclick="filterAudioVocab('academic',this)" style="border-color:#8b5cf6">🟣 Academic</button>
+                <button class="chip" onclick="filterAudioVocab('science',this)" style="border-color:#06b6d4">🔬 Science</button>
+                <button class="chip" onclick="filterAudioVocab('daily',this)" style="border-color:#f97316">🧡 Daily</button>
+              </div>
+              <input type="text" placeholder="🔍 Cari kata bahasa Inggris..." id="audio-vocab-search" oninput="renderAudioVocab()" style="width:100%;box-sizing:border-box;padding:.5rem .8rem;border:1.5px solid #e2e8f0;border-radius:10px;font-size:.83rem;margin-bottom:.75rem;outline:none"/>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.5rem;font-weight:600" id="audio-vocab-count">Menampilkan semua kata...</div>
+              <div id="audio-vocab-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.65rem"></div>
+            </div>
+
+            <!-- ISTILAH SAINS (dipindah ke Audio) -->
+            <div id="audio-sec-sains" style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem">
+              <div style="font-weight:800;margin-bottom:.4rem;font-size:.92rem">🔬 Istilah Sains</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.75rem">Klik istilah untuk mendengar pengucapan nama latinnya</div>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem" id="sains-cat-btns">
+                <button class="chip sel" onclick="filterAudioSains('all',this)">🌐 Semua</button>
+                <button class="chip" onclick="filterAudioSains('biologi',this)" style="border-color:#22c55e">🌿 Biologi</button>
+                <button class="chip" onclick="filterAudioSains('kimia',this)" style="border-color:#f59e0b">⚗️ Kimia</button>
+                <button class="chip" onclick="filterAudioSains('fisika',this)" style="border-color:#3b82f6">⚡ Fisika</button>
+                <button class="chip" onclick="filterAudioSains('bumi',this)" style="border-color:#14b8a6">🌍 Bumi</button>
+              </div>
+              <input type="text" placeholder="🔍 Cari istilah sains..." id="audio-sains-search" oninput="renderAudioSains()" style="width:100%;box-sizing:border-box;padding:.5rem .8rem;border:1.5px solid #e2e8f0;border-radius:10px;font-size:.83rem;margin-bottom:.75rem;outline:none"/>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.5rem;font-weight:600" id="audio-sains-count">Menampilkan semua istilah...</div>
+              <div id="audio-sains-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.65rem"></div>
+            </div>
+          </div>
+          <!-- PRAKTEK METHOD (PhET) -->
+          <div id="m-praktek" style="display:none">
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+              <div style="font-weight:800;margin-bottom:.25rem;font-size:.92rem">🔬 Lab Simulasi PhET & Interaktif</div>
+              <div style="font-size:.78rem;color:#64748b;margin-bottom:.85rem">Simulasi sains interaktif — klik untuk langsung eksplorasi!</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.75rem" id="lab-grid">
+                <div class="room-card" onclick="openLab('phet-projectile','Gerak Proyektil','Fisika')"><div style="font-size:1.8rem;margin-bottom:.5rem">🚀</div><div style="font-weight:800;font-size:.88rem">Gerak Proyektil</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Fisika · PhET</div><span class="badge" style="background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe">Fisika</span></div>
+                <div class="room-card" onclick="openLab('phet-atom','Build an Atom','Kimia')"><div style="font-size:1.8rem;margin-bottom:.5rem">⚛️</div><div style="font-weight:800;font-size:.88rem">Build an Atom</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Kimia · PhET</div><span class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0">Kimia</span></div>
+                <div class="room-card" onclick="openLab('phet-ohm','Hukum Ohm','Fisika')"><div style="font-size:1.8rem;margin-bottom:.5rem">⚡</div><div style="font-weight:800;font-size:.88rem">Hukum Ohm</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Fisika · PhET</div><span class="badge" style="background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe">Fisika</span></div>
+                <div class="room-card" onclick="openLab('phet-wave','Gelombang','Fisika')"><div style="font-size:1.8rem;margin-bottom:.5rem">〰️</div><div style="font-weight:800;font-size:.88rem">Gelombang</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Fisika · PhET</div><span class="badge" style="background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe">Fisika</span></div>
+                <div class="room-card" onclick="openLab('phet-balance','Keseimbangan Kimia','Kimia')"><div style="font-size:1.8rem;margin-bottom:.5rem">⚖️</div><div style="font-weight:800;font-size:.88rem">Keseimbangan Kimia</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Kimia · PhET</div><span class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0">Kimia</span></div>
+                <div class="room-card" onclick="openLab('phet-ph','Skala pH','Kimia')"><div style="font-size:1.8rem;margin-bottom:.5rem">🧪</div><div style="font-weight:800;font-size:.88rem">Skala pH</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Kimia · PhET</div><span class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0">Kimia</span></div>
+                <div class="room-card" onclick="openLab('phet-natural','Seleksi Alam','Biologi')"><div style="font-size:1.8rem;margin-bottom:.5rem">🌿</div><div style="font-weight:800;font-size:.88rem">Seleksi Alam</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Biologi · PhET</div><span class="badge" style="background:#f0fdf4;color:#14532d;border:1px solid #86efac">Biologi</span></div>
+                <div class="room-card" onclick="openLab('phet-energy','Energy Skate Park','Fisika')"><div style="font-size:1.8rem;margin-bottom:.5rem">🛹</div><div style="font-weight:800;font-size:.88rem">Energy Skate Park</div><div style="font-size:.74rem;color:#64748b;margin:.2rem 0 .6rem">Fisika · PhET</div><span class="badge" style="background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe">Fisika</span></div>
+              </div>
+            </div>
+            <!-- Active Lab Iframe -->
+            <div id="lab-active" style="display:none;background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;overflow:hidden">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:1px solid #f1f5f9">
+                <div>
+                  <div style="font-weight:800;font-size:.9rem" id="lab-title">Lab Aktif</div>
+                  <div style="font-size:.74rem;color:#64748b" id="lab-subject">Fisika</div>
+                </div>
+                <button class="bg" style="font-size:.8rem;padding:.3rem .7rem" onclick="closeLab()">✕ Tutup</button>
+              </div>
+              <iframe id="lab-iframe" src="" style="width:100%;height:480px;border:none" allowfullscreen title="Simulasi PhET"></iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- === POMODORO === -->
+        <div class="panel" id="panel-pomo">
+          <div style="font-size:1.2rem;font-weight:800;margin-bottom:.25rem">⏱️ Pomodoro Timer</div>
+          <div style="font-size:.84rem;color:#64748b;margin-bottom:1rem">Pilih preset atau atur sendiri</div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem">
+            <button class="bg sel" onclick="setPreset(25,5,this)">25/5 mnt</button>
+            <button class="bg" onclick="setPreset(10,5,this)">10/5 mnt</button>
+            <button class="bg" onclick="setPreset(30,15,this)">30/15 mnt</button>
+            <button class="bg" onclick="toggleCustomP()">✏️ Custom</button>
+          </div>
+          <!-- Mapel Selector for Pomodoro -->
+          <div style="margin-bottom:.9rem">
+            <div style="font-size:.75rem;font-weight:700;color:#64748b;margin-bottom:.4rem">📚 Mata Pelajaran yang Dipelajari</div>
+            <div style="display:flex;gap:.35rem;flex-wrap:wrap" id="pomo-mapel-tabs">
+              <button class="chip sel" onclick="setPomoMapel('Fisika',this)" style="font-size:.73rem">⚡ Fisika</button>
+              <button class="chip" onclick="setPomoMapel('Matematika',this)" style="font-size:.73rem">🧮 Mat</button>
+              <button class="chip" onclick="setPomoMapel('Kimia',this)" style="font-size:.73rem">🧪 Kimia</button>
+              <button class="chip" onclick="setPomoMapel('Biologi',this)" style="font-size:.73rem">🌿 Bio</button>
+              <button class="chip" onclick="setPomoMapel('Bahasa Inggris',this)" style="font-size:.73rem">🌍 B.Ing</button>
+            </div>
+          </div>
+          <div id="custom-p-box" style="display:none;background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:.9rem;margin-bottom:1rem">
+            <div style="display:flex;gap:.65rem;align-items:flex-end">
+              <div style="flex:1"><label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.3rem">Kerja (mnt)</label><input class="inp" type="number" id="cp-work" value="20" min="1" max="90" style="padding:.42rem .75rem"/></div>
+              <div style="flex:1"><label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.3rem">Istirahat (mnt)</label><input class="inp" type="number" id="cp-break" value="10" min="1" max="30" style="padding:.42rem .75rem"/></div>
+              <button class="bp" onclick="applyCustomP()">OK</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;padding:.5rem 0">
+            <div class="pr-wrap">
+              <svg class="pr-svg" width="190" height="190" viewBox="0 0 190 190">
+                <circle class="pr-c" cx="95" cy="95" r="83"/>
+                <circle class="pr-p" id="pr-ring" cx="95" cy="95" r="83" stroke-dasharray="521" stroke-dashoffset="0"/>
+              </svg>
+              <div class="pr-mid">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:700;color:#0f172a;line-height:1" id="p-disp">25:00</div>
+                <div style="font-size:.76rem;font-weight:600;color:#94a3b8;margin-top:.2rem" id="p-mode">🍅 Fokus</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:.65rem">
+              <button class="bp" id="p-btn" onclick="pToggle()" style="padding:.55rem 1.5rem">▶ Mulai</button>
+              <button class="bg" onclick="pReset()">↺</button>
+              <button class="bg" onclick="pSkip()">⏭</button>
+            </div>
+            <div style="width:100%;max-width:300px"><div class="pt" style="height:5px"><div class="pf" id="p-prog" style="width:100%"></div></div></div>
+            <div style="display:flex;gap:.65rem">
+              <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:.55rem 1rem;text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.2rem;font-weight:700;color:var(--ac)" id="p-sessions">0</div><div style="font-size:.7rem;color:#94a3b8;font-weight:600">Sesi</div></div>
+              <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:.55rem 1rem;text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.2rem;font-weight:700;color:var(--ac)" id="p-xp">0</div><div style="font-size:.7rem;color:#94a3b8;font-weight:600">XP Hari Ini</div></div>
+              <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:12px;padding:.55rem 1rem;text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.2rem;font-weight:700;color:#ea580c" id="p-streak-lbl">0</div><div style="font-size:.7rem;color:#94a3b8;font-weight:600">🔥 Streak</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- === FLASHCARDS === -->
+        <div class="panel" id="panel-flash">
+          <div style="font-size:1.2rem;font-weight:800;margin-bottom:.25rem">🃏 Flashcards</div>
+          <div style="font-size:.84rem;color:#64748b;margin-bottom:1rem">Buat & latih kartu per mata pelajaran</div>
+          <!-- Mapel Tabs Flashcard -->
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem" id="fc-mapel-tabs">
+            <button class="chip sel" onclick="setFcMapel('semua',this)" style="font-size:.75rem">📚 Semua</button>
+            <button class="chip" onclick="setFcMapel('Matematika',this)" style="font-size:.75rem">🧮 Mat</button>
+            <button class="chip" onclick="setFcMapel('Fisika',this)" style="font-size:.75rem">⚡ Fis</button>
+            <button class="chip" onclick="setFcMapel('Kimia',this)" style="font-size:.75rem">🧪 Kim</button>
+            <button class="chip" onclick="setFcMapel('Bahasa Inggris',this)" style="font-size:.75rem">🌍 B.Ing</button>
+            <button class="chip" onclick="setFcMapel('B. Indonesia',this)" style="font-size:.75rem">✍️ B.Indo</button>
+            <button class="chip" onclick="setFcMapel('Biologi',this)" style="font-size:.75rem">🌿 Bio</button>
+            <button class="chip" onclick="setFcMapel('Lainnya',this)" style="font-size:.75rem">📂 Lain</button>
+          </div>
+          <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.1rem;margin-bottom:.85rem">
+            <div style="font-weight:800;font-size:.88rem;margin-bottom:.75rem">➕ Buat Kartu Baru</div>
+            <div style="display:flex;gap:.65rem;margin-bottom:.6rem">
+              <div style="flex:1"><label style="font-size:.75rem;font-weight:700;color:#64748b;display:block;margin-bottom:.25rem">Pertanyaan (Depan)</label><textarea class="inp" id="fc-front" rows="2" placeholder="Tulis pertanyaan..." style="resize:none"></textarea></div>
+              <div style="flex:1"><label style="font-size:.75rem;font-weight:700;color:#64748b;display:block;margin-bottom:.25rem">Jawaban (Belakang)</label><textarea class="inp" id="fc-back" rows="2" placeholder="Tulis jawaban..." style="resize:none"></textarea></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <select class="inp" id="fc-cat" style="width:auto;padding:.38rem 1.5rem .38rem .65rem;font-size:.82rem;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2364748b%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>');background-repeat:no-repeat;background-position:right .5rem center;appearance:none">
+                <option>Matematika</option><option>Fisika</option><option>Kimia</option><option>Bahasa Inggris</option><option>B. Indonesia</option><option>Biologi</option><option>Lainnya</option>
+              </select>
+              <button class="bp" onclick="addCard()" style="margin-left:auto">Tambah</button>
+            </div>
+          </div>
+          <div id="fc-study" style="display:none;margin-bottom:.85rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+              <div style="font-weight:800;font-size:.88rem">📖 Mode Latihan</div>
+              <div style="display:flex;gap:.4rem;align-items:center"><span style="font-size:.8rem;color:#64748b" id="fc-prog-lbl">1/1</span><button class="bg" style="font-size:.78rem;padding:.28rem .6rem" onclick="shuffleFC()">🔀</button></div>
+            </div>
+            <div class="fs" style="height:165px;cursor:pointer" onclick="flipFC()">
+              <div class="fc" id="fc-card">
+                <div class="ff ff-f"><div style="text-align:center"><div style="font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">PERTANYAAN</div><div style="font-weight:700;font-size:1rem;line-height:1.4" id="fc-q">—</div><div style="font-size:.7rem;color:#94a3b8;margin-top:.4rem">👆 Klik</div></div></div>
+                <div class="ff ff-b"><div style="text-align:center"><div style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">JAWABAN</div><div style="font-weight:700;font-size:1rem;color:#fff;line-height:1.4" id="fc-a">—</div></div></div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:.5rem;margin-top:.6rem">
+              <button class="bg" onclick="prevFC()">← Prev</button>
+              <button class="bp" onclick="nextFC()">Next →</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:800;font-size:.88rem;margin-bottom:.6rem">🗂️ Kartu Saya (<span id="fc-count">0</span>)</div>
+            <div id="fc-list"><div style="text-align:center;padding:1.75rem;color:#94a3b8;font-size:.86rem;border:1.5px dashed #e2e8f0;border-radius:12px">Belum ada kartu. Buat di atas!</div></div>
+            <div id="fc-start-wrap" style="display:none;margin-top:.6rem"><button class="bp" onclick="startStudy()" style="width:100%;padding:.6rem">▶ Mulai Latihan</button></div>
+          </div>
+        </div>
+
+        <!-- === BATTLE ARENA === -->
+        <div class="panel" id="panel-arena">
+          <div style="font-size:1.2rem;font-weight:800;margin-bottom:.25rem">⚔️ Battle Arena</div>
+          <div style="font-size:.84rem;color:#64748b;margin-bottom:1.1rem">Pilih mode pertarungan!</div>
+          <!-- Mode Selection -->
+          <div id="arena-mode-sel">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.85rem;max-width:520px;margin-bottom:.75rem">
+              <div class="card" style="padding:1.5rem;text-align:center;cursor:pointer" onclick="showArenaMode('bot')"><div style="font-size:2.5rem;margin-bottom:.6rem">🤖</div><div style="font-weight:800;font-size:1rem;margin-bottom:.25rem">Lawan Bot</div><div style="font-size:.78rem;color:#64748b">Latihan melawan AI, pilih kesulitan</div><button class="bp" style="margin-top:.9rem;width:100%">Pilih Bot</button></div>
+              <div class="card" style="padding:1.5rem;text-align:center;cursor:pointer" onclick="showArenaMode('room')"><div style="font-size:2.5rem;margin-bottom:.6rem">🌐</div><div style="font-weight:800;font-size:1rem;margin-bottom:.25rem">Masuk Room</div><div style="font-size:.78rem;color:#64748b">Tantang pemain lain di room mapel</div><button class="bo" style="margin-top:.9rem;width:100%">Lihat Room</button></div>
+            </div>
+            <!-- Buat Room Bersama Teman -->
+            <div style="background:linear-gradient(135deg,#fdf4ff,#eff6ff);border:1.5px solid #ddd6fe;border-radius:16px;padding:1.1rem;margin-bottom:1.25rem">
+              <div style="font-weight:800;font-size:.92rem;margin-bottom:.2rem">🤝 Buat Room Bersama Teman</div>
+              <div style="font-size:.76rem;color:#64748b;margin-bottom:.85rem">Buat room privat, bagikan kode ke teman, mulai battle bareng!</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.75rem">
+                <button class="bp" onclick="showArenaMode('buat-room')" style="padding:.6rem">➕ Buat Room Baru</button>
+                <button class="bo" onclick="showArenaMode('join-room')" style="padding:.6rem">🔑 Masuk Pakai Kode</button>
+              </div>
+            </div>
+            <!-- Leaderboard -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem">
+              <div style="font-weight:800;font-size:.9rem">🏆 Leaderboard Global</div>
+              <div style="display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:#22c55e;font-weight:700"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse-dot 1.5s infinite"></span>Live</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;overflow:hidden" id="leaderboard-container">
+              <div style="display:flex;align-items:center;gap:.65rem;padding:.6rem 1rem;background:#f8fafc;border-bottom:1px solid #f1f5f9;font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em"><div style="width:22px">#</div><div style="flex:1">Nama</div><div>WR</div><div style="width:55px;text-align:right">XP</div></div>
+              <div id="lb-rows">
+                <div style="text-align:center;padding:1rem;color:#94a3b8;font-size:.8rem">⏳ Memuat leaderboard...</div>
+              </div>
+              <!-- My Row always at bottom -->
+              <div style="display:flex;align-items:center;gap:.65rem;padding:.65rem 1rem;border-top:2px solid var(--ac-m);background:var(--ac-l)"><div style="width:22px;font-size:.95rem">🏅</div><div style="flex:1"><div style="font-weight:700;font-size:.85rem;color:var(--ac)" id="lb-my-name">Kamu</div><div style="font-size:.7rem;color:#94a3b8" id="lb-my-rank">Peringkat -</div></div><div class="badge ba" id="lb-my-wr">-</div><div style="width:55px;text-align:right;font-weight:700;font-size:.85rem;color:var(--ac)" id="lb-my-xp">0</div></div>
+            </div>
+          </div>
+          <!-- BOT MODE -->
+          <div id="arena-bot-sel" style="display:none">
+            <button class="bg" style="margin-bottom:1rem;font-size:.82rem" onclick="showArenaMode('sel')">← Kembali</button>
+            <div style="font-weight:800;font-size:.9rem;margin-bottom:.5rem">🤖 Pilih Tingkat Bot</div>
+            <!-- Status Soal -->
+            <div id="gemini-status-bot" style="display:flex;align-items:center;gap:.5rem;padding:.45rem .75rem;border-radius:10px;background:#f0fdf4;border:1.5px solid #bbf7d0;margin-bottom:.75rem;font-size:.75rem;color:#166534;font-weight:600">
+              <span id="gemini-dot-bot" style="width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0"></span>
+              <span id="gemini-label-bot">📚 Soal tersedia dalam mode offline</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-bottom:1rem">
+              <div class="card" style="padding:1rem;cursor:pointer;text-align:center" onclick="startBotBattle('Mudah','Matematika',0.2)"><div style="font-size:1.6rem">😊</div><div style="font-weight:800;margin:.3rem 0 .15rem">Mudah</div><div style="font-size:.75rem;color:#64748b">Bot sering salah</div><div class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0;margin-top:.5rem">+15 XP/win</div></div>
+              <div class="card" style="padding:1rem;cursor:pointer;text-align:center" onclick="startBotBattle('Sedang','Fisika',0.55)"><div style="font-size:1.6rem">🧐</div><div style="font-weight:800;margin:.3rem 0 .15rem">Sedang</div><div style="font-size:.75rem;color:#64748b">50/50 kemungkinan</div><div class="badge" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d;margin-top:.5rem">+30 XP/win</div></div>
+              <div class="card" style="padding:1rem;cursor:pointer;text-align:center" onclick="startBotBattle('Sulit','Kimia',0.85)"><div style="font-size:1.6rem">😈</div><div style="font-weight:800;margin:.3rem 0 .15rem">Sulit</div><div style="font-size:.75rem;color:#64748b">Bot sangat cerdas</div><div class="badge" style="background:#fce7f3;color:#9d174d;border:1px solid #fbcfe8;margin-top:.5rem">+60 XP/win</div></div>
+            </div>
+          </div>
+          <!-- ROOM MODE -->
+          <div id="arena-room-sel" style="display:none">
+            <button class="bg" style="margin-bottom:1rem;font-size:.82rem" onclick="showArenaMode('sel')">← Kembali</button>
+            <div style="font-weight:800;font-size:.9rem;margin-bottom:.5rem">🌐 Pilih Room Mapel</div>
+            <!-- Status Soal -->
+            <div id="gemini-status-room" style="display:flex;align-items:center;gap:.5rem;padding:.45rem .75rem;border-radius:10px;background:#f0fdf4;border:1.5px solid #bbf7d0;margin-bottom:.75rem;font-size:.75rem;color:#166534;font-weight:600">
+              <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0"></span>
+              <span>📚 Soal tersedia offline · Leaderboard real-time dari pemain asli</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem">
+              <div class="room-card" onclick="joinRoom('Matematika')"><div style="font-size:1.6rem;margin-bottom:.5rem">🧮</div><div style="font-weight:800;font-size:.9rem">Matematika</div><div style="font-size:.75rem;color:#64748b;margin:.2rem 0 .65rem">Aljabar · Kalkulus · Statistika</div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem"><div style="font-size:.74rem;color:#22c55e;font-weight:600"><span class="odot"></span>24 online</div><div class="badge" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d">Hard</div></div><button class="bp" style="width:100%;font-size:.8rem;padding:.42rem">⚔️ Join</button></div>
+              <div class="room-card" onclick="joinRoom('Fisika')"><div style="font-size:1.6rem;margin-bottom:.5rem">⚡</div><div style="font-weight:800;font-size:.9rem">Fisika</div><div style="font-size:.75rem;color:#64748b;margin:.2rem 0 .65rem">Mekanika · Optik · Termodinamika</div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem"><div style="font-size:.74rem;color:#22c55e;font-weight:600"><span class="odot"></span>18 online</div><div class="badge" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d">Medium</div></div><button class="bp" style="width:100%;font-size:.8rem;padding:.42rem">⚔️ Join</button></div>
+              <div class="room-card" onclick="joinRoom('Bahasa Inggris')"><div style="font-size:1.6rem;margin-bottom:.5rem">🌍</div><div style="font-weight:800;font-size:.9rem">Bahasa Inggris</div><div style="font-size:.75rem;color:#64748b;margin:.2rem 0 .65rem">Grammar · Vocab · Reading</div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem"><div style="font-size:.74rem;color:#22c55e;font-weight:600"><span class="odot"></span>31 online</div><div class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0">Easy</div></div><button class="bp" style="width:100%;font-size:.8rem;padding:.42rem">⚔️ Join</button></div>
+              <div class="room-card" onclick="joinRoom('B. Indonesia')"><div style="font-size:1.6rem;margin-bottom:.5rem">✍️</div><div style="font-weight:800;font-size:.9rem">B. Indonesia</div><div style="font-size:.75rem;color:#64748b;margin:.2rem 0 .65rem">Sastra · EYD · Majas</div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem"><div style="font-size:.74rem;color:#22c55e;font-weight:600"><span class="odot"></span>9 online</div><div class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0">Easy</div></div><button class="bp" style="width:100%;font-size:.8rem;padding:.42rem">⚔️ Join</button></div>
+              <div class="room-card" onclick="joinRoom('Kimia')"><div style="font-size:1.6rem;margin-bottom:.5rem">🧪</div><div style="font-weight:800;font-size:.9rem">Kimia</div><div style="font-size:.75rem;color:#64748b;margin:.2rem 0 .65rem">Periodik · Reaksi · Asam-Basa</div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem"><div style="font-size:.74rem;color:#22c55e;font-weight:600"><span class="odot"></span>14 online</div><div class="badge" style="background:#fef3c7;color:#92400e;border:1px solid #fcd34d">Medium</div></div><button class="bp" style="width:100%;font-size:.8rem;padding:.42rem">⚔️ Join</button></div>
+              <div class="room-card" onclick="joinRoom('Biologi')"><div style="font-size:1.6rem;margin-bottom:.5rem">🌿</div><div style="font-weight:800;font-size:.9rem">Biologi</div><div style="font-size:.75rem;color:#64748b;margin:.2rem 0 .65rem">Sel · Ekosistem · Evolusi</div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem"><div style="font-size:.74rem;color:#22c55e;font-weight:600"><span class="odot"></span>7 online</div><div class="badge" style="background:#dcfce7;color:#166534;border:1px solid #bbf7d0">Easy</div></div><button class="bp" style="width:100%;font-size:.8rem;padding:.42rem">⚔️ Join</button></div>
+            </div>
+          </div>
+          <!-- BUAT ROOM BERSAMA TEMAN -->
+          <div id="arena-buat-room" style="display:none">
+            <button class="bg" style="margin-bottom:1rem;font-size:.82rem" onclick="showArenaMode('sel')">← Kembali</button>
+            <div style="font-weight:800;font-size:.9rem;margin-bottom:.5rem">🤝 Buat Room Privat</div>
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:1.1rem;margin-bottom:.75rem">
+              <div style="font-size:.8rem;color:#64748b;margin-bottom:.85rem">Pilih mapel dan tingkat kesulitan, lalu bagikan kode ke temanmu.</div>
+              <!-- Mapel -->
+              <div style="margin-bottom:.75rem">
+                <div style="font-size:.78rem;font-weight:700;color:#475569;margin-bottom:.35rem">📚 Mapel</div>
+                <div style="display:flex;gap:.4rem;flex-wrap:wrap" id="br-mapel-tabs">
+                  <button class="chip sel" onclick="setBrMapel('Matematika',this)">🧮 Matematika</button>
+                  <button class="chip" onclick="setBrMapel('Fisika',this)">⚡ Fisika</button>
+                  <button class="chip" onclick="setBrMapel('Kimia',this)">🧪 Kimia</button>
+                  <button class="chip" onclick="setBrMapel('Bahasa Inggris',this)">🌍 B. Inggris</button>
+                  <button class="chip" onclick="setBrMapel('Biologi',this)">🌿 Biologi</button>
+                </div>
+              </div>
+              <!-- Kesulitan -->
+              <div style="margin-bottom:.75rem">
+                <div style="font-size:.78rem;font-weight:700;color:#475569;margin-bottom:.35rem">⚔️ Tingkat Kesulitan</div>
+                <div style="display:flex;gap:.4rem" id="br-level-tabs">
+                  <button class="chip sel" onclick="setBrLevel('Mudah',this)">😊 Mudah</button>
+                  <button class="chip" onclick="setBrLevel('Sedang',this)">🧐 Sedang</button>
+                  <button class="chip" onclick="setBrLevel('Sulit',this)">😈 Sulit</button>
+                </div>
+              </div>
+              <!-- Max Players -->
+              <div style="margin-bottom:1rem">
+                <div style="font-size:.78rem;font-weight:700;color:#475569;margin-bottom:.35rem">👥 Maks. Pemain</div>
+                <div style="display:flex;gap:.4rem" id="br-size-tabs">
+                  <button class="chip sel" onclick="setBrSize(2,this)">2 Pemain</button>
+                  <button class="chip" onclick="setBrSize(4,this)">4 Pemain</button>
+                  <button class="chip" onclick="setBrSize(6,this)">6 Pemain</button>
+                </div>
+              </div>
+              <button class="bp" onclick="generatePrivateRoom()" style="width:100%;padding:.65rem">🎲 Generate Kode Room</button>
+            </div>
+            <!-- Generated Code Display -->
+            <div id="br-code-display" style="display:none;background:linear-gradient(135deg,#f0fdf4,#eff6ff);border:2px solid var(--ac-m);border-radius:16px;padding:1.2rem;text-align:center">
+              <div style="font-size:.8rem;color:#64748b;margin-bottom:.4rem">🎯 Kode Room kamu:</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:900;letter-spacing:.3rem;color:var(--ac);margin-bottom:.6rem" id="br-code-text">------</div>
+              <div style="font-size:.74rem;color:#64748b;margin-bottom:.85rem" id="br-code-meta">— · — · Auto-hapus jika kosong</div>
+              <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap">
+                <button class="bo" onclick="copyRoomCode()" style="font-size:.82rem">📋 Salin Kode</button>
+                <button class="bp" onclick="enterPrivateRoom()" style="font-size:.82rem">⚔️ Masuk Room</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- JOIN ROOM DENGAN KODE -->
+          <div id="arena-join-room" style="display:none">
+            <button class="bg" style="margin-bottom:1rem;font-size:.82rem" onclick="showArenaMode('sel')">← Kembali</button>
+            <div style="font-weight:800;font-size:.9rem;margin-bottom:.5rem">🔑 Masuk Room Teman</div>
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:1.1rem">
+              <div style="font-size:.8rem;color:#64748b;margin-bottom:.85rem">Masukkan kode 6 digit yang dibagikan temanmu.</div>
+              <div style="display:flex;gap:.5rem;margin-bottom:.75rem">
+                <input type="text" id="join-room-input" maxlength="6" placeholder="Kode 6 digit..." style="flex:1;padding:.6rem .9rem;border:1.5px solid #e2e8f0;border-radius:10px;font-size:1.1rem;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:.2rem;text-transform:uppercase;outline:none;text-align:center" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"/>
+                <button class="bp" onclick="joinPrivateRoom()" style="padding:.6rem 1.1rem">Masuk</button>
+              </div>
+              <div id="join-room-status" style="font-size:.78rem;color:#64748b;min-height:1.2rem"></div>
+            </div>
+          </div>
+
+          <!-- PRIVATE ROOM LOBBY -->
+          <div id="arena-private-lobby" style="display:none">
+            <button class="bg" style="margin-bottom:1rem;font-size:.82rem" onclick="leavePrivateRoom()">← Keluar Room</button>
+            <div style="background:#fff;border:1.5px solid var(--ac-m);border-radius:16px;padding:1.1rem;margin-bottom:.75rem">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+                <div>
+                  <div style="font-weight:800;font-size:.92rem">🏠 Room Privat</div>
+                  <div style="font-size:.75rem;color:#64748b" id="priv-room-meta">— · —</div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:900;color:var(--ac)" id="priv-room-code">------</div>
+                  <button class="bg" onclick="copyRoomCode()" style="font-size:.68rem;padding:.18rem .5rem;margin-top:.2rem">📋 Salin</button>
+                </div>
+              </div>
+              <!-- Players in Room -->
+              <div style="font-size:.78rem;font-weight:700;color:#475569;margin-bottom:.45rem">👥 Pemain di Room:</div>
+              <div id="priv-players-list" style="display:flex;flex-direction:column;gap:.4rem;margin-bottom:.85rem"></div>
+              <!-- Status -->
+              <div id="priv-room-status" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:.5rem .75rem;font-size:.78rem;color:#166534;font-weight:600;margin-bottom:.85rem;text-align:center">
+                ⏳ Menunggu pemain lain bergabung...
+              </div>
+              <button class="bp" id="priv-start-btn" onclick="startPrivateBattle()" style="width:100%;padding:.65rem;opacity:.5;cursor:not-allowed" disabled>⚔️ Mulai Battle!</button>
+            </div>
+            <div style="font-size:.72rem;color:#94a3b8;text-align:center">💡 Room otomatis dihapus jika semua pemain keluar</div>
+          </div>
+
+          <!-- BATTLE GAME -->
+          <div id="arena-game" style="display:none">
+            <button class="bg" style="margin-bottom:.75rem;font-size:.82rem" onclick="endBattle()">← Keluar Battle</button>
+
+            <!-- Character Stage -->
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:.5rem;margin-bottom:.5rem;background:linear-gradient(180deg,#e0f2fe 0%,#f0fdf4 100%);border-radius:16px;padding:.75rem .75rem 0;border:1.5px solid #bae6fd;position:relative;overflow:hidden">
+              <!-- Ground line -->
+              <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#86efac)"></div>
+              <!-- Player Character -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:.2rem">
+                <div style="font-size:.68rem;font-weight:800;color:var(--ac);background:var(--ac-l);border:1px solid var(--ac-m);border-radius:99px;padding:.12rem .5rem" id="bt-p-label">Kamu</div>
+                <svg id="bt-player-svg" viewBox="0 0 120 176" style="width:70px;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));transform-origin:bottom center" xmlns="http://www.w3.org/2000/svg"></svg>
+              </div>
+              <!-- VS Center -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:.3rem;padding-bottom:.5rem">
+                <div style="font-family:'JetBrains Mono';font-size:1.3rem;font-weight:900;color:var(--ac);background:var(--ac-l);padding:.15rem .55rem;border-radius:8px;border:2px solid var(--ac-m)">VS</div>
+                <div style="font-family:'JetBrains Mono';font-size:1.6rem;font-weight:700;color:var(--ac)" id="bt-timer">15</div>
+              </div>
+              <!-- Enemy Character -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:.2rem">
+                <div style="font-size:.68rem;font-weight:800;color:#ef4444;background:#fef2f2;border:1px solid #fca5a5;border-radius:99px;padding:.12rem .5rem" id="bt-e-label">🤖 Bot</div>
+                <svg id="bt-enemy-svg" viewBox="0 0 120 176" style="width:70px;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));transform:scaleX(-1);transform-origin:bottom center" xmlns="http://www.w3.org/2000/svg"></svg>
+              </div>
+            </div>
+
+            <!-- HP Bars -->
+            <div style="display:flex;gap:.75rem;align-items:center;margin-bottom:.65rem;margin-top:.5rem">
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:#64748b;margin-bottom:.25rem"><span id="bt-p-name">Kamu</span><span id="bt-p-hp">100 HP</span></div>
+                <div class="hp-bar"><div class="hp-fill" id="bt-p-bar" style="width:100%;background:linear-gradient(90deg,#22c55e,#86efac)"></div></div>
+              </div>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:#64748b;margin-bottom:.25rem"><span id="bt-e-name">🤖 Bot</span><span id="bt-e-hp">100 HP</span></div>
+                <div class="hp-bar"><div class="hp-fill" id="bt-e-bar" style="width:100%;background:linear-gradient(90deg,#ef4444,#fca5a5)"></div></div>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:2px solid var(--ac-m);border-radius:16px;padding:1.1rem;margin-bottom:.75rem">
+              <div style="font-weight:800;font-size:.95rem;text-align:center;margin-bottom:.85rem" id="bt-q">Loading...</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem" id="bt-opts"></div>
+            </div>
+            <div style="background:#f8fafc;border-left:3px solid var(--ac);border-radius:0 10px 10px 0;padding:.65rem 1rem;font-size:.82rem;color:#64748b" id="bt-log">⚡ Battle dimulai!</div>
+          </div>
+        </div>
+
+        <!-- === MATERI === -->
+        <div class="panel" id="panel-materi">
+          <div style="font-size:1.2rem;font-weight:800;margin-bottom:.25rem">📚 Materi Belajar</div>
+          <div style="font-size:.84rem;color:#64748b;margin-bottom:1rem">Filter kelas → mapel → bab</div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.1rem" id="kelas-btns">
+            <button class="bg sel" onclick="setKelas('10',this)">Kelas 10</button>
+            <button class="bg" onclick="setKelas('11',this)" style="position:relative">Kelas 11 <span style="background:var(--ac);color:#fff;font-size:.6rem;font-weight:800;padding:.1rem .35rem;border-radius:99px;vertical-align:middle;margin-left:.2rem">NEW!</span></button>
+            <button class="bg" onclick="setKelas('12',this)">Kelas 12</button>
+          </div>
+          <div id="materi-content" style="display:flex;flex-direction:column;gap:.65rem"></div>
+        </div>
+
+        <!-- === AGENDA KALENDER === -->
+        <div class="panel" id="panel-agenda">
+          <div style="font-size:1.2rem;font-weight:800;margin-bottom:.25rem">📅 Kalender Agenda</div>
+          <div style="font-size:.84rem;color:#64748b;margin-bottom:1rem">Tandai hari-harimu dengan agenda belajar</div>
+          <!-- Agenda panel: 2-col on desktop, stacked on mobile -->
+          <div class="agenda-panel-grid">
+            <!-- Left: compact calendar -->
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:.85rem">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem">
+                <button onclick="agCal(-1)" style="background:#f1f5f9;border:none;border-radius:7px;width:28px;height:28px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;padding:0">‹</button>
+                <div style="font-weight:800;font-size:.85rem" id="ag-month-lbl">Mei 2026</div>
+                <button onclick="agCal(1)" style="background:#f1f5f9;border:none;border-radius:7px;width:28px;height:28px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;padding:0">›</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:.3rem">
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Min</div>
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Sen</div>
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Sel</div>
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Rab</div>
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Kam</div>
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Jum</div>
+                <div style="font-size:.62rem;font-weight:700;color:#94a3b8">Sab</div>
+              </div>
+              <div id="ag-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px"></div>
+            </div>
+            <!-- Right: event list -->
+            <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:.85rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+              <div style="font-weight:800;font-size:.9rem" id="ag-day-title">Pilih tanggal</div>
+              <button id="ag-add-btn" onclick="openAgendaForm()" style="background:var(--ac);color:#fff;border:none;border-radius:8px;padding:.28rem .7rem;font-size:.78rem;font-weight:700;cursor:pointer;display:none">+ Tambah</button>
+            </div>
+            <div id="ag-event-list">
+              <div style="text-align:center;padding:.75rem;color:#94a3b8;font-size:.82rem">Pilih tanggal di kalender</div>
+            </div>
+            </div><!-- /right event list -->
+          </div><!-- /agenda-panel-grid -->
+        </div>
+
+      </div><!-- /panels -->
+    </div><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /sc-main -->
+
+<!-- ============================================================ -->
+<!-- MODALS -->
+<!-- ============================================================ -->
+
+<!-- Settings Modal -->
+<div class="modal-bg" id="settings-modal" onclick="if(event.target===this)closeModal('settings-modal')">
+  <div class="modal-box si">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+      <div style="font-weight:800;font-size:1.05rem">⚙️ Pengaturan Tema</div>
+      <button onclick="closeModal('settings-modal')" style="background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer">✕</button>
+    </div>
+    <div style="margin-bottom:1.1rem">
+      <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem">Warna Preset</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <div class="csw sel" style="background:#3b82f6" data-ac="#3b82f6" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#10b981" data-ac="#10b981" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#ef4444" data-ac="#ef4444" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#a855f7" data-ac="#a855f7" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#f97316" data-ac="#f97316" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#ec4899" data-ac="#ec4899" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#06b6d4" data-ac="#06b6d4" onclick="setAc(this)"></div>
+        <div class="csw" style="background:#eab308" data-ac="#eab308" onclick="setAc(this)"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:1.1rem">
+      <div style="font-size:.75rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.55rem">Custom Color</div>
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <input type="color" id="color-pick" value="#3b82f6" style="width:42px;height:42px;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;padding:2px;background:none"/>
+        <div style="flex:1"><div style="font-size:.83rem;font-weight:600" id="color-hex">#3b82f6</div><div style="font-size:.72rem;color:#94a3b8">Custom warna kustom</div></div>
+        <button class="bp" onclick="applyCustomAc()">Terapkan</button>
+      </div>
+    </div>
+    <div style="background:#f8fafc;border-radius:12px;padding:.9rem;border:1.5px solid #e2e8f0">
+      <div style="font-size:.75rem;font-weight:700;color:#64748b;margin-bottom:.5rem">Preview</div>
+      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+        <button class="bp" style="font-size:.78rem;padding:.32rem .8rem">Tombol</button>
+        <button class="bo" style="font-size:.78rem;padding:.28rem .75rem">Outline</button>
+        <div class="badge ba">Badge</div>
+        <div style="width:70px;height:7px;border-radius:99px;background:var(--ac)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Character Edit Modal -->
+<div class="modal-bg" id="char-edit-modal" onclick="if(event.target===this)closeModal('char-edit-modal')">
+  <div class="modal-box si">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div style="font-weight:800;font-size:1.05rem">✨ Edit Karakter</div>
+      <button onclick="closeModal('char-edit-modal')" style="background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer">✕</button>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:flex-start">
+      <div class="av-frame" style="width:100px;height:135px;flex-shrink:0">
+        <svg id="char-modal-svg" width="85" height="120" viewBox="0 0 120 170"></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:.75rem">
+        <div><div style="font-size:.73rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Gender</div><div class="oc"><button class="ob sel" onclick="setCh2('gender','male',this)">♂ Laki-laki</button><button class="ob" onclick="setCh2('gender','female',this)">♀ Perempuan</button></div></div>
+        <div><div style="font-size:.73rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Kulit</div><div class="oc" style="gap:.4rem"><div class="sk sel" style="background:#FDDBB4" onclick="setCh2('skin','#FDDBB4',this)"></div><div class="sk" style="background:#F5B895" onclick="setCh2('skin','#F5B895',this)"></div><div class="sk" style="background:#C68642" onclick="setCh2('skin','#C68642',this)"></div><div class="sk" style="background:#8D5524" onclick="setCh2('skin','#8D5524',this)"></div><div class="sk" style="background:#4A2912" onclick="setCh2('skin','#4A2912',this)"></div></div></div>
+        <div><div style="font-size:.73rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Rambut</div><div class="oc"><button class="ob sel" onclick="setCh2('hair','short',this)">💇 Pendek</button><button class="ob" onclick="setCh2('hair','long',this)">👱 Panjang</button><button class="ob" onclick="setCh2('hair','curly',this)">🌀 Keriting</button></div></div>
+        <div><div style="font-size:.73rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Outfit</div><div class="oc"><button class="ob sel" onclick="setCh2('outfit','school',this)">🏫 Seragam</button><button class="ob" onclick="setCh2('outfit','casual',this)">👕 Kasual</button><button class="ob" onclick="setCh2('outfit','hoodie',this)">🧥 Hoodie</button></div></div>
+        <div><div style="font-size:.73rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem">Aksesori</div><div class="oc"><button class="ob sel" onclick="setCh2('acc','none',this)">— Tidak Ada</button><button class="ob" onclick="setCh2('acc','glasses',this)">👓 Kacamata</button><button class="ob" onclick="setCh2('acc','cap',this)">🧢 Topi</button></div></div>
+      </div>
+    </div>
+    <button class="bp" style="width:100%;margin-top:1rem;padding:.55rem" onclick="saveCharEdit()">💾 Simpan Karakter</button>
+  </div>
+</div>
+
+<!-- Video Modal -->
+<div class="modal-bg" id="video-modal" onclick="if(event.target===this){closeModal('video-modal');stopVideo()}">
+  <div class="modal-box si" style="max-width:620px;padding:1.1rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+      <div style="font-weight:800;font-size:.95rem" id="vid-title">Video Materi</div>
+      <button onclick="closeModal('video-modal');stopVideo()" style="background:#f1f5f9;border:none;border-radius:8px;width:30px;height:30px;cursor:pointer">✕</button>
+    </div>
+    <div style="aspect-ratio:16/9;background:#0f172a;border-radius:12px;overflow:hidden;margin-bottom:.75rem">
+      <iframe id="vid-iframe" src="" style="width:100%;height:100%;border:none" allowfullscreen title="Video Materi"></iframe>
+    </div>
+    <div style="font-size:.8rem;color:#64748b" id="vid-desc">Deskripsi video</div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<!-- EduFun Firebase -->
+<script src="../assets/js/firebase-config.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/firebase-sync.js"></script>
+
+<!-- ============================================================ -->
+<!-- STREAK LOGIN MODAL -->
+<!-- ============================================================ -->
+<div class="modal-bg" id="streak-modal" onclick="if(event.target===this)closeModal('streak-modal')">
+  <div class="modal-box si" style="max-width:380px;text-align:center">
+    <div style="font-size:2.8rem;margin-bottom:.4rem" id="streak-modal-emoji">🔥</div>
+    <div style="font-size:1.3rem;font-weight:800;margin-bottom:.25rem" id="streak-modal-title">Streak Hari Ini!</div>
+    <div style="font-size:.88rem;color:#64748b;margin-bottom:1.25rem" id="streak-modal-sub">Kamu login hari ini</div>
+
+    <!-- Kalender Minggu -->
+    <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:1rem;margin-bottom:1.1rem">
+      <div style="font-size:.72rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem">Minggu Ini</div>
+      <div style="display:flex;justify-content:space-between;gap:.3rem" id="streak-week-days"></div>
+    </div>
+
+    <!-- XP earned -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:.6rem;background:linear-gradient(135deg,var(--ac-l),#f0fdf4);border:1.5px solid var(--ac-m);border-radius:12px;padding:.75rem 1rem;margin-bottom:1.1rem">
+      <div style="font-size:1.6rem">⚡</div>
+      <div>
+        <div style="font-weight:800;font-size:1rem;color:var(--ac)" id="streak-xp-label">+25 XP</div>
+        <div style="font-size:.75rem;color:#64748b">Bonus login hari ini</div>
+      </div>
+    </div>
+
+    <button class="bp" style="width:100%;padding:.6rem;font-size:.92rem" onclick="closeModal('streak-modal')">Ayo Belajar! 🚀</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: Tambah/Edit Agenda -->
+<!-- ============================================================ -->
+<div class="modal-bg" id="agenda-modal" onclick="if(event.target===this)closeModal('agenda-modal')">
+  <div class="modal-box" style="max-width:420px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+      <div style="font-weight:800;font-size:1rem" id="agenda-modal-title">📋 Tambah Agenda</div>
+      <button onclick="closeModal('agenda-modal')" style="background:#f1f5f9;border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:1.1rem">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.85rem">
+      <div>
+        <label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.3rem">Nama Agenda</label>
+        <input class="inp" id="ag-input-name" placeholder="contoh: Belajar Matematika, Ujian Fisika..." style="width:100%"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.3rem">Waktu Mulai</label>
+          <input class="inp" type="time" id="ag-input-time-start" value="08:00"/>
+        </div>
+        <div>
+          <label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.3rem">Waktu Selesai</label>
+          <input class="inp" type="time" id="ag-input-time-end" value="09:00"/>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.4rem">Warna Penanda</label>
+        <div style="display:flex;gap:.65rem">
+          <button class="ag-color-btn sel" data-color="green" onclick="selectAgColor('green',this)" style="flex:1;padding:.45rem;border-radius:10px;border:2px solid #22c55e;background:#dcfce7;color:#166534;font-size:.78rem;font-weight:700;cursor:pointer">🟢 Rendah</button>
+          <button class="ag-color-btn" data-color="yellow" onclick="selectAgColor('yellow',this)" style="flex:1;padding:.45rem;border-radius:10px;border:2px solid #e2e8f0;background:#fff;color:#64748b;font-size:.78rem;font-weight:700;cursor:pointer">🟡 Sedang</button>
+          <button class="ag-color-btn" data-color="red" onclick="selectAgColor('red',this)" style="flex:1;padding:.45rem;border-radius:10px;border:2px solid #e2e8f0;background:#fff;color:#64748b;font-size:.78rem;font-weight:700;cursor:pointer">🔴 Penting</button>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:.76rem;font-weight:700;color:#64748b;display:block;margin-bottom:.3rem">Catatan (opsional)</label>
+        <textarea class="inp" id="ag-input-note" rows="2" placeholder="Tambah catatan..." style="resize:none;width:100%"></textarea>
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;padding:.65rem;background:#f8fafc;border-radius:10px">
+        <input type="checkbox" id="ag-input-notif" style="width:16px;height:16px;cursor:pointer" checked/>
+        <label for="ag-input-notif" style="font-size:.82rem;font-weight:600;color:#374151;cursor:pointer">🔔 Ingatkan 15 menit sebelum + suara saat mulai/selesai</label>
+      </div>
+      <!-- Penanda waktu -->
+      <div style="padding:.55rem .65rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;font-size:.76rem;color:#1e40af">
+        <div style="font-weight:700;margin-bottom:.2rem">⏰ Penanda Waktu Otomatis</div>
+        <div style="color:#3b82f6">Sistem akan membunyikan notifikasi saat agenda <b>dimulai</b> dan <b>berakhir</b></div>
+      </div>
+      <div style="display:flex;gap:.5rem">
+        <button id="ag-delete-btn" onclick="deleteAgenda()" style="display:none;background:#fee2e2;color:#dc2626;border:none;border-radius:10px;padding:.5rem 1rem;font-weight:700;font-size:.85rem;cursor:pointer">🗑 Hapus</button>
+        <button onclick="saveAgenda()" style="flex:1;background:var(--ac);color:#fff;border:none;border-radius:10px;padding:.6rem;font-weight:800;font-size:.88rem;cursor:pointer">Simpan Agenda</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FLOATING MUSIC PLAYER POPUP ═══ -->
+<div id="mus-popup" style="
+  display:none;position:fixed;bottom:88px;right:16px;z-index:9999;
+  width:260px;background:linear-gradient(135deg,#1e1b4b,#312e81);
+  border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.45);
+  color:#fff;user-select:none;touch-action:none;
+">
+  <!-- Drag Handle -->
+  <div id="mus-popup-drag" style="
+    padding:.7rem 1rem .4rem;display:flex;align-items:center;justify-content:space-between;cursor:grab;
+    border-bottom:1px solid rgba(255,255,255,.1);
+  ">
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <div style="display:flex;align-items:flex-end;gap:2px;height:18px" id="mus-popup-bars">
+        <div style="width:3px;background:#818cf8;border-radius:2px;animation:musBar .6s ease-in-out infinite alternate;height:6px"></div>
+        <div style="width:3px;background:#818cf8;border-radius:2px;animation:musBar .4s ease-in-out infinite alternate;height:12px"></div>
+        <div style="width:3px;background:#818cf8;border-radius:2px;animation:musBar .8s ease-in-out infinite alternate;height:5px"></div>
+        <div style="width:3px;background:#818cf8;border-radius:2px;animation:musBar .5s ease-in-out infinite alternate;height:16px"></div>
+        <div style="width:3px;background:#818cf8;border-radius:2px;animation:musBar .7s ease-in-out infinite alternate;height:9px"></div>
+      </div>
+      <span style="font-size:.72rem;font-weight:700;opacity:.7;letter-spacing:.04em">NOW PLAYING</span>
+    </div>
+    <button onclick="musPopupClose()" style="background:rgba(255,255,255,.12);border:none;color:#fff;border-radius:99px;width:22px;height:22px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+  </div>
+  <!-- Track Info -->
+  <div style="padding:.75rem 1rem .5rem;display:flex;align-items:center;gap:.75rem">
+    <div id="mus-popup-icon" style="width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#4f46e5,#818cf8);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">🎵</div>
+    <div style="flex:1;min-width:0">
+      <div id="mus-popup-title" style="font-weight:800;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</div>
+      <div id="mus-popup-sub" style="font-size:.7rem;opacity:.65;margin-top:.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</div>
+    </div>
+  </div>
+  <!-- Controls -->
+  <div style="padding:.3rem 1rem .85rem;display:flex;align-items:center;justify-content:center;gap:.85rem">
+    <button id="mus-popup-prev" onclick="musPopupPrev()" style="background:rgba(255,255,255,.12);border:none;color:#fff;border-radius:99px;width:36px;height:36px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center">⏮</button>
+    <button id="mus-popup-play" onclick="musPopupToggle()" style="background:#6366f1;border:none;color:#fff;border-radius:99px;width:46px;height:46px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(99,102,241,.5)">⏸</button>
+    <button id="mus-popup-next" onclick="musPopupNext()" style="background:rgba(255,255,255,.12);border:none;color:#fff;border-radius:99px;width:36px;height:36px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center">⏭</button>
+  </div>
+</div>
+
+<script>
+// ─── Floating Music Player Popup Logic ───
+const musPopupData = [
+  { title:'Focus Zone',    sub:'Ambient Chillout · Santai & Fokus',    icon:'🎹', bg:'linear-gradient(135deg,#4f46e5,#818cf8)' },
+  { title:'Battle Ready',  sub:'Epic Arena · Semangat Belajar',         icon:'⚔️',  bg:'linear-gradient(135deg,#dc2626,#f97316)' },
+  { title:'Deep Study',    sub:'Lo-Fi Dreamy · Konsentrasi Penuh',      icon:'🌊', bg:'linear-gradient(135deg,#0e7490,#22d3ee)' },
+];
+
+function musPopupShow(trackIdx) {
+  const p = musPopupData[trackIdx];
+  document.getElementById('mus-popup-title').textContent = p.title;
+  document.getElementById('mus-popup-sub').textContent = p.sub;
+  document.getElementById('mus-popup-icon').textContent = p.icon;
+  document.getElementById('mus-popup-icon').style.background = p.bg;
+  document.getElementById('mus-popup-play').textContent = '⏸';
+  document.getElementById('mus-popup').style.display = '';
+}
+
+function musPopupClose() {
+  stopMusik();
+  document.getElementById('mus-popup').style.display = 'none';
+}
+
+function musPopupToggle() {
+  if (musPlaying >= 0) {
+    stopMusik();
+    document.getElementById('mus-popup-play').textContent = '▶';
+  } else {
+    const items = document.querySelectorAll('.musik-item');
+    const lastIdx = parseInt(document.getElementById('mus-popup-icon').dataset.track || '0');
+    const target = items[lastIdx] || items[0];
+    if (target) target.click();
+  }
+}
+
+function musPopupNext() {
+  const next = (musPlaying + 1) % 3;
+  const items = document.querySelectorAll('.musik-item');
+  if (items[next]) items[next].click();
+}
+
+function musPopupPrev() {
+  const prev = musPlaying <= 0 ? 2 : musPlaying - 1;
+  const items = document.querySelectorAll('.musik-item');
+  if (items[prev]) items[prev].click();
+}
+
+// Patch playMusik to also show popup
+const _origPlayMusik = playMusik;
+window.playMusik = function(el, title) {
+  _origPlayMusik(el, title);
+  const idx = parseInt(el.dataset.track);
+  document.getElementById('mus-popup-icon').dataset.track = idx;
+  if (musPlaying >= 0) {
+    musPopupShow(idx);
+    document.getElementById('mus-popup-play').textContent = '⏸';
+  } else {
+    document.getElementById('mus-popup-play').textContent = '▶';
+  }
+};
+
+const _origStopMusik = stopMusik;
+window.stopMusik = function() {
+  _origStopMusik();
+  document.getElementById('mus-popup-play').textContent = '▶';
+};
+
+// ─── Drag to move ───
+(function() {
+  const popup = document.getElementById('mus-popup');
+  const handle = document.getElementById('mus-popup-drag');
+  let dragging = false, ox = 0, oy = 0, startR = 0, startB = 0;
+
+  function getPos(e) {
+    return e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY };
+  }
+
+  handle.addEventListener('mousedown', startDrag);
+  handle.addEventListener('touchstart', startDrag, { passive: true });
+
+  function startDrag(e) {
+    dragging = true;
+    const pos = getPos(e);
+    const rect = popup.getBoundingClientRect();
+    ox = pos.x - rect.left;
+    oy = pos.y - rect.top;
+    handle.style.cursor = 'grabbing';
+    e.preventDefault && e.type !== 'touchstart' && e.preventDefault();
+  }
+
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('touchmove', onDrag, { passive: false });
+
+  function onDrag(e) {
+    if (!dragging) return;
+    if (e.cancelable) e.preventDefault();
+    const pos = getPos(e);
+    const W = window.innerWidth, H = window.innerHeight;
+    const pw = popup.offsetWidth, ph = popup.offsetHeight;
+    let left = pos.x - ox;
+    let top = pos.y - oy;
+    left = Math.max(8, Math.min(left, W - pw - 8));
+    top = Math.max(8, Math.min(top, H - ph - 8));
+    popup.style.right = 'auto';
+    popup.style.bottom = 'auto';
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+  }
+
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+  function endDrag() { dragging = false; handle.style.cursor = 'grab'; }
+})();
+</script>
+
+</body>
+</html>
