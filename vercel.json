@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/pages/index.html" },
+    { "source": "/index.html", "destination": "/pages/index.html" },
+    { "source": "/auth.html", "destination": "/pages/auth.html" },
+    { "source": "/app.html", "destination": "/pages/app.html" },
+    { "source": "/content-modules.html", "destination": "/pages/content-modules.html" }
+  ]
+}

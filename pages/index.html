@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EduFun — Platform Belajar Interaktif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/css/landing.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-box">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="nav-logo-text">EduFun</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Fitur</a>
+    <a href="#metode">Metode Belajar</a>
+    <a href="#materi">Materi</a>
+    <a href="#karakter">Karakter</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-o" onclick="window.location.href='auth.html'">Masuk</button>
+    <button class="btn-p" onclick="window.location.href='auth.html?tab=register'">Daftar Gratis</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Platform Belajar Interaktif #1 Indonesia
+    </div>
+    <h1 class="hero-h1">Belajar Lebih <span>Seru</span> &amp; Efektif dengan EduFun</h1>
+    <p class="hero-p">Flashcard, Battle Arena, Pomodoro Timer, dan Lab Virtual — semua dalam satu platform. Kumpulkan XP, naiki level, dan jadilah juara kelas!</p>
+    <div class="hero-btns">
+      <button class="btn-hero-p" onclick="window.location.href='auth.html?tab=register'">Mulai Belajar — Gratis</button>
+      <button class="btn-hero-o" onclick="window.location.href='auth.html'">Aku Sudah Punya Akun</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val">500K+</div>
+        <div class="hero-stat-lbl">Pelajar Aktif</div>
+      </div>
+      <div style="width:1.5px;background:var(--border)"></div>
+      <div>
+        <div class="hero-stat-val">2 Juta+</div>
+        <div class="hero-stat-lbl">Soal Diselesaikan</div>
+      </div>
+      <div style="width:1.5px;background:var(--border)"></div>
+      <div>
+        <div class="hero-stat-val">10+</div>
+        <div class="hero-stat-lbl">Mata Pelajaran</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO ART -->
+  <div class="hero-art">
+    <div class="hero-card-stack">
+
+      <div class="float-badge fb1">⚡ +25 XP didapat!</div>
+      <div class="float-badge fb2">🔥 Streak 12 hari</div>
+      <div class="float-badge fb3">🏆 Level 5 unlocked!</div>
+
+      <!-- Pomodoro -->
+      <div class="hcard hcard-tl">
+        <div style="font-size:.67rem;color:var(--muted);font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.3rem">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Pomodoro Timer
+        </div>
+        <div style="font-size:1.55rem;font-weight:800;color:var(--ac);text-align:center;letter-spacing:2px;font-family:'JetBrains Mono',monospace">24:35</div>
+        <div style="font-size:.66rem;color:var(--muted);font-weight:600;text-align:center;margin-top:.2rem">Fokus · Sesi 2/4</div>
+        <div class="pt" style="margin-top:.5rem"><div class="pf" style="width:55%"></div></div>
+      </div>
+
+      <!-- Battle -->
+      <div class="hcard hcard-tr">
+        <div style="font-size:.67rem;color:var(--muted);font-weight:700;margin-bottom:.45rem;display:flex;align-items:center;gap:.3rem">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Battle Arena
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:.38rem">
+          <span style="font-size:.68rem;font-weight:700;color:#22c55e">Kamu ❤️❤️❤️</span>
+          <span style="font-size:.68rem;font-weight:700;color:var(--muted)">Bot 💔</span>
+        </div>
+        <div style="font-size:.7rem;font-weight:800;color:var(--text)">Hasil 7² = ?</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.28rem;margin-top:.4rem">
+          <div style="background:var(--ac);color:#fff;border-radius:7px;padding:.22rem .4rem;font-size:.64rem;font-weight:700;text-align:center">49 ✓</div>
+          <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:.22rem .4rem;font-size:.64rem;font-weight:600;color:var(--muted);text-align:center">42</div>
+        </div>
+      </div>
+
+      <!-- Streak -->
+      <div class="hcard hcard-bl" id="streak-card">
+        <div style="font-size:.67rem;color:var(--muted);font-weight:700;margin-bottom:.45rem">📅 Streak Belajar</div>
+        <div style="display:flex;gap:.18rem" id="streak-days"></div>
+        <div style="margin-top:.45rem;font-size:.67rem;font-weight:800;color:var(--ac)">🔥 12 Hari Berturut!</div>
+      </div>
+
+      <!-- Flashcard -->
+      <div class="hcard hcard-br">
+        <div style="font-size:.67rem;color:var(--muted);font-weight:700;margin-bottom:.4rem;display:flex;align-items:center;gap:.3rem">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Flashcard
+        </div>
+        <div style="background:var(--ac-l);border:1.5px solid var(--ac-m);border-radius:10px;padding:.45rem .55rem;text-align:center">
+          <div style="font-size:.68rem;color:var(--ac);font-weight:800">Fotosintesis</div>
+          <div style="font-size:.6rem;color:var(--muted);font-weight:600;margin-top:.18rem">Klik untuk balik →</div>
+        </div>
+        <div style="margin-top:.38rem;font-size:.63rem;font-weight:700;color:var(--muted);text-align:right">8 / 20 kartu</div>
+      </div>
+
+      <!-- Main: Profile Card -->
+      <div class="hcard hcard-main">
+        <div style="display:flex;align-items:center;gap:.85rem;margin-bottom:1rem">
+          <div class="mini-mascot">
+            <svg width="42" height="42" viewBox="0 0 80 80">
+              <ellipse cx="40" cy="52" rx="18" ry="22" fill="#3b82f6"/>
+              <circle cx="40" cy="28" r="18" fill="#FDDBB4"/>
+              <circle cx="34" cy="26" r="3.5" fill="#fff"/><circle cx="46" cy="26" r="3.5" fill="#fff"/>
+              <circle cx="35" cy="27" r="2" fill="#1e293b"/><circle cx="47" cy="27" r="2" fill="#1e293b"/>
+              <circle cx="35.8" cy="26.2" r=".7" fill="#fff"/><circle cx="47.8" cy="26.2" r=".7" fill="#fff"/>
+              <path d="M34,34 Q40,39 46,34" stroke="#b45309" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <ellipse cx="28" cy="31" rx="5" ry="3" fill="#fca5a5" opacity=".5"/>
+              <ellipse cx="52" cy="31" rx="5" ry="3" fill="#fca5a5" opacity=".5"/>
+              <rect x="24" y="12" width="32" height="5" rx="2.5" fill="#1e40af"/>
+              <rect x="30" y="6" width="20" height="10" rx="3" fill="#1e40af"/>
+              <rect x="36" y="5" width="8" height="3" rx="1.5" fill="#fbbf24"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-weight:800;font-size:.9rem">Raka Pratama</div>
+            <div style="display:flex;gap:.38rem;margin-top:.22rem;flex-wrap:wrap">
+              <span class="xp-pill">⭐ 750 XP</span>
+              <span class="streak-pill">🔥 12</span>
+            </div>
+          </div>
+          <div style="margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">5</div>
+        </div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--muted);margin-bottom:.28rem;display:flex;justify-content:space-between"><span>Level 5 → 6</span><span>750 / 1000 XP</span></div>
+        <div class="pt"><div class="pf" style="width:75%"></div></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin-top:.8rem">
+          <div style="text-align:center;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:.45rem .3rem">
+            <div style="font-size:.95rem;font-weight:800;color:var(--ac)">48</div>
+            <div style="font-size:.6rem;font-weight:600;color:var(--muted)">Battle Win</div>
+          </div>
+          <div style="text-align:center;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:.45rem .3rem">
+            <div style="font-size:.95rem;font-weight:800;color:var(--ac)">120</div>
+            <div style="font-size:.6rem;font-weight:600;color:var(--muted)">Flashcard</div>
+          </div>
+          <div style="text-align:center;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:.45rem .3rem">
+            <div style="font-size:.95rem;font-weight:800;color:var(--ac)">32h</div>
+            <div style="font-size:.6rem;font-weight:600;color:var(--muted)">Belajar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="feat-inner">
+    <div class="sec-label">Kenapa EduFun?</div>
+    <div class="sec-title">Semua yang Kamu Butuhkan untuk Belajar</div>
+    <div class="sec-sub">Satu platform, banyak cara belajar. Pilih yang paling cocok untukmu.</div>
+    <div class="feat-grid">
+      <div class="feat-card reveal"><div class="feat-icon-box">⚡</div><div class="feat-title">Sistem XP & Level</div><div class="feat-desc">Setiap jawaban benar menghasilkan XP. Naiki level, buka pencapaian, dan bersaing di papan peringkat.</div></div>
+      <div class="feat-card reveal"><div class="feat-icon-box">⚔️</div><div class="feat-title">Battle Arena</div><div class="feat-desc">Tantang bot atau teman dalam duel soal real-time. Siapa tercepat dan terpintar yang menang!</div></div>
+      <div class="feat-card reveal"><div class="feat-icon-box">🃏</div><div class="feat-title">Flashcard Interaktif</div><div class="feat-desc">Buat dan pelajari flashcard dengan sistem flip. Mode acak dan urutan kustom untuk hafalan optimal.</div></div>
+      <div class="feat-card reveal"><div class="feat-icon-box">🍅</div><div class="feat-title">Pomodoro Timer</div><div class="feat-desc">Teknik belajar 25 menit fokus + 5 menit istirahat yang terbukti meningkatkan konsentrasi belajar.</div></div>
+      <div class="feat-card reveal"><div class="feat-icon-box">🔬</div><div class="feat-title">Lab Virtual</div><div class="feat-desc">Eksplorasi simulasi sains interaktif. Lakukan eksperimen virtual Fisika, Kimia, dan Biologi dari rumah.</div></div>
+      <div class="feat-card reveal"><div class="feat-icon-box">🎨</div><div class="feat-title">Karakter Custom</div><div class="feat-desc">Buat avatar unikmu sendiri! Pilih gender, warna kulit, rambut, outfit, dan aksesori favoritmu.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- METODE BELAJAR -->
+<section class="methods" id="metode">
+  <div class="sec-label">Metode Belajar</div>
+  <div class="sec-title">Belajar Sesuai Gaya Kamu</div>
+  <div class="sec-sub">Pilih metode yang paling nyaman — Visual, Audio, atau langsung Praktek.</div>
+  <div class="methods-grid">
+    <div class="method-card reveal">
+      <div class="method-num">1</div>
+      <div>
+        <div class="method-name">Visual Learning</div>
+        <div class="method-desc">Pelajari materi lewat diagram, infografis, dan peta konsep. Cocok untuk kamu yang mudah ingat gambar dan tampilan visual.</div>
+        <div class="method-tag">👁️ Diagram & Infografis</div>
+      </div>
+    </div>
+    <div class="method-card reveal">
+      <div class="method-num" style="background:#8b5cf6">2</div>
+      <div>
+        <div class="method-name">Audio Learning</div>
+        <div class="method-desc">Dengarkan podcast edukasi dan rekaman materi sambil santai. Belajar tanpa harus menatap layar terus-menerus!</div>
+        <div class="method-tag" style="background:#f3e8ff;border-color:#d8b4fe;color:#7c3aed">🎧 Podcast Edukasi</div>
+      </div>
+    </div>
+    <div class="method-card reveal">
+      <div class="method-num" style="background:#f59e0b">3</div>
+      <div>
+        <div class="method-name">Flashcard & Hafalan</div>
+        <div class="method-desc">Sistem kartu bolak-balik dengan mode acak yang teruji secara ilmiah untuk memperkuat memori jangka panjang.</div>
+        <div class="method-tag" style="background:#fffbeb;border-color:#fde68a;color:#b45309">🃏 Spaced Repetition</div>
+      </div>
+    </div>
+    <div class="method-card reveal">
+      <div class="method-num" style="background:#10b981">4</div>
+      <div>
+        <div class="method-name">Praktik & Battle</div>
+        <div class="method-desc">Langsung latihan soal dan uji kemampuanmu di Arena Battle. Belajar paling efektif dengan langsung terjun praktek!</div>
+        <div class="method-tag" style="background:#d1fae5;border-color:#6ee7b7;color:#059669">⚔️ Battle Arena</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATERI -->
+<section class="subjects" id="materi">
+  <div class="subj-inner">
+    <div class="sec-label">Materi Pelajaran</div>
+    <div class="sec-title">Semua Mata Pelajaran Tersedia</div>
+    <div class="sec-sub">Dari SD hingga SMA, sesuai kurikulum nasional Indonesia</div>
+    <div class="subj-grid">
+      <div class="subj-card reveal"><span class="subj-emoji">🔢</span><div class="subj-name">Matematika</div><div class="subj-kelas">Kelas 1–12</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">🔬</span><div class="subj-name">IPA / Sains</div><div class="subj-kelas">Kelas 4–12</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">🌏</span><div class="subj-name">IPS</div><div class="subj-kelas">Kelas 4–9</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">📖</span><div class="subj-name">Bahasa Indonesia</div><div class="subj-kelas">Kelas 1–12</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">🇬🇧</span><div class="subj-name">Bahasa Inggris</div><div class="subj-kelas">Kelas 1–12</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">⚗️</span><div class="subj-name">Kimia</div><div class="subj-kelas">Kelas 10–12</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">⚡</span><div class="subj-name">Fisika</div><div class="subj-kelas">Kelas 7–12</div></div>
+      <div class="subj-card reveal"><span class="subj-emoji">💻</span><div class="subj-name">Informatika</div><div class="subj-kelas">Kelas 7–12</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KARAKTER & PROFILE -->
+<section class="profile-section" id="karakter">
+  <div class="sec-label">Profil & Karakter</div>
+  <div class="sec-title">Jadilah Dirimu Sendiri di EduFun</div>
+  <div class="sec-sub">Custom avatar, lacak progress, dan tunjukkan kehebatanmu!</div>
+  <div class="profile-grid">
+    <div class="profile-preview reveal">
+      <div class="profile-top">
+        <div class="profile-avatar">
+          <svg width="38" height="38" viewBox="0 0 80 80">
+            <ellipse cx="40" cy="52" rx="18" ry="22" fill="#3b82f6"/>
+            <circle cx="40" cy="28" r="18" fill="#FDDBB4"/>
+            <circle cx="34" cy="26" r="3.5" fill="#fff"/><circle cx="46" cy="26" r="3.5" fill="#fff"/>
+            <circle cx="35" cy="27" r="2" fill="#1e293b"/><circle cx="47" cy="27" r="2" fill="#1e293b"/>
+            <path d="M34,34 Q40,39 46,34" stroke="#b45309" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <rect x="24" y="12" width="32" height="5" rx="2.5" fill="#1e40af"/>
+            <rect x="30" y="6" width="20" height="10" rx="3" fill="#1e40af"/>
+            <rect x="36" y="5" width="8" height="3" rx="1.5" fill="#fbbf24"/>
+          </svg>
+        </div>
+        <div>
+          <div class="profile-name">Raka Pratama</div>
+          <div class="profile-role">🎒 Siswa Aktif · Level 5</div>
+        </div>
+        <div style="margin-left:auto"><span class="badge ba">Top 10%</span></div>
+      </div>
+      <div class="lvl-display">
+        <div class="lvl-circle">5</div>
+        <div style="flex:1">
+          <div class="lvl-label">Level 5 — 750 / 1000 XP menuju Level 6</div>
+          <div class="pt"><div class="pf" style="width:75%"></div></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-val">🔥 12</div><div class="stat-lbl">Hari Streak</div></div>
+        <div class="stat-box"><div class="stat-val">48</div><div class="stat-lbl">Battle Win</div></div>
+        <div class="stat-box"><div class="stat-val">120</div><div class="stat-lbl">Flashcard</div></div>
+        <div class="stat-box"><div class="stat-val">32h</div><div class="stat-lbl">Total Belajar</div></div>
+      </div>
+    </div>
+    <div class="profile-features">
+      <div class="pf-row reveal"><div class="pf-icon">🎨</div><div><div class="pf-title">Custom Avatar</div><div class="pf-desc">Pilih gender, kulit, rambut, outfit, dan aksesori untuk karakter unikmu.</div></div></div>
+      <div class="pf-row reveal"><div class="pf-icon">📊</div><div><div class="pf-title">Lacak Progressmu</div><div class="pf-desc">Lihat XP, streak harian, dan statistik belajarmu secara real-time.</div></div></div>
+      <div class="pf-row reveal"><div class="pf-icon">🏆</div><div><div class="pf-title">Papan Peringkat</div><div class="pf-desc">Bersaing dengan pelajar lain dan buktikan kamu yang terbaik di kelasmu!</div></div></div>
+      <div class="pf-row reveal"><div class="pf-icon">🎯</div><div><div class="pf-title">Target Belajar Harian</div><div class="pf-desc">Set target XP harianmu dan dapatkan bonus streak ketika berhasil mencapainya.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner">
+    <div style="font-size:.71rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);margin-bottom:.5rem">Mulai Sekarang</div>
+    <h2>Siap Belajar Lebih Seru?</h2>
+    <p>Bergabunglah dengan 500.000+ pelajar Indonesia yang sudah merasakan EduFun. Gratis, seru, dan efektif!</p>
+    <button class="btn-cta-w" onclick="window.location.href='auth.html?tab=register'">Daftar Gratis Sekarang</button>
+    <button class="btn-cta-o" onclick="window.location.href='auth.html'">Lihat Demo</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">
+    <div class="foot-logo-box"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <span class="foot-logo-text">EduFun</span>
+  </div>
+  <div class="foot-links">
+    <a href="#">Tentang</a><a href="#">Fitur</a><a href="#">Kurikulum</a>
+    <a href="#">Blog</a><a href="#">Privasi</a><a href="#">Syarat & Ketentuan</a>
+  </div>
+  <div class="foot-copy">© 2025 EduFun. Dibuat dengan ❤️ untuk pelajar Indonesia.</div>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+==============================================
+  EDUFUN — PANDUAN SETUP FIREBASE & VERCEL
+==============================================
+
+LANGKAH 1: BUAT PROJECT FIREBASE
+─────────────────────────────────
+1. Buka https://console.firebase.google.com
+2. Klik "Add project" → beri nama (misal: edufun-app)
+3. Nonaktifkan Google Analytics (opsional) → klik "Create project"
+
+
+LANGKAH 2: AKTIFKAN AUTHENTICATION
+────────────────────────────────────
+1. Di sidebar kiri, klik "Authentication" → "Get started"
+2. Pilih tab "Sign-in method"
+3. Klik "Email/Password" → aktifkan toggle pertama → Save
+
+
+LANGKAH 3: BUAT FIRESTORE DATABASE
+────────────────────────────────────
+1. Di sidebar kiri, klik "Firestore Database" → "Create database"
+2. Pilih "Start in test mode" (untuk development)
+3. Pilih region terdekat (misal: asia-southeast1) → Enable
+
+   ⚠️ Test mode hanya 30 hari. Setelah itu harus set rules.
+   Rules untuk produksi (paste di Rules tab Firestore):
+
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /users/{uid} {
+         allow read, write: if request.auth != null && request.auth.uid == uid;
+       }
+       match /usernames/{username} {
+         allow read: if true;
+         allow write: if request.auth != null;
+       }
+       match /userdata/{uid} {
+         allow read, write: if request.auth != null && request.auth.uid == uid;
+       }
+     }
+   }
+
+
+LANGKAH 4: AMBIL CONFIG FIREBASE
+──────────────────────────────────
+1. Di sidebar, klik ⚙️ (gear) → "Project settings"
+2. Scroll ke bawah ke "Your apps"
+3. Klik icon "</>" (Web app) → beri nama → Register app
+4. Copy nilai dari firebaseConfig:
+
+   const firebaseConfig = {
+     apiKey: "...",
+     authDomain: "...",
+     projectId: "...",
+     storageBucket: "...",
+     messagingSenderId: "...",
+     appId: "..."
+   };
+
+5. Buka file: assets/js/firebase-config.js
+   Ganti semua nilai "GANTI_DENGAN_..." dengan nilai aslinya
+
+
+LANGKAH 5: UPLOAD KE GITHUB
+─────────────────────────────
+1. Buka https://github.com → buat repository baru (misal: edufun)
+2. Pilih Public → Create repository
+3. Klik "uploading an existing file"
+4. Extract zip edufun-v9.zip
+5. Upload SEMUA ISI folder edufun-v8/ (bukan foldernya!)
+   Struktur yang benar di root repo:
+   ├── assets/
+   │   ├── css/
+   │   └── js/
+   ├── pages/
+   │   ├── app.html
+   │   ├── auth.html
+   │   └── ...
+   └── README.txt
+6. Klik "Commit changes"
+
+
+LANGKAH 6: DEPLOY KE VERCEL
+─────────────────────────────
+1. Buka https://vercel.com → login pakai GitHub
+2. Klik "Add New Project" → Import repo edufun
+3. Framework Preset: pilih "Other"
+4. Root Directory: biarkan kosong (/)
+5. Klik "Deploy" → tunggu ~1 menit
+6. Situs live di: https://edufun-xxx.vercel.app
+
+
+STRUKTUR DATABASE FIRESTORE
+─────────────────────────────
+Collection: users/{uid}
+  - username    : string
+  - role        : "siswa" | "guru"
+  - xp          : number
+  - level       : number
+  - streak      : number
+  - character   : object (data karakter)
+  - lastLogin   : timestamp
+  - createdAt   : timestamp
+
+Collection: usernames/{username}
+  - uid         : string
+
+Collection: userdata/{uid}
+  - cards       : array (flashcards)
+  - agenda      : object (kalender)
+  - streak      : object (streak harian)
+  - accent      : string (warna tema)
+
+
+TROUBLESHOOTING
+─────────────────
+❌ "Firebase: Error (auth/network-request-failed)"
+   → Cek koneksi internet, atau firebase-config.js belum diisi
+
+❌ "Missing or insufficient permissions"
+   → Cek Firestore Rules sudah diset dengan benar
+
+❌ Login berhasil tapi data tidak tersimpan
+   → Pastikan Firestore sudah dibuat dan region sudah dipilih
+
+❌ Halaman auth tidak bisa login
+   → Pastikan Firebase SDK ter-load sebelum auth.js
+      (urutan script di auth.html sudah benar)
+
+==============================================
