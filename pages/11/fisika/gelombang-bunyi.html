@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gelombang Bunyi · Fisika Kelas 11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ac: #f59e0b;
+    --ac-rgb: 245,158,11;
+    --ac-l: rgba(245,158,11,.10);
+    --ac-m: rgba(245,158,11,.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid #e2e8f0;
+    padding: .7rem 1.25rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: .35rem;
+    background: #f1f5f9; border: none; border-radius: 10px;
+    padding: .45rem .8rem; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: .78rem; color: #64748b;
+    transition: all .15s;
+  }
+  .back-btn:hover { background: var(--ac-l); color: var(--ac); }
+  .topbar-title { font-weight: 800; font-size: .95rem; flex: 1; }
+  .topbar-badge {
+    background: var(--ac-l); color: var(--ac);
+    border: 1.5px solid var(--ac-m);
+    font-size: .62rem; font-weight: 800;
+    padding: .15rem .5rem; border-radius: 99px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--ac) 0%, color-mix(in srgb, var(--ac) 70%, #1e293b) 100%);
+    padding: 2.5rem 1.5rem 3.5rem;
+    position: relative; overflow: hidden;
+    color: #fff;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: .35rem;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 99px; padding: .25rem .7rem;
+    font-size: .7rem; font-weight: 700; margin-bottom: .9rem;
+  }
+  .hero h1 { font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: .5rem; }
+  .hero p { font-size: .85rem; opacity: .85; max-width: 480px; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 1rem; margin-top: 1.5rem; }
+  .hero-stat {
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px; padding: .5rem .85rem; text-align: center;
+  }
+  .hero-stat-num { font-size: 1.2rem; font-weight: 900; }
+  .hero-stat-lbl { font-size: .62rem; opacity: .8; font-weight: 600; }
+
+  .nav-wrap {
+    background: #fff; border-bottom: 1.5px solid #e2e8f0;
+    position: sticky; top: 57px; z-index: 90;
+  }
+  .nav-tabs { display: flex; gap: 0; overflow-x: auto; padding: 0 1rem; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0; padding: .75rem 1rem;
+    background: none; border: none; border-bottom: 2.5px solid transparent;
+    font-family: inherit; font-weight: 700; font-size: .8rem;
+    color: #94a3b8; cursor: pointer; transition: all .15s;
+    white-space: nowrap;
+  }
+  .tab-btn.act { border-bottom-color: var(--ac); color: var(--ac); }
+
+  .content { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  .section { display: none; }
+  .section.show { display: block; }
+
+  .card {
+    background: #fff; border: 1.5px solid #e2e8f0;
+    border-radius: 18px; padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color .2s, box-shadow .2s;
+    animation: fadeUp .35s ease both;
+  }
+  .card:hover { border-color: var(--ac-m); box-shadow: 0 4px 20px rgba(var(--ac-rgb),.08); }
+  .card:nth-child(1) { animation-delay: .05s; }
+  .card:nth-child(2) { animation-delay: .1s; }
+  .card:nth-child(3) { animation-delay: .15s; }
+  .card:nth-child(4) { animation-delay: .2s; }
+
+  .card-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--ac-l); border: 1.5px solid var(--ac-m);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .card-title { font-size: 1rem; font-weight: 800; }
+  .card-sub { font-size: .74rem; color: #94a3b8; font-weight: 600; margin-top: .1rem; }
+
+  .prose { font-size: .855rem; color: #334155; line-height: 1.75; }
+  .prose p { margin-bottom: .75rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  .formula-box {
+    background: #0f172a; border-radius: 14px;
+    padding: 1.1rem 1.3rem; margin: 1rem 0;
+    border: 1.5px solid rgba(255,255,255,.08);
+    position: relative; overflow: hidden;
+  }
+  .formula-box::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--ac);
+  }
+  .formula-label { font-size: .65rem; font-weight: 800; color: var(--ac); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; }
+  .formula-main { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 600; color: #f8fafc; letter-spacing: .02em; }
+  .formula-desc { margin-top: .65rem; font-size: .75rem; color: #94a3b8; line-height: 1.6; }
+  .formula-desc span { color: #e2e8f0; font-weight: 600; }
+
+  .concept-list { list-style: none; margin-top: .5rem; }
+  .concept-list li {
+    display: flex; gap: .65rem;
+    padding: .65rem 0; border-bottom: 1px solid #f1f5f9;
+    font-size: .845rem; color: #334155; line-height: 1.55;
+  }
+  .concept-list li:last-child { border-bottom: none; }
+  .concept-icon {
+    width: 24px; height: 24px; border-radius: 7px;
+    background: var(--ac-l); color: var(--ac);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 800; flex-shrink: 0; margin-top: .1rem;
+  }
+
+  .hukum-card {
+    border-left: 4px solid var(--ac);
+    background: var(--ac-l); border-radius: 0 14px 14px 0;
+    padding: 1rem 1.1rem; margin-bottom: .75rem;
+  }
+  .hukum-num { font-size: .68rem; font-weight: 800; color: var(--ac); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .3rem; }
+  .hukum-title { font-weight: 800; font-size: .9rem; margin-bottom: .4rem; }
+  .hukum-desc { font-size: .82rem; color: #334155; line-height: 1.65; }
+
+  .intensity-scale {
+    background: #0f172a; border-radius: 14px;
+    padding: 1.1rem 1.3rem; margin: 1rem 0;
+  }
+  .intensity-row {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .4rem 0; border-bottom: 1px solid rgba(255,255,255,.06);
+    font-size: .78rem;
+  }
+  .intensity-row:last-child { border-bottom: none; }
+  .intensity-db {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; color: var(--ac); width: 55px; flex-shrink: 0;
+  }
+  .intensity-bar {
+    height: 6px; border-radius: 3px;
+    background: var(--ac); opacity: .7;
+  }
+  .intensity-lbl { color: #94a3b8; font-size: .72rem; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--ac); width: 0%; transition: width .1s; z-index: 999; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 1.5rem 1rem 2.5rem; }
+    .hero h1 { font-size: 1.45rem; }
+    .hero-stats { gap: .5rem; flex-wrap: wrap; }
+    .topbar { padding: .55rem .85rem; }
+    .topbar-badge { display: none; }
+    .nav-wrap { top: 48px; }
+    .tab-btn { padding: .6rem .75rem; font-size: .74rem; }
+    .content { padding: 1rem .75rem 4rem; }
+    .card { padding: 1.1rem 1rem; border-radius: 14px; }
+    .formula-main { font-size: 1rem; word-break: break-all; }
+    .prose { font-size: .8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="topbar">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </button>
+  <div class="topbar-title">Gelombang Bunyi</div>
+  <span class="topbar-badge">Fisika · Kelas 11</span>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">🔊 Fisika · Kelas 11</div>
+  <h1>Gelombang Bunyi</h1>
+  <p>Pelajari sifat gelombang bunyi, intensitas & taraf intensitas, efek Doppler, serta resonansi pada kolom udara.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">340</div>
+      <div class="hero-stat-lbl">m/s di udara</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">20–20k</div>
+      <div class="hero-stat-lbl">Hz (audible)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">dB</div>
+      <div class="hero-stat-lbl">Satuan Taraf</div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="tab-btn act" onclick="showTab('pengantar',this)">📖 Pengantar</button>
+    <button class="tab-btn" onclick="showTab('intensitas',this)">📊 Intensitas & TI</button>
+    <button class="tab-btn" onclick="showTab('doppler',this)">🚗 Efek Doppler</button>
+    <button class="tab-btn" onclick="showTab('resonansi',this)">🎵 Resonansi</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- PENGANTAR -->
+  <div class="section show" id="sec-pengantar">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔊</div>
+        <div>
+          <div class="card-title">Sifat Gelombang Bunyi</div>
+          <div class="card-sub">Gelombang longitudinal mekanik</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Bunyi adalah gelombang <strong>longitudinal mekanik</strong> — partikel medium bergetar searah dengan arah rambat gelombang. Bunyi memerlukan medium untuk merambat dan tidak dapat merambat di ruang vakum.</p>
+        <p>Bunyi merambat melalui rapatan (<em>compression</em>) dan renggangan (<em>rarefaction</em>) partikel medium.</p>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">🔴</div>
+          <div><strong>Audiosonik (20 Hz – 20.000 Hz)</strong> — Rentang bunyi yang dapat didengar manusia dewasa normal.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🟡</div>
+          <div><strong>Infrasonik (&lt; 20 Hz)</strong> — Bunyi frekuensi sangat rendah. Contoh: gempa bumi, sinyal gajah, paus biru.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🔵</div>
+          <div><strong>Ultrasonik (&gt; 20.000 Hz)</strong> — Frekuensi sangat tinggi. Digunakan kelelawar, lumba-lumba, dan teknologi sonar/USG.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">💨</div>
+        <div>
+          <div class="card-title">Cepat Rambat Bunyi</div>
+          <div class="card-sub">Bergantung pada medium dan suhu</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Cepat Rambat Bunyi di Udara</div>
+        <div class="formula-main">v = 331 + 0,6·T m/s</div>
+        <div class="formula-desc">
+          <span>T</span> = suhu udara dalam °Celsius<br>
+          Pada 0°C: v ≈ 331 m/s · Pada 25°C: v ≈ 346 m/s<br>
+          Biasanya digunakan <span>v = 340 m/s</span> untuk suhu kamar
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Cepat Rambat Bunyi di Zat Padat</div>
+        <div class="formula-main">v = √(E / ρ)</div>
+        <div class="formula-desc">
+          <span>E</span> = modulus elastisitas (Pa)<br>
+          <span>ρ</span> = massa jenis medium (kg/m³)<br>
+          Bunyi merambat lebih cepat di zat padat daripada di gas.
+        </div>
+      </div>
+
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">🌡️</div>
+          <div>Zat padat: ~5000 m/s (baja) · Air: ~1500 m/s · Udara: ~340 m/s · Vakum: 0 m/s</div>
+        </li>
+        <li>
+          <div class="concept-icon">↑</div>
+          <div>Suhu semakin tinggi → cepat rambat bunyi di udara semakin <strong>besar</strong> karena molekul bergerak lebih cepat.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- INTENSITAS -->
+  <div class="section" id="sec-intensitas">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <div>
+          <div class="card-title">Intensitas Bunyi</div>
+          <div class="card-sub">Daya bunyi per satuan luas</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Intensitas Bunyi</div>
+        <div class="formula-main">I = P / (4πr²)</div>
+        <div class="formula-desc">
+          <span>I</span> = intensitas bunyi (W/m²)<br>
+          <span>P</span> = daya sumber bunyi (W)<br>
+          <span>r</span> = jarak dari sumber bunyi (m)<br>
+          Sumber diasumsikan isotropik (memancar ke segala arah sama)
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Perbandingan Intensitas pada Jarak Berbeda</div>
+        <div class="formula-main">I₁/I₂ = r₂² / r₁²</div>
+        <div class="formula-desc">
+          Intensitas berbanding <span>terbalik kuadrat jarak</span>.<br>
+          Jarak 2× → intensitas menjadi 1/4 × semula.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎚️</div>
+        <div>
+          <div class="card-title">Taraf Intensitas (TI)</div>
+          <div class="card-sub">Skala logaritmik bunyi dalam desibel</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Taraf Intensitas Bunyi</div>
+        <div class="formula-main">TI = 10 · log(I / I₀)</div>
+        <div class="formula-desc">
+          <span>TI</span> = taraf intensitas (dB)<br>
+          <span>I</span> = intensitas bunyi (W/m²)<br>
+          <span>I₀</span> = intensitas ambang pendengaran = 10⁻¹² W/m²<br>
+          Setiap kenaikan 10 dB = intensitas bertambah 10×
+        </div>
+      </div>
+
+      <div class="intensity-scale">
+        <div class="intensity-row">
+          <div class="intensity-db">0 dB</div>
+          <div class="intensity-bar" style="width:4px"></div>
+          <div class="intensity-lbl">Ambang pendengaran</div>
+        </div>
+        <div class="intensity-row">
+          <div class="intensity-db">30 dB</div>
+          <div class="intensity-bar" style="width:40px"></div>
+          <div class="intensity-lbl">Bisikan</div>
+        </div>
+        <div class="intensity-row">
+          <div class="intensity-db">60 dB</div>
+          <div class="intensity-bar" style="width:90px"></div>
+          <div class="intensity-lbl">Percakapan normal</div>
+        </div>
+        <div class="intensity-row">
+          <div class="intensity-db">80 dB</div>
+          <div class="intensity-bar" style="width:130px"></div>
+          <div class="intensity-lbl">Lalu lintas ramai</div>
+        </div>
+        <div class="intensity-row">
+          <div class="intensity-db">120 dB</div>
+          <div class="intensity-bar" style="width:200px"></div>
+          <div class="intensity-lbl">Ambang rasa sakit</div>
+        </div>
+      </div>
+
+      <div class="formula-box" style="margin-top:.75rem">
+        <div class="formula-label">Perubahan TI untuk n Sumber Identik</div>
+        <div class="formula-main">ΔTI = 10 · log(n)</div>
+        <div class="formula-desc">
+          n sumber bunyi identik → TI bertambah 10 log(n) dB<br>
+          Contoh: 10 sumber → TI bertambah <span>10 dB</span><br>
+          100 sumber → TI bertambah <span>20 dB</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DOPPLER -->
+  <div class="section" id="sec-doppler">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🚗</div>
+        <div>
+          <div class="card-title">Efek Doppler</div>
+          <div class="card-sub">Perubahan frekuensi akibat gerak relatif</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Efek Doppler adalah perubahan frekuensi bunyi yang didengar pendengar akibat adanya gerak relatif antara sumber bunyi dan pendengar. Ketika sumber mendekati pendengar, frekuensi terdengar lebih tinggi; saat menjauh, lebih rendah.</p>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Persamaan Efek Doppler</div>
+        <div class="formula-main">f' = f · (v ± vp) / (v ∓ vs)</div>
+        <div class="formula-desc">
+          <span>f'</span> = frekuensi yang didengar pendengar (Hz)<br>
+          <span>f</span> = frekuensi sumber bunyi (Hz)<br>
+          <span>v</span> = cepat rambat bunyi di udara (m/s)<br>
+          <span>vp</span> = kecepatan pendengar (m/s)<br>
+          <span>vs</span> = kecepatan sumber (m/s)
+        </div>
+      </div>
+
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">+</div>
+          <div><strong>Pendengar mendekati sumber</strong> → gunakan tanda <strong>+vp</strong> di pembilang (frekuensi terdengar lebih tinggi)</div>
+        </li>
+        <li>
+          <div class="concept-icon">−</div>
+          <div><strong>Pendengar menjauhi sumber</strong> → gunakan tanda <strong>−vp</strong> di pembilang (frekuensi terdengar lebih rendah)</div>
+        </li>
+        <li>
+          <div class="concept-icon">∓</div>
+          <div><strong>Sumber mendekati pendengar</strong> → gunakan tanda <strong>−vs</strong> di penyebut (frekuensi terdengar lebih tinggi)</div>
+        </li>
+        <li>
+          <div class="concept-icon">±</div>
+          <div><strong>Sumber menjauhi pendengar</strong> → gunakan tanda <strong>+vs</strong> di penyebut (frekuensi terdengar lebih rendah)</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎯</div>
+        <div>
+          <div class="card-title">Aplikasi Efek Doppler</div>
+          <div class="card-sub">Penerapan dalam teknologi & kehidupan</div>
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">🏥</div>
+          <div><strong>USG Doppler</strong> — Mengukur kecepatan aliran darah dengan mendeteksi perubahan frekuensi pantulan gelombang ultrasonik.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🚔</div>
+          <div><strong>Radar kecepatan (speed gun)</strong> — Polisi menggunakan gelombang mikro/radio untuk mengukur kecepatan kendaraan berdasarkan efek Doppler.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🌌</div>
+          <div><strong>Red shift & Blue shift</strong> — Pergeseran merah (galaksi menjauhi) dan biru (mendekati) dalam astronomi menggunakan prinsip Doppler cahaya.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🌩️</div>
+          <div><strong>Radar cuaca</strong> — Mendeteksi kecepatan dan arah angin dalam badai menggunakan Doppler radar.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- RESONANSI -->
+  <div class="section" id="sec-resonansi">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎵</div>
+        <div>
+          <div class="card-title">Resonansi Kolom Udara</div>
+          <div class="card-sub">Frekuensi harmonik pada pipa organa</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Resonansi terjadi ketika frekuensi sumber sama dengan frekuensi alami suatu sistem. Pada kolom udara dalam pipa, resonansi menghasilkan gelombang stasioner.</p>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">Pipa Organa Terbuka (Kedua Ujung Terbuka)</div>
+        <div class="hukum-title">Semua Harmonik Muncul</div>
+        <div class="hukum-desc">Kedua ujung merupakan perut gelombang. Frekuensi harmonik: fₙ = n · v / (2L) untuk n = 1, 2, 3, ...</div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Frekuensi Pipa Organa Terbuka</div>
+        <div class="formula-main">fₙ = n · v / (2L)</div>
+        <div class="formula-desc">
+          <span>n</span> = 1, 2, 3, ... (semua bilangan bulat positif)<br>
+          <span>v</span> = cepat rambat bunyi di udara (m/s)<br>
+          <span>L</span> = panjang kolom udara (m)
+        </div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">Pipa Organa Tertutup (Satu Ujung Tertutup)</div>
+        <div class="hukum-title">Hanya Harmonik Ganjil</div>
+        <div class="hukum-desc">Ujung tertutup = simpul, ujung terbuka = perut. Frekuensi harmonik: fₙ = (2n−1) · v / (4L) untuk n = 1, 2, 3, ...</div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Frekuensi Pipa Organa Tertutup</div>
+        <div class="formula-main">fₙ = (2n−1) · v / (4L)</div>
+        <div class="formula-desc">
+          <span>n</span> = 1, 2, 3, ... (menghasilkan harmonik ganjil saja: 1, 3, 5, ...)<br>
+          Nada dasar (n=1): f₁ = v / (4L)<br>
+          Panjang gelombang nada dasar: λ₁ = 4L
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎶</div>
+        <div>
+          <div class="card-title">Pelayangan Bunyi (Beat)</div>
+          <div class="card-sub">Interferensi dua bunyi berfrekuensi hampir sama</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Pelayangan terjadi ketika dua bunyi dengan frekuensi <em>hampir sama</em> dibunyikan bersamaan. Hasilnya adalah bunyi yang mengeras dan melemah secara periodik — terdengar seperti "wah-wah-wah".</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Frekuensi Pelayangan</div>
+        <div class="formula-main">f_layangan = |f₁ − f₂|</div>
+        <div class="formula-desc">
+          <span>f₁, f₂</span> = frekuensi kedua sumber bunyi (Hz)<br>
+          Frekuensi pelayangan = selisih mutlak kedua frekuensi<br>
+          Pelayangan terdengar jelas jika |f₁ − f₂| ≤ 10 Hz
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">🎸</div>
+          <div><strong>Menyetem gitar</strong> — Musisi mendengarkan pelayangan saat menyetem alat musik. Jika tidak ada pelayangan → dua senar sudah berfrekuensi sama.</div>
+        </li>
+        <li>
+          <div class="concept-icon">🔔</div>
+          <div><strong>Lonceng gereja</strong> — Dua lonceng yang hampir satu frekuensi menciptakan efek pelayangan yang khas.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+// Track materi open
+(function() {
+  var MAPEL = 'Fisika', BAB = 'Gelombang Bunyi';
+  try {
+    localStorage.setItem('ef_last_materi', JSON.stringify({mapel:MAPEL,bab:BAB,ts:Date.now()}));
+    var xp = JSON.parse(localStorage.getItem('ef_xp_history')||'[]');
+    xp.push({ts:Date.now(),xp:15,src:'materi',label:BAB});
+    if(xp.length>200) xp.splice(0,xp.length-200);
+    localStorage.setItem('ef_xp_history',JSON.stringify(xp));
+    var logs = JSON.parse(localStorage.getItem('edufun_activity_logs')||'[]');
+    logs.push({ts:Date.now(),mapel:MAPEL,mnt:15,type:'materi',bab:BAB});
+    if(logs.length>500) logs.splice(0,logs.length-500);
+    localStorage.setItem('edufun_activity_logs',JSON.stringify(logs));
+    var s = JSON.parse(localStorage.getItem('ef_stat_materi')||'{"total":0,"lastMapel":null,"lastBab":null,"lastTs":null}');
+    s.total=(s.total||0)+1; s.lastMapel=MAPEL; s.lastBab=BAB; s.lastTs=Date.now();
+    localStorage.setItem('ef_stat_materi',JSON.stringify(s));
+  } catch(e) {}
+})();
+
+function goBack() {
+  try { sessionStorage.setItem('ef_goto', 'materi'); } catch(e) {}
+  window.location.href = '../../app.html';
+}
+
+(function() {
+  const saved = localStorage.getItem('ef_ac');
+  if (!saved) return;
+  const r = saved.match(/\w\w/g);
+  if (!r) return;
+  const rgb = r.map(x => parseInt(x, 16)).join(',');
+  const d = document.documentElement;
+  d.style.setProperty('--ac', saved);
+  d.style.setProperty('--ac-rgb', rgb);
+  d.style.setProperty('--ac-l', `rgba(${rgb},.10)`);
+  d.style.setProperty('--ac-m', `rgba(${rgb},.25)`);
+})();
+
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('act'));
+  document.getElementById('sec-' + id).classList.add('show');
+  el.classList.add('act');
+  document.querySelectorAll('#sec-' + id + ' .card').forEach((c, i) => {
+    c.style.animation = 'none';
+    c.offsetHeight;
+    c.style.animation = '';
+    c.style.animationDelay = (i * 0.07) + 's';
+  });
+  window.scrollTo({ top: document.querySelector('.nav-wrap').offsetTop - 10, behavior: 'smooth' });
+}
+
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+============================================================
+CHANGELOG — EduFun v10 (Firestore-Only State)
+============================================================
+
+PERUBAHAN UTAMA: Semua state user sekarang disimpan di Firestore.
+localStorage TIDAK lagi dipakai sebagai state — hanya session auth.
+
+------------------------------------------------------------
+firebase-sync.js (v5)
+------------------------------------------------------------
++ Coins disimpan ke Firestore (field: `coins`)
++ Shop (owned items, skin aktif, aksesori aktif) disimpan ke
+  Firestore (field: `shop.owned`, `shop.activeSkin`, `shop.activeAcc`)
++ Streak, agenda, cards, xpHistory, activityLogs semua
+  diterapkan dari Firestore ke state memori (bukan localStorage)
++ Fungsi baru: saveCoins(), saveShop()
++ _applyAllToApp() sekarang apply coins & shop dari Firestore
+
+------------------------------------------------------------
+app.js
+------------------------------------------------------------
++ applyAc() — tidak lagi tulis ke localStorage
++ Startup accent — default #3b82f6 sampai Firestore reply
++ addXP() — pakai window._xpHistory (memori) bukan localStorage
++ addCoins() — simpan ke Firestore via FirebaseSync.saveCoins()
++ logActivity() — pakai window._activityLogs (memori)
++ cards — inisialisasi [], diisi dari Firestore
++ saveCards() / _refreshFlashCards() — tidak pakai localStorage
++ coins init — diset 0, diisi dari Firestore
++ StreakSystem — pakai window._streakData (memori),
+  tambah applyFromFirestore() & getDataInMemory()
++ AgendaSystem — load() tidak baca localStorage,
+  tambah applyFromFirestore() & getDataInMemory()
++ _statGet/_statSet — pakai window._statArena/Materi/Pomo (memori)
++ Shop getOwnedItems/getActiveItem/saveOwned/buyShopItem/
+  activateShopItem — semua pakai window._shop* + Firestore
++ Stat render awal menunggu FirebaseSync (tidak render kosong)
+
+------------------------------------------------------------
+auth.js
+------------------------------------------------------------
++ clearUserStorage() — reset semua variabel memori global
+  saat logout (window._xpHistory, _activityLogs, _streakData,
+  _statArena, _statMateri, _statPomo, _shopOwned, dll)
++ register() — userdata doc sekarang include: coins: 0,
+  shop: {owned, activeSkin, activeAcc}, xpHistory: [],
+  activityLogs: []
+
+------------------------------------------------------------
+STRUKTUR FIRESTORE userdata/{uid}
+------------------------------------------------------------
+{
+  accent:       string,          // warna tema
+  coins:        number,          // koin user
+  shop: {
+    owned:      string[],        // item yang dimiliki
+    activeSkin: string,          // skin aktif
+    activeAcc:  string,          // aksesori aktif
+  },
+  character:    object,          // data maskot
+  cards:        array,           // flashcards
+  agenda:       object,          // jadwal { "YYYY-MM-DD": [...] }
+  streak:       { days, lastShown },
+  xpHistory:    array,           // riwayat XP (max 500)
+  activityLogs: array,           // log aktivitas (max 1000)
+  stats: {
+    xp, level, streakCount,
+    battleTotal, battleWins, battleXP,
+    lastBattleTs, lastBattleMapel,
+    materiTotal, lastMateriMapel, lastMateriBab, lastMateriTs,
+    pomodoroTotal, pomodoroToday, pomodoroTodayMnt,
+    lastPomoDate, lastPomoTs, lastPomoMapel,
+    flashStudySessions, flashCorrect, flashTotal,
+    lastFlashTs, lastFlashMapel, flashCardCount,
+    mapelProgress: { [mapel]: pct },
+    quizSessions, lastOnlineTs,
+  },
+  createdAt:    number,
+}
+============================================================

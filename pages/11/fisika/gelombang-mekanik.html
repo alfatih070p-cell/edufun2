@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gelombang Mekanik · Fisika Kelas 11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ac: #8b5cf6;
+    --ac-rgb: 139,92,246;
+    --ac-l: rgba(139,92,246,.10);
+    --ac-m: rgba(139,92,246,.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid #e2e8f0;
+    padding: .7rem 1.25rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: .35rem;
+    background: #f1f5f9; border: none; border-radius: 10px;
+    padding: .45rem .8rem; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: .78rem; color: #64748b;
+    transition: all .15s;
+  }
+  .back-btn:hover { background: var(--ac-l); color: var(--ac); }
+  .topbar-title { font-weight: 800; font-size: .95rem; flex: 1; }
+  .topbar-badge {
+    background: var(--ac-l); color: var(--ac);
+    border: 1.5px solid var(--ac-m);
+    font-size: .62rem; font-weight: 800;
+    padding: .15rem .5rem; border-radius: 99px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--ac) 0%, color-mix(in srgb, var(--ac) 70%, #1e293b) 100%);
+    padding: 2.5rem 1.5rem 3.5rem;
+    position: relative; overflow: hidden;
+    color: #fff;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: .35rem;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 99px; padding: .25rem .7rem;
+    font-size: .7rem; font-weight: 700; margin-bottom: .9rem;
+  }
+  .hero h1 { font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: .5rem; }
+  .hero p { font-size: .85rem; opacity: .85; max-width: 480px; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 1rem; margin-top: 1.5rem; }
+  .hero-stat {
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+    border-radius: 12px; padding: .5rem .85rem; text-align: center;
+  }
+  .hero-stat-num { font-size: 1.2rem; font-weight: 900; }
+  .hero-stat-lbl { font-size: .62rem; opacity: .8; font-weight: 600; }
+
+  .nav-wrap {
+    background: #fff; border-bottom: 1.5px solid #e2e8f0;
+    position: sticky; top: 57px; z-index: 90;
+  }
+  .nav-tabs { display: flex; gap: 0; overflow-x: auto; padding: 0 1rem; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0; padding: .75rem 1rem;
+    background: none; border: none; border-bottom: 2.5px solid transparent;
+    font-family: inherit; font-weight: 700; font-size: .8rem;
+    color: #94a3b8; cursor: pointer; transition: all .15s;
+    white-space: nowrap;
+  }
+  .tab-btn.act { border-bottom-color: var(--ac); color: var(--ac); }
+
+  .content { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  .section { display: none; }
+  .section.show { display: block; }
+
+  .card {
+    background: #fff; border: 1.5px solid #e2e8f0;
+    border-radius: 18px; padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color .2s, box-shadow .2s;
+    animation: fadeUp .35s ease both;
+  }
+  .card:hover { border-color: var(--ac-m); box-shadow: 0 4px 20px rgba(var(--ac-rgb),.08); }
+  .card:nth-child(1) { animation-delay: .05s; }
+  .card:nth-child(2) { animation-delay: .1s; }
+  .card:nth-child(3) { animation-delay: .15s; }
+  .card:nth-child(4) { animation-delay: .2s; }
+  .card:nth-child(5) { animation-delay: .25s; }
+
+  .card-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--ac-l); border: 1.5px solid var(--ac-m);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .card-title { font-size: 1rem; font-weight: 800; }
+  .card-sub { font-size: .74rem; color: #94a3b8; font-weight: 600; margin-top: .1rem; }
+
+  .prose { font-size: .855rem; color: #334155; line-height: 1.75; }
+  .prose p { margin-bottom: .75rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  .formula-box {
+    background: #0f172a; border-radius: 14px;
+    padding: 1.1rem 1.3rem; margin: 1rem 0;
+    border: 1.5px solid rgba(255,255,255,.08);
+    position: relative; overflow: hidden;
+  }
+  .formula-box::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--ac);
+  }
+  .formula-label { font-size: .65rem; font-weight: 800; color: var(--ac); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; }
+  .formula-main { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 600; color: #f8fafc; letter-spacing: .02em; }
+  .formula-desc { margin-top: .65rem; font-size: .75rem; color: #94a3b8; line-height: 1.6; }
+  .formula-desc span { color: #e2e8f0; font-weight: 600; }
+
+  .concept-list { list-style: none; margin-top: .5rem; }
+  .concept-list li {
+    display: flex; gap: .65rem;
+    padding: .65rem 0; border-bottom: 1px solid #f1f5f9;
+    font-size: .845rem; color: #334155; line-height: 1.55;
+  }
+  .concept-list li:last-child { border-bottom: none; }
+  .concept-icon {
+    width: 24px; height: 24px; border-radius: 7px;
+    background: var(--ac-l); color: var(--ac);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 800; flex-shrink: 0; margin-top: .1rem;
+  }
+
+  .jenis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .5rem; }
+  .jenis-card {
+    border: 1.5px solid #e2e8f0; border-radius: 13px;
+    padding: 1rem; background: #f8fafc; transition: all .15s;
+  }
+  .jenis-card:hover { border-color: var(--ac); background: var(--ac-l); }
+  .jenis-name { font-weight: 800; font-size: .84rem; margin-bottom: .25rem; }
+  .jenis-cond { font-size: .7rem; color: #64748b; font-weight: 600; margin-bottom: .5rem; }
+  .jenis-note { font-size: .72rem; color: #475569; line-height: 1.5; }
+
+  .hukum-card {
+    border-left: 4px solid var(--ac);
+    background: var(--ac-l); border-radius: 0 14px 14px 0;
+    padding: 1rem 1.1rem; margin-bottom: .75rem;
+  }
+  .hukum-num { font-size: .68rem; font-weight: 800; color: var(--ac); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .3rem; }
+  .hukum-title { font-weight: 800; font-size: .9rem; margin-bottom: .4rem; }
+  .hukum-desc { font-size: .82rem; color: #334155; line-height: 1.65; }
+
+  .wave-visual {
+    background: #0f172a; border-radius: 14px; padding: 1.2rem 1.3rem;
+    margin: 1rem 0; text-align: center;
+  }
+  .wave-svg { width: 100%; max-width: 400px; height: 80px; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--ac); width: 0%; transition: width .1s; z-index: 999; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .jenis-grid { grid-template-columns: 1fr; }
+    .hero { padding: 1.5rem 1rem 2.5rem; }
+    .hero h1 { font-size: 1.45rem; }
+    .hero-stats { gap: .5rem; flex-wrap: wrap; }
+    .topbar { padding: .55rem .85rem; }
+    .topbar-badge { display: none; }
+    .nav-wrap { top: 48px; }
+    .tab-btn { padding: .6rem .75rem; font-size: .74rem; }
+    .content { padding: 1rem .75rem 4rem; }
+    .card { padding: 1.1rem 1rem; border-radius: 14px; }
+    .formula-main { font-size: 1rem; word-break: break-all; }
+    .prose { font-size: .8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="topbar">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </button>
+  <div class="topbar-title">Gelombang Mekanik</div>
+  <span class="topbar-badge">Fisika · Kelas 11</span>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">🌊 Fisika · Kelas 11</div>
+  <h1>Gelombang Mekanik</h1>
+  <p>Pahami sifat-sifat gelombang, jenis-jenisnya, persamaan matematika, serta fenomena gelombang stasioner dan interferensi.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">2</div>
+      <div class="hero-stat-lbl">Jenis Utama</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-lbl">Sifat Gelombang</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-lbl">Rumus Kunci</div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="tab-btn act" onclick="showTab('pengantar',this)">📖 Pengantar</button>
+    <button class="tab-btn" onclick="showTab('persamaan',this)">📐 Persamaan Gelombang</button>
+    <button class="tab-btn" onclick="showTab('sifat',this)">🔬 Sifat Gelombang</button>
+    <button class="tab-btn" onclick="showTab('stasioner',this)">〰️ Gelombang Stasioner</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- PENGANTAR -->
+  <div class="section show" id="sec-pengantar">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🌊</div>
+        <div>
+          <div class="card-title">Apa itu Gelombang Mekanik?</div>
+          <div class="card-sub">Definisi & Syarat Rambat</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Gelombang mekanik adalah gelombang yang membutuhkan <strong>medium (perantara)</strong> untuk merambat. Gelombang ini merupakan perambatan <strong>energi</strong> tanpa disertai perpindahan materi secara permanen.</p>
+        <p>Contoh umum: gelombang pada tali, gelombang air, gelombang bunyi di udara, dan gelombang gempa.</p>
+      </div>
+      <div class="wave-visual">
+        <svg class="wave-svg" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,40 C25,10 75,10 100,40 C125,70 175,70 200,40 C225,10 275,10 300,40 C325,70 375,70 400,40" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+          <line x1="100" y1="10" x2="100" y2="70" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="300" y1="10" x2="300" y2="70" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4"/>
+          <text x="200" y="15" text-anchor="middle" fill="#8b5cf6" font-size="10" font-family="monospace">λ (panjang gelombang)</text>
+          <line x1="100" y1="13" x2="300" y2="13" stroke="#8b5cf6" stroke-width="1" marker-end="url(#arr)" marker-start="url(#arr2)"/>
+          <text x="5" y="42" fill="rgba(255,255,255,0.5)" font-size="9" font-family="monospace">A</text>
+          <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="jenis-grid">
+        <div class="jenis-card">
+          <div class="jenis-name">🔀 Gelombang Transversal</div>
+          <div class="jenis-cond">Arah getar ⊥ arah rambat</div>
+          <div class="jenis-note">Contoh: gelombang tali, gelombang permukaan air, gelombang cahaya (elektromagnetik)</div>
+        </div>
+        <div class="jenis-card">
+          <div class="jenis-name">↔️ Gelombang Longitudinal</div>
+          <div class="jenis-cond">Arah getar ∥ arah rambat</div>
+          <div class="jenis-note">Contoh: gelombang bunyi di udara, gelombang pada pegas, gelombang gempa P</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📏</div>
+        <div>
+          <div class="card-title">Besaran-Besaran Gelombang</div>
+          <div class="card-sub">Variabel penting yang wajib dipahami</div>
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">λ</div>
+          <div><strong>Panjang Gelombang (λ)</strong> — Jarak antara dua titik yang berfase sama berturut-turut (misal: puncak ke puncak). Satuan: meter (m).</div>
+        </li>
+        <li>
+          <div class="concept-icon">T</div>
+          <div><strong>Periode (T)</strong> — Waktu yang diperlukan untuk satu getaran lengkap. Satuan: sekon (s).</div>
+        </li>
+        <li>
+          <div class="concept-icon">f</div>
+          <div><strong>Frekuensi (f)</strong> — Jumlah getaran per detik. Satuan: Hertz (Hz). Hubungan: f = 1/T.</div>
+        </li>
+        <li>
+          <div class="concept-icon">A</div>
+          <div><strong>Amplitudo (A)</strong> — Simpangan maksimum dari posisi kesetimbangan. Satuan: meter (m).</div>
+        </li>
+        <li>
+          <div class="concept-icon">v</div>
+          <div><strong>Cepat Rambat (v)</strong> — Kecepatan perambatan gelombang melalui medium. Satuan: m/s.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- PERSAMAAN -->
+  <div class="section" id="sec-persamaan">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📐</div>
+        <div>
+          <div class="card-title">Persamaan Dasar Gelombang</div>
+          <div class="card-sub">Rumus-rumus kunci yang harus dikuasai</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Hubungan Cepat Rambat, Frekuensi & Panjang Gelombang</div>
+        <div class="formula-main">v = λ · f = λ / T</div>
+        <div class="formula-desc">
+          <span>v</span> = cepat rambat gelombang (m/s)<br>
+          <span>λ</span> = panjang gelombang (m)<br>
+          <span>f</span> = frekuensi (Hz) · <span>T</span> = periode (s)
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Persamaan Simpangan Gelombang Berjalan</div>
+        <div class="formula-main">y = A sin(ωt − kx)</div>
+        <div class="formula-desc">
+          <span>y</span> = simpangan titik (m) · <span>A</span> = amplitudo (m)<br>
+          <span>ω</span> = frekuensi sudut = 2πf (rad/s)<br>
+          <span>k</span> = bilangan gelombang = 2π/λ (rad/m)<br>
+          <span>t</span> = waktu (s) · <span>x</span> = posisi titik (m)<br>
+          Tanda (−) untuk gelombang merambat ke arah +x; tanda (+) untuk arah −x
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Frekuensi Sudut & Bilangan Gelombang</div>
+        <div class="formula-main">ω = 2πf = 2π/T</div>
+        <div class="formula-desc">
+          <span>k</span> = 2π/λ (bilangan gelombang)<br>
+          <span>v</span> = ω/k (hubungan cepat rambat)
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <div>
+          <div class="card-title">Cepat Rambat pada Medium</div>
+          <div class="card-sub">Bergantung pada sifat medium, bukan frekuensi</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Cepat Rambat Gelombang Transversal pada Tali</div>
+        <div class="formula-main">v = √(F / μ)</div>
+        <div class="formula-desc">
+          <span>F</span> = tegangan tali (N)<br>
+          <span>μ</span> = massa per satuan panjang tali (kg/m) = m/L
+        </div>
+      </div>
+
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">↑</div>
+          <div>Semakin besar tegangan tali → cepat rambat semakin <strong>besar</strong></div>
+        </li>
+        <li>
+          <div class="concept-icon">↓</div>
+          <div>Semakin besar massa per panjang tali → cepat rambat semakin <strong>kecil</strong></div>
+        </li>
+        <li>
+          <div class="concept-icon">⚠️</div>
+          <div>Cepat rambat bergantung pada <strong>medium</strong>, bukan pada frekuensi atau amplitudo sumber gelombang.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- SIFAT -->
+  <div class="section" id="sec-sifat">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔬</div>
+        <div>
+          <div class="card-title">Sifat-Sifat Gelombang</div>
+          <div class="card-sub">5 fenomena penting gelombang mekanik</div>
+        </div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">1. Refleksi (Pemantulan)</div>
+        <div class="hukum-title">Gelombang Memantul</div>
+        <div class="hukum-desc">Gelombang dipantulkan ketika mengenai batas medium. Sudut datang = sudut pantul. Pada ujung tetap: gelombang pantul berbalik fase (pembalikan). Pada ujung bebas: fase tetap sama.</div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">2. Refraksi (Pembiasan)</div>
+        <div class="hukum-title">Gelombang Berbelok Arah</div>
+        <div class="hukum-desc">Terjadi ketika gelombang berpindah dari satu medium ke medium lain dengan cepat rambat berbeda. Frekuensi tetap, tetapi panjang gelombang dan arah rambat berubah.</div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">3. Difraksi (Pelenturan)</div>
+        <div class="hukum-title">Gelombang Melentur di Celah</div>
+        <div class="hukum-desc">Gelombang melentur saat melewati celah sempit atau penghalang. Difraksi paling jelas terjadi jika ukuran celah sebanding dengan panjang gelombang.</div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">4. Interferensi (Perpaduan)</div>
+        <div class="hukum-title">Dua Gelombang Bertemu</div>
+        <div class="hukum-desc">Superposisi dua gelombang menghasilkan gelombang baru. Interferensi konstruktif (saling memperkuat) terjadi bila beda fase = 0, 2π, 4π... Interferensi destruktif (saling melemahkan) bila beda fase = π, 3π, 5π...</div>
+      </div>
+
+      <div class="hukum-card">
+        <div class="hukum-num">5. Dispersi</div>
+        <div class="hukum-title">Pemisahan Berdasarkan Frekuensi</div>
+        <div class="hukum-desc">Dalam medium dispersif, gelombang dengan frekuensi berbeda merambat dengan cepat rambat berbeda. Contoh: prisma memisahkan cahaya putih menjadi pelangi.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚡</div>
+        <div>
+          <div class="card-title">Prinsip Superposisi</div>
+          <div class="card-sub">Dasar interferensi dan gelombang stasioner</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Ketika dua gelombang atau lebih bertemu di suatu titik, simpangan total adalah <strong>jumlah aljabar</strong> dari simpangan masing-masing gelombang.</p>
+        <p>y_total = y₁ + y₂</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Beda Lintasan & Interferensi</div>
+        <div class="formula-main">Δx = n·λ → konstruktif</div>
+        <div class="formula-desc">
+          Konstruktif (saling perkuat): Δx = 0, λ, 2λ, 3λ...<br>
+          Destruktif (saling lemah): Δx = ½λ, 3/2λ, 5/2λ...<br>
+          <span>Δx</span> = beda lintasan · <span>n</span> = bilangan bulat
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STASIONER -->
+  <div class="section" id="sec-stasioner">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">〰️</div>
+        <div>
+          <div class="card-title">Gelombang Stasioner</div>
+          <div class="card-sub">Superposisi dua gelombang berlawanan arah</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Gelombang stasioner (gelombang berdiri) terbentuk dari perpaduan dua gelombang dengan <strong>amplitudo, frekuensi, dan panjang gelombang sama</strong> yang merambat berlawanan arah.</p>
+        <p>Ciri khasnya: ada titik yang <strong>selalu diam (simpul/node)</strong> dan ada titik yang <strong>selalu bergetar maksimum (perut/antinode)</strong>.</p>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Persamaan Gelombang Stasioner (Ujung Bebas)</div>
+        <div class="formula-main">y = 2A cos(kx) sin(ωt)</div>
+        <div class="formula-desc">
+          Amplitudo hasil: <span>As = 2A cos(kx)</span><br>
+          Perut terjadi di x = 0, λ/2, λ, 3λ/2, ...<br>
+          Simpul terjadi di x = λ/4, 3λ/4, 5λ/4, ...
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Persamaan Gelombang Stasioner (Ujung Tetap)</div>
+        <div class="formula-main">y = 2A sin(kx) cos(ωt)</div>
+        <div class="formula-desc">
+          Amplitudo hasil: <span>As = 2A sin(kx)</span><br>
+          Simpul terjadi di x = 0, λ/2, λ, 3λ/2, ...<br>
+          Perut terjadi di x = λ/4, 3λ/4, 5λ/4, ...
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🎸</div>
+        <div>
+          <div class="card-title">Resonansi pada Dawai & Pipa</div>
+          <div class="card-sub">Frekuensi harmonik yang terbentuk</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-label">Frekuensi Harmonik Dawai (Kedua Ujung Tetap)</div>
+        <div class="formula-main">fₙ = n · v / (2L)</div>
+        <div class="formula-desc">
+          <span>n</span> = 1, 2, 3, ... (nomor harmonik)<br>
+          <span>v</span> = cepat rambat gelombang (m/s)<br>
+          <span>L</span> = panjang dawai (m)<br>
+          f₁ = nada dasar, f₂ = harmonik ke-2, dst.
+        </div>
+      </div>
+
+      <ul class="concept-list">
+        <li>
+          <div class="concept-icon">1</div>
+          <div><strong>Harmonik ke-1 (Nada Dasar)</strong> — L = λ/2, frekuensi paling rendah. Terdapat 2 simpul dan 1 perut.</div>
+        </li>
+        <li>
+          <div class="concept-icon">2</div>
+          <div><strong>Harmonik ke-2 (Overtone 1)</strong> — L = λ, frekuensi = 2f₁. Terdapat 3 simpul dan 2 perut.</div>
+        </li>
+        <li>
+          <div class="concept-icon">3</div>
+          <div><strong>Harmonik ke-3 (Overtone 2)</strong> — L = 3λ/2, frekuensi = 3f₁. Terdapat 4 simpul dan 3 perut.</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+// Track materi open
+(function() {
+  var MAPEL = 'Fisika', BAB = 'Gelombang Mekanik';
+  try {
+    localStorage.setItem('ef_last_materi', JSON.stringify({mapel:MAPEL,bab:BAB,ts:Date.now()}));
+    var xp = JSON.parse(localStorage.getItem('ef_xp_history')||'[]');
+    xp.push({ts:Date.now(),xp:15,src:'materi',label:BAB});
+    if(xp.length>200) xp.splice(0,xp.length-200);
+    localStorage.setItem('ef_xp_history',JSON.stringify(xp));
+    var logs = JSON.parse(localStorage.getItem('edufun_activity_logs')||'[]');
+    logs.push({ts:Date.now(),mapel:MAPEL,mnt:15,type:'materi',bab:BAB});
+    if(logs.length>500) logs.splice(0,logs.length-500);
+    localStorage.setItem('edufun_activity_logs',JSON.stringify(logs));
+    var s = JSON.parse(localStorage.getItem('ef_stat_materi')||'{"total":0,"lastMapel":null,"lastBab":null,"lastTs":null}');
+    s.total=(s.total||0)+1; s.lastMapel=MAPEL; s.lastBab=BAB; s.lastTs=Date.now();
+    localStorage.setItem('ef_stat_materi',JSON.stringify(s));
+  } catch(e) {}
+})();
+
+function goBack() {
+  try { sessionStorage.setItem('ef_goto', 'materi'); } catch(e) {}
+  window.location.href = '../../app.html';
+}
+
+(function() {
+  const saved = localStorage.getItem('ef_ac');
+  if (!saved) return;
+  const r = saved.match(/\w\w/g);
+  if (!r) return;
+  const rgb = r.map(x => parseInt(x, 16)).join(',');
+  const d = document.documentElement;
+  d.style.setProperty('--ac', saved);
+  d.style.setProperty('--ac-rgb', rgb);
+  d.style.setProperty('--ac-l', `rgba(${rgb},.10)`);
+  d.style.setProperty('--ac-m', `rgba(${rgb},.25)`);
+})();
+
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('act'));
+  document.getElementById('sec-' + id).classList.add('show');
+  el.classList.add('act');
+  document.querySelectorAll('#sec-' + id + ' .card').forEach((c, i) => {
+    c.style.animation = 'none';
+    c.offsetHeight;
+    c.style.animation = '';
+    c.style.animationDelay = (i * 0.07) + 's';
+  });
+  window.scrollTo({ top: document.querySelector('.nav-wrap').offsetTop - 10, behavior: 'smooth' });
+}
+
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+</script>
+</body>
+</html>
