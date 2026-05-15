@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Determinan & Invers Matriks · Matematika XI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ac:#dc2626;--ar:220,38,38;--al:rgba(220,38,38,.10);--am:rgba(220,38,38,.22);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#f1f5f9;color:#0f172a;min-height:100vh;}
+.bar{position:fixed;top:0;left:0;height:3px;background:var(--ac);width:0%;z-index:999;transition:width .1s;}
+.top{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1.5px solid #e2e8f0;padding:.65rem 1.2rem;display:flex;align-items:center;gap:.7rem;}
+.back{display:flex;align-items:center;gap:.3rem;background:#f1f5f9;border:none;border-radius:10px;padding:.4rem .75rem;cursor:pointer;font-family:inherit;font-weight:700;font-size:.78rem;color:#64748b;transition:all .15s;}
+.back:hover{background:var(--al);color:var(--ac);}
+.top-title{font-weight:800;font-size:.92rem;flex:1;}
+.top-badge{background:var(--al);color:var(--ac);border:1.5px solid var(--am);font-size:.6rem;font-weight:800;padding:.12rem .45rem;border-radius:99px;white-space:nowrap;}
+.hero{background:linear-gradient(135deg,var(--ac) 0%,color-mix(in srgb,var(--ac) 65%,#0f172a) 100%);padding:2.2rem 1.4rem 3rem;color:#fff;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(255,255,255,.07) 0%,transparent 60%);}
+.hero-tag{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:99px;padding:.22rem .65rem;font-size:.68rem;font-weight:700;margin-bottom:.8rem;}
+.hero h1{font-size:1.75rem;font-weight:900;line-height:1.2;margin-bottom:.4rem;}
+.hero p{font-size:.82rem;opacity:.85;max-width:480px;line-height:1.6;}
+.hero-stats{display:flex;gap:.8rem;margin-top:1.3rem;flex-wrap:wrap;}
+.hs{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:.45rem .8rem;text-align:center;}
+.hs-n{font-size:1.1rem;font-weight:900;}
+.hs-l{font-size:.6rem;opacity:.8;font-weight:600;}
+.nav-wrap{background:#fff;border-bottom:1.5px solid #e2e8f0;position:sticky;top:53px;z-index:90;}
+.nav-tabs{display:flex;overflow-x:auto;padding:0 .8rem;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab-btn{flex-shrink:0;padding:.7rem .9rem;background:none;border:none;border-bottom:2.5px solid transparent;font-family:inherit;font-weight:700;font-size:.78rem;color:#94a3b8;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.tab-btn.act{border-bottom-color:var(--ac);color:var(--ac);}
+.content{max-width:740px;margin:0 auto;padding:1.3rem .9rem 4rem;}
+.section{display:none;}.section.show{display:block;}
+.card{background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:1.25rem 1.3rem;margin-bottom:.9rem;animation:fu .3s ease both;}
+.card:hover{border-color:var(--am);box-shadow:0 4px 18px rgba(220,38,38,.07);}
+.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.09s}.card:nth-child(3){animation-delay:.14s}.card:nth-child(4){animation-delay:.19s}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ch{display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem;}
+.ci{width:38px;height:38px;border-radius:11px;background:var(--al);border:1.5px solid var(--am);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ct{font-size:.95rem;font-weight:800;}.cs{font-size:.72rem;color:#94a3b8;font-weight:600;margin-top:.08rem;}
+.prose{font-size:.845rem;color:#334155;line-height:1.75;}.prose p{margin-bottom:.65rem;}.prose p:last-child{margin-bottom:0;}
+.fbox{background:#0f172a;border-radius:13px;padding:1rem 1.2rem;margin:.85rem 0;border:1.5px solid rgba(255,255,255,.07);position:relative;overflow:hidden;}
+.fbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac);}
+.flbl{font-size:.62rem;font-weight:800;color:var(--ac);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;}
+.fmain{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:600;color:#f8fafc;}
+.fdesc{margin-top:.55rem;font-size:.73rem;color:#94a3b8;line-height:1.55;}.fdesc span{color:#e2e8f0;font-weight:600;}
+.clist{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-top:.7rem;}
+.clist li{display:flex;gap:.6rem;align-items:flex-start;background:var(--al);border:1px solid var(--am);border-radius:9px;padding:.55rem .8rem;font-size:.81rem;line-height:1.5;}
+.ci2{font-size:.82rem;flex-shrink:0;margin-top:.1rem;font-weight:800;color:var(--ac);}
+.steps{display:flex;flex-direction:column;gap:.5rem;margin-top:.7rem;}
+.step{display:flex;gap:.7rem;align-items:flex-start;padding:.65rem .85rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:11px;}
+.sn{width:24px;height:24px;border-radius:6px;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;}
+.sb{font-size:.82rem;color:#334155;line-height:1.5;}.sb strong{color:#0f172a;}
+.ex{background:#f0fdf4;border:1.5px solid #86efac;border-radius:11px;padding:.8rem .95rem;margin-top:.7rem;}
+.exl{font-size:.62rem;font-weight:800;color:#16a34a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem;}
+.exb{font-size:.82rem;color:#15803d;line-height:1.6;}
+.tip{background:#fefce8;border:1.5px solid #fde047;border-radius:11px;padding:.75rem .9rem;margin-top:.7rem;font-size:.81rem;color:#854d0e;line-height:1.5;}
+@media(max-width:600px){.hero{padding:1.4rem .9rem 2.2rem;}.hero h1{font-size:1.4rem;}.fmain{font-size:.95rem;word-break:break-all;}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="top">
+  <button class="back" onclick="goBack()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>Kembali</button>
+  <div class="top-title">Determinan & Invers Matriks</div>
+  <div class="top-badge">Mat · XI</div>
+</div>
+<div class="hero">
+  <div class="hero-tag">📐 Matematika · Kelas 11</div>
+  <h1>Determinan & Invers Matriks</h1>
+  <p>Menghitung determinan dan mencari invers matriks untuk menyelesaikan sistem persamaan linear.</p>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-n">3</div><div class="hs-l">Sub-Topik</div></div>
+    <div class="hs"><div class="hs-n">+15</div><div class="hs-l">Poin XP</div></div>
+  </div>
+</div>
+<div class="nav-wrap"><div class="nav-tabs">
+    <button class="tab-btn  act" onclick="showTab('det',this)">Determinan</button>
+    <button class="tab-btn" onclick="showTab('invers',this)">Invers</button>
+    <button class="tab-btn" onclick="showTab('latihan',this)">Latihan</button>
+</div></div>
+<div class="content">
+
+  <div class="section show" id="sec-det">
+
+  <div class="card"><div class="ch"><div class="ci">🔢</div><div><div class="ct">Det 2×2 dan 3×3</div><div class="cs">Nilai skalar dari matriks persegi</div></div></div>
+  <div class="fbox"><div class="flbl">Determinan 2×2</div><div class="fmain">det(A) = ad − bc</div><div class="fdesc">A = [[a,b],[c,d]] &nbsp;|&nbsp; diagonal utama dikurangi diagonal sekunder</div></div>
+  <div class="fbox"><div class="flbl">Determinan 3×3 (Sarrus)</div><div class="fmain">det = (aei+bfg+cdh) − (ceg+afh+bdi)</div><div class="fdesc">3 diagonal kanan (+) dikurangi 3 diagonal kiri (−)</div></div></div>
+  <div class="card"><div class="ch"><div class="ci">📌</div><div><div class="ct">Sifat Determinan</div></div></div>
+  <ul class="clist">
+    <li><div class="ci2">!</div><div>det(A)=0 → matriks <strong>singular</strong>, tidak punya invers</div></li>
+    <li><div class="ci2">✓</div><div>det(AB) = det(A)·det(B)</div></li>
+    <li><div class="ci2">✓</div><div>det(Aᵀ) = det(A)</div></li>
+    <li><div class="ci2">✓</div><div>det(kA) = kⁿ·det(A), n = ordo</div></li>
+  </ul></div>
+  </div>
+
+  <div class="section" id="sec-invers">
+
+  <div class="card"><div class="ch"><div class="ci">🔄</div><div><div class="ct">Invers Matriks 2×2</div><div class="cs">Syarat: det ≠ 0</div></div></div>
+  <div class="fbox"><div class="flbl">Rumus Invers 2×2</div><div class="fmain">A⁻¹ = (1/det) · [[d,−b],[−c,a]]</div><div class="fdesc">Tukar a↔d, ganti tanda b dan c, bagi dengan det(A)</div></div>
+  <div class="ex"><div class="exl">Contoh</div><div class="exb">A=[[2,1],[3,4]], det=8−3=5<br>A⁻¹ = (1/5)[[4,−1],[−3,2]]</div></div></div>
+  <div class="card"><div class="ch"><div class="ci">📐</div><div><div class="ct">Aplikasi: SPLDV dengan Matriks</div><div class="cs">Ax = b → x = A⁻¹b</div></div></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sb">Tulis sistem sebagai matriks A dan vektor b</div></div>
+    <div class="step"><div class="sn">2</div><div class="sb">Hitung det(A) — jika 0, tidak ada solusi tunggal</div></div>
+    <div class="step"><div class="sn">3</div><div class="sb">Hitung A⁻¹, lalu x = A⁻¹b</div></div>
+  </div></div>
+  </div>
+
+  <div class="section" id="sec-latihan">
+
+  <div class="card"><div class="ch"><div class="ci">✏️</div><div><div class="ct">Soal Latihan</div></div></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sb">Hitung det dari A=[[3,−1],[2,5]] dan B=[[1,2,0],[3,−1,2],[2,1,−1]].</div></div>
+    <div class="step"><div class="sn">2</div><div class="sb">Tentukan A⁻¹ jika A=[[4,3],[3,2]].</div></div>
+    <div class="step"><div class="sn">3</div><div class="sb">Selesaikan: 2x+y=5, 3x−2y=4 menggunakan metode invers matriks.</div></div>
+  </div></div>
+  </div>
+
+</div>
+<script>
+
+// Track materi open
+(function() {
+  var MAPEL = 'Matematika', BAB = 'Determinan & Invers Matriks';
+  try {
+    localStorage.setItem('ef_last_materi', JSON.stringify({mapel:MAPEL,bab:BAB,ts:Date.now()}));
+    var xp = JSON.parse(localStorage.getItem('ef_xp_history')||'[]');
+    xp.push({ts:Date.now(),xp:15,src:'materi',label:BAB});
+    if(xp.length>200) xp.splice(0,xp.length-200);
+    localStorage.setItem('ef_xp_history',JSON.stringify(xp));
+    var logs = JSON.parse(localStorage.getItem('edufun_activity_logs')||'[]');
+    logs.push({ts:Date.now(),mapel:MAPEL,mnt:15,type:'materi',bab:BAB});
+    if(logs.length>500) logs.splice(0,logs.length-500);
+    localStorage.setItem('edufun_activity_logs',JSON.stringify(logs));
+    var s = JSON.parse(localStorage.getItem('ef_stat_materi')||'{"total":0,"lastMapel":null,"lastBab":null,"lastTs":null}');
+    s.total=(s.total||0)+1; s.lastMapel=MAPEL; s.lastBab=BAB; s.lastTs=Date.now();
+    localStorage.setItem('ef_stat_materi',JSON.stringify(s));
+  } catch(e) {}
+})();
+
+function goBack(){try{sessionStorage.setItem('ef_goto','materi');}catch(e){}window.location.href='../../app.html';}
+(function(){var s=localStorage.getItem('ef_ac');if(!s)return;var r=s.match(/\w\w/g);if(!r)return;var rgb=r.map(function(x){return parseInt(x,16);}).join(',');var d=document.documentElement;d.style.setProperty('--ac',s);d.style.setProperty('--ar',rgb);d.style.setProperty('--al','rgba('+rgb+',.10)');d.style.setProperty('--am','rgba('+rgb+',.22)');d.style.setProperty('--ac-rgb',rgb);})();
+function showTab(id,el){document.querySelectorAll('.section').forEach(function(s){s.classList.remove('show');});document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('act');});document.getElementById('sec-'+id).classList.add('show');el.classList.add('act');window.scrollTo({top:document.querySelector('.nav-wrap').offsetTop-8,behavior:'smooth'});}
+window.addEventListener('scroll',function(){var d=document.documentElement;var p=d.scrollTop/(d.scrollHeight-d.clientHeight)*100;document.getElementById('bar').style.width=p+'%';});
+</script>
+</body>
+</html>

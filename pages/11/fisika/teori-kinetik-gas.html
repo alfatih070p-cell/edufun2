@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teori Kinetik Gas · Fisika Kelas 11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ac: #8b5cf6; --ac-rgb: 139,92,246; --ac-l: rgba(139,92,246,.10); --ac-m: rgba(139,92,246,.25); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #0f172a; min-height: 100vh; }
+  .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.85); backdrop-filter: blur(12px); border-bottom: 1.5px solid #e2e8f0; padding: .7rem 1.25rem; display: flex; align-items: center; gap: .75rem; }
+  .back-btn { display: flex; align-items: center; gap: .35rem; background: #f1f5f9; border: none; border-radius: 10px; padding: .45rem .8rem; cursor: pointer; font-family: inherit; font-weight: 700; font-size: .78rem; color: #64748b; transition: all .15s; }
+  .back-btn:hover { background: var(--ac-l); color: var(--ac); }
+  .topbar-title { font-weight: 800; font-size: .95rem; flex: 1; }
+  .topbar-badge { background: var(--ac-l); color: var(--ac); border: 1.5px solid var(--ac-m); font-size: .62rem; font-weight: 800; padding: .15rem .5rem; border-radius: 99px; }
+  .hero { background: linear-gradient(135deg, var(--ac) 0%, color-mix(in srgb, var(--ac) 70%, #1e293b) 100%); padding: 2.5rem 1.5rem 3.5rem; position: relative; overflow: hidden; color: #fff; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+  .hero-tag { display: inline-flex; align-items: center; gap: .35rem; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 99px; padding: .25rem .7rem; font-size: .7rem; font-weight: 700; margin-bottom: .9rem; }
+  .hero h1 { font-size: 2rem; font-weight: 900; line-height: 1.15; margin-bottom: .5rem; }
+  .hero p { font-size: .85rem; opacity: .85; max-width: 480px; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .hero-stat { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); border-radius: 12px; padding: .5rem .85rem; text-align: center; }
+  .hero-stat-num { font-size: 1.2rem; font-weight: 900; }
+  .hero-stat-lbl { font-size: .62rem; opacity: .8; font-weight: 600; }
+  .nav-wrap { background: #fff; border-bottom: 1.5px solid #e2e8f0; position: sticky; top: 57px; z-index: 90; }
+  .nav-tabs { display: flex; overflow-x: auto; padding: 0 1rem; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; padding: .75rem 1rem; background: none; border: none; border-bottom: 2.5px solid transparent; font-family: inherit; font-weight: 700; font-size: .8rem; color: #94a3b8; cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .tab-btn.act { border-bottom-color: var(--ac); color: var(--ac); }
+  .content { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  .section { display: none; } .section.show { display: block; }
+  .card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.4rem 1.5rem; margin-bottom: 1rem; transition: border-color .2s, box-shadow .2s; animation: fadeUp .35s ease both; }
+  .card:hover { border-color: var(--ac-m); box-shadow: 0 4px 20px rgba(var(--ac-rgb),.08); }
+  .card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.1s} .card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.2s}
+  .card-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+  .card-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--ac-l); border: 1.5px solid var(--ac-m); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .card-title { font-size: 1rem; font-weight: 800; }
+  .card-sub { font-size: .74rem; color: #94a3b8; font-weight: 600; margin-top: .1rem; }
+  .prose { font-size: .855rem; color: #334155; line-height: 1.75; }
+  .prose p { margin-bottom: .75rem; } .prose p:last-child { margin-bottom: 0; }
+  .formula-box { background: #0f172a; border-radius: 14px; padding: 1.1rem 1.3rem; margin: 1rem 0; border: 1.5px solid rgba(255,255,255,.08); position: relative; overflow: hidden; }
+  .formula-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--ac); }
+  .formula-label { font-size: .65rem; font-weight: 800; color: var(--ac); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; }
+  .formula-main { font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 600; color: #f8fafc; }
+  .formula-desc { margin-top: .65rem; font-size: .75rem; color: #94a3b8; line-height: 1.6; }
+  .formula-desc span { color: #e2e8f0; font-weight: 600; }
+  .concept-list { list-style: none; margin-top: .5rem; }
+  .concept-list li { display: flex; gap: .65rem; padding: .65rem 0; border-bottom: 1px solid #f1f5f9; font-size: .845rem; color: #334155; line-height: 1.55; }
+  .concept-list li:last-child { border-bottom: none; }
+  .concept-icon { width: 24px; height: 24px; border-radius: 7px; background: var(--ac-l); color: var(--ac); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 800; flex-shrink: 0; margin-top: .1rem; }
+  .hukum-card { border-left: 4px solid var(--ac); background: var(--ac-l); border-radius: 0 14px 14px 0; padding: 1rem 1.1rem; margin-bottom: .75rem; }
+  .hukum-num { font-size: .68rem; font-weight: 800; color: var(--ac); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .3rem; }
+  .hukum-title { font-weight: 800; font-size: .9rem; margin-bottom: .4rem; }
+  .hukum-desc { font-size: .82rem; color: #334155; line-height: 1.65; }
+  .big-formula { text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; margin: 1rem 0; border: 1.5px solid #334155; }
+  .big-formula .lbl { font-size: .7rem; color: #64748b; font-weight: 700; margin-bottom: .5rem; }
+  .big-formula .eq { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; color: #f8fafc; }
+  .big-formula .eq span { color: var(--ac); }
+  .big-formula .note { font-size: .75rem; color: #64748b; margin-top: .6rem; }
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--ac); width: 0%; transition: width .1s; z-index: 999; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) { .hero { padding: 1.5rem 1rem 2.5rem; } .hero h1 { font-size: 1.45rem; } .topbar-badge { display: none; } .nav-wrap { top: 48px; } .tab-btn { font-size: .74rem; padding: .6rem .75rem; } .content { padding: 1rem .75rem 4rem; } .formula-main { font-size: 1rem; } .big-formula .eq { font-size: 1.15rem; } }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+<div class="topbar">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </button>
+  <div class="topbar-title">Teori Kinetik Gas</div>
+  <span class="topbar-badge">Fisika · Kelas 11</span>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">⚗️ Fisika · Kelas 11</div>
+  <h1>Teori Kinetik Gas</h1>
+  <p>Pelajari sifat gas ideal, hukum-hukum gas (Boyle, Charles, Gay-Lussac), persamaan gas ideal, dan hubungan suhu dengan energi kinetik molekul.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-lbl">Hukum Gas</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">PV=nRT</div><div class="hero-stat-lbl">Persamaan Utama</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">kB</div><div class="hero-stat-lbl">Konstanta Boltzmann</div></div>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="tab-btn act" onclick="showTab('pengantar',this)">📖 Gas Ideal</button>
+    <button class="tab-btn" onclick="showTab('hukum',this)">📐 Hukum Gas</button>
+    <button class="tab-btn" onclick="showTab('persamaan',this)">🔢 Persamaan Gas</button>
+    <button class="tab-btn" onclick="showTab('kinetik',this)">⚡ Energi Kinetik</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- GAS IDEAL -->
+  <div class="section show" id="sec-pengantar">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚗️</div>
+        <div>
+          <div class="card-title">Gas Ideal</div>
+          <div class="card-sub">Model sederhana perilaku gas</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><strong>Gas ideal</strong> adalah model teoretis gas yang memenuhi asumsi-asumsi penyederhanaan. Gas nyata mendekati perilaku gas ideal pada suhu tinggi dan tekanan rendah.</p>
+      </div>
+      <ul class="concept-list">
+        <li><div class="concept-icon">✓</div><div>Molekul gas berukuran sangat kecil dibandingkan jarak antar molekul (diabaikan volumenya).</div></li>
+        <li><div class="concept-icon">✓</div><div>Tidak ada gaya tarik-menarik antar molekul (kecuali saat tumbukan).</div></li>
+        <li><div class="concept-icon">✓</div><div>Tumbukan antar molekul dan dengan dinding bersifat <strong>lenting sempurna</strong> (energi kinetik kekal).</div></li>
+        <li><div class="concept-icon">✓</div><div>Molekul bergerak secara acak ke segala arah dengan berbagai kecepatan.</div></li>
+        <li><div class="concept-icon">✓</div><div>Hukum-hukum Newton berlaku untuk setiap molekul.</div></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <div>
+          <div class="card-title">Variabel Keadaan Gas</div>
+          <div class="card-sub">P, V, T, dan n</div>
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li><div class="concept-icon">P</div><div><strong>Tekanan (P)</strong> — Gaya per satuan luas yang diberikan molekul gas saat menumbuk dinding. Satuan: Pascal (Pa) atau atm.</div></li>
+        <li><div class="concept-icon">V</div><div><strong>Volume (V)</strong> — Ruang yang ditempati gas. Satuan: m³ atau liter.</div></li>
+        <li><div class="concept-icon">T</div><div><strong>Suhu Mutlak (T)</strong> — Suhu dalam Kelvin (K). <em>Selalu gunakan Kelvin dalam persamaan gas!</em></div></li>
+        <li><div class="concept-icon">n</div><div><strong>Jumlah Mol (n)</strong> — Jumlah zat dalam mol. 1 mol = 6,022 × 10²³ molekul (bilangan Avogadro, N_A).</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HUKUM GAS -->
+  <div class="section" id="sec-hukum">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📐</div>
+        <div>
+          <div class="card-title">Hukum-Hukum Gas</div>
+          <div class="card-sub">Boyle, Charles, dan Gay-Lussac</div>
+        </div>
+      </div>
+      <div class="hukum-card">
+        <div class="hukum-num">Hukum Boyle (1662) — T konstan</div>
+        <div class="hukum-title">P berbanding terbalik dengan V</div>
+        <div class="hukum-desc">Pada suhu tetap (isotermal), tekanan gas berbanding terbalik dengan volumenya. Jika tekanan naik, volume turun; jika tekanan turun, volume naik.</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Hukum Boyle</div>
+        <div class="formula-main">P₁V₁ = P₂V₂</div>
+        <div class="formula-desc">Berlaku saat suhu T konstan. Contoh: pompa ban, piston kompresor.</div>
+      </div>
+      <div class="hukum-card" style="margin-top:.75rem">
+        <div class="hukum-num">Hukum Charles (1787) — P konstan</div>
+        <div class="hukum-title">V berbanding lurus dengan T</div>
+        <div class="hukum-desc">Pada tekanan tetap (isobarik), volume gas berbanding lurus dengan suhu mutlaknya. Gas memuai saat dipanaskan, menyusut saat didinginkan.</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Hukum Charles</div>
+        <div class="formula-main">V₁/T₁ = V₂/T₂</div>
+        <div class="formula-desc">Berlaku saat tekanan P konstan. T dalam Kelvin! Contoh: balon udara panas.</div>
+      </div>
+      <div class="hukum-card" style="margin-top:.75rem">
+        <div class="hukum-num">Hukum Gay-Lussac (1802) — V konstan</div>
+        <div class="hukum-title">P berbanding lurus dengan T</div>
+        <div class="hukum-desc">Pada volume tetap (isokhorik), tekanan gas berbanding lurus dengan suhu mutlaknya.</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Hukum Gay-Lussac</div>
+        <div class="formula-main">P₁/T₁ = P₂/T₂</div>
+        <div class="formula-desc">Berlaku saat volume V konstan. Contoh: tabung gas yang dipanaskan bisa meledak.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <div>
+          <div class="card-title">Hukum Gabungan Gas</div>
+          <div class="card-sub">Menggabungkan ketiga hukum gas</div>
+        </div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Combined Gas Law</div>
+        <div class="formula-main">P₁V₁/T₁ = P₂V₂/T₂</div>
+        <div class="formula-desc">Digunakan saat P, V, <em>dan</em> T semuanya berubah. Hukum Boyle, Charles, Gay-Lussac adalah kasus khusus dari hukum ini.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSAMAAN GAS IDEAL -->
+  <div class="section" id="sec-persamaan">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔢</div>
+        <div>
+          <div class="card-title">Persamaan Gas Ideal</div>
+          <div class="card-sub">PV = nRT — merangkum semua hukum gas</div>
+        </div>
+      </div>
+      <div class="big-formula">
+        <div class="lbl">Persamaan Gas Ideal</div>
+        <div class="eq"><span>P</span>V = <span>n</span>R<span>T</span></div>
+        <div class="note">Berlaku untuk semua kondisi (tidak hanya satu variabel konstan)</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Variabel dan Konstanta</div>
+        <div class="formula-main">PV = nRT</div>
+        <div class="formula-desc">
+          <span>P</span> = tekanan (Pa)<br>
+          <span>V</span> = volume (m³)<br>
+          <span>n</span> = jumlah mol gas (mol)<br>
+          <span>R</span> = konstanta gas universal = 8,314 J/mol·K<br>
+          <span>T</span> = suhu mutlak (Kelvin!)
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:.75rem">
+        <div class="formula-label">Persamaan dengan Jumlah Molekul (N)</div>
+        <div class="formula-main">PV = NkT</div>
+        <div class="formula-desc">
+          <span>N</span> = jumlah molekul gas<br>
+          <span>k</span> = konstanta Boltzmann = 1,38 × 10⁻²³ J/K<br>
+          Hubungan: R = N_A × k (N_A = 6,022 × 10²³ /mol)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENERGI KINETIK -->
+  <div class="section" id="sec-kinetik">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚡</div>
+        <div>
+          <div class="card-title">Energi Kinetik Molekul Gas</div>
+          <div class="card-sub">Hubungan suhu dan gerak molekul</div>
+        </div>
+      </div>
+      <div class="prose">
+        <p>Dalam teori kinetik, <strong>suhu adalah ukuran energi kinetik rata-rata translasi molekul</strong>. Semakin tinggi suhu, semakin cepat molekul bergerak.</p>
+      </div>
+      <div class="formula-box">
+        <div class="formula-label">Energi Kinetik Rata-rata per Molekul</div>
+        <div class="formula-main">Ek_rata = (3/2) kT</div>
+        <div class="formula-desc">
+          <span>k</span> = konstanta Boltzmann = 1,38 × 10⁻²³ J/K<br>
+          <span>T</span> = suhu mutlak (Kelvin)<br>
+          Faktor 3 berasal dari 3 derajat kebebasan translasi (x, y, z)
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:.75rem">
+        <div class="formula-label">Kecepatan RMS (Root Mean Square)</div>
+        <div class="formula-main">v_rms = √(3kT/m) = √(3RT/M)</div>
+        <div class="formula-desc">
+          <span>v_rms</span> = kecepatan kuadrat rata-rata (m/s)<br>
+          <span>m</span> = massa satu molekul (kg)<br>
+          <span>M</span> = massa molar gas (kg/mol)
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:.75rem">
+        <div class="formula-label">Total Energi Dalam Gas Ideal (Monoatomik)</div>
+        <div class="formula-main">U = (3/2) nRT = (3/2) NkT</div>
+        <div class="formula-desc">
+          Energi dalam gas ideal monoatomik (seperti He, Ar) hanya berupa energi kinetik translasi.
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li><div class="concept-icon">🌡️</div><div><strong>Pada 0 K (Nol Mutlak)</strong> — Energi kinetik molekul = 0. Gerakan termal berhenti. Ini adalah suhu terendah yang mungkin ada di alam semesta (−273,15°C).</div></li>
+        <li><div class="concept-icon">⚗️</div><div><strong>Gas Berbeda, Suhu Sama</strong> — Pada suhu yang sama, semua gas memiliki energi kinetik rata-rata yang sama per molekul, tetapi kecepatan berbeda (tergantung massa molekul).</div></li>
+        <li><div class="concept-icon">💨</div><div><strong>H₂ vs O₂</strong> — H₂ (M=2 g/mol) bergerak ~4× lebih cepat dari O₂ (M=32 g/mol) pada suhu sama, karena lebih ringan. Itulah mengapa hidrogen bocor lebih cepat dari tangki.</div></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<script>
+
+// Track materi open
+(function() {
+  var MAPEL = "Fisika", BAB = "Teori Kinetik Gas";
+  try {
+    localStorage.setItem("ef_last_materi", JSON.stringify({mapel:MAPEL,bab:BAB,ts:Date.now()}));
+    var xp = JSON.parse(localStorage.getItem("ef_xp_history")||"[]");
+    xp.push({ts:Date.now(),xp:15,src:"materi",label:BAB});
+    if(xp.length>200) xp.splice(0,xp.length-200);
+    localStorage.setItem("ef_xp_history",JSON.stringify(xp));
+    var logs = JSON.parse(localStorage.getItem("edufun_activity_logs")||"[]");
+    logs.push({ts:Date.now(),mapel:MAPEL,mnt:15,type:"materi",bab:BAB});
+    if(logs.length>500) logs.splice(0,logs.length-500);
+    localStorage.setItem("edufun_activity_logs",JSON.stringify(logs));
+    var s = JSON.parse(localStorage.getItem("ef_stat_materi")||JSON.stringify({total:0,lastMapel:null,lastBab:null,lastTs:null}));
+    s.total=(s.total||0)+1; s.lastMapel=MAPEL; s.lastBab=BAB; s.lastTs=Date.now();
+    localStorage.setItem("ef_stat_materi",JSON.stringify(s));
+  } catch(e) {}
+})();
+function goBack() { try { sessionStorage.setItem('ef_goto', 'materi'); } catch(e) {} window.location.href = '../../app.html'; }
+(function() { const saved = localStorage.getItem('ef_ac'); if (!saved) return; const r = saved.match(/\w\w/g); if (!r) return; const rgb = r.map(x => parseInt(x,16)).join(','); const d = document.documentElement; d.style.setProperty('--ac',saved); d.style.setProperty('--ac-rgb',rgb); d.style.setProperty('--ac-l',`rgba(${rgb},.10)`); d.style.setProperty('--ac-m',`rgba(${rgb},.25)`); })();
+function showTab(id, el) { document.querySelectorAll('.section').forEach(s => s.classList.remove('show')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('act')); document.getElementById('sec-'+id).classList.add('show'); el.classList.add('act'); document.querySelectorAll('#sec-'+id+' .card').forEach((c,i) => { c.style.animation='none'; c.offsetHeight; c.style.animation=''; c.style.animationDelay=(i*0.07)+'s'; }); window.scrollTo({top:document.querySelector('.nav-wrap').offsetTop-10,behavior:'smooth'}); }
+window.addEventListener('scroll', () => { const doc = document.documentElement; document.getElementById('progress').style.width = doc.scrollTop/(doc.scrollHeight-doc.clientHeight)*100+'%'; });
+</script>
+</body>
+</html>
