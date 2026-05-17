@@ -6,6 +6,7 @@
     { "source": "/app.html",            "destination": "/pages/app.html" },
     { "source": "/admin.html",          "destination": "/pages/admin.html" },
     { "source": "/termodinamika.html",  "destination": "/pages/termodinamika.html" },
-    { "source": "/content-modules.html","destination": "/pages/content-modules.html" }
+    { "source": "/content-modules.html","destination": "/pages/content-modules.html" },
+    { "source": "/about.html","destination": "/pages/content-about.html" }
   ]
 }
